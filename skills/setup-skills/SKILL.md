@@ -1,6 +1,6 @@
 ---
 name: setup-skills
-description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/initiatives/{open,closed}/` and `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `worktrees/` line in `.gitignore`, and a `.vscode/settings.json` that makes VS Code detect the worktrees – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` to fill in `docs/vision.md`.
+description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/initiatives/{open,closed}/` and `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `.claude/worktrees/` line in `.gitignore`, and a `.vscode/settings.json` that makes VS Code detect the worktrees – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` to fill in `docs/vision.md`.
 ---
 
 # Setup skills
@@ -50,19 +50,19 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    This repo runs the `jodysalt` plugin's spec-driven workflow: `docs/vision.md` sets direction and names its strategic bets, `docs/initiatives/` turns a bet into a focused push, `docs/tickets/` makes that concrete, and each ticket's `tasks.md` is the backlog an unattended loop implements. Draft with `/jodysalt:add-initiative` and `/jodysalt:add-ticket`, break a ticket down with `/jodysalt:add-tasks`, and run the loop with `/jodysalt:complete-tasks`.
    ```
 
-4. **`.gitignore`.** Skip if a whole line equals `worktrees/` or `/worktrees/`. Otherwise append `worktrees/` on its own line (add a newline first when the file doesn't end with one), creating the file when missing. `add-worktree` puts worktrees under `worktrees/` at the repo root, and they must never be committed.
+4. **`.gitignore`.** Skip if a whole line equals `.claude/worktrees/` or `/.claude/worktrees/`, or if `git check-ignore -q .claude/worktrees` succeeds (the repo already ignores `.claude/` wholesale). Otherwise append `.claude/worktrees/` on its own line (add a newline first when the file doesn't end with one), creating the file when missing. `add-worktree` and Claude Code's own `EnterWorktree` both put worktrees under `.claude/worktrees/` at the repo root; nothing ignores that directory by default, and it must never be committed.
 5. **`.vscode/settings.json`.** Skip if the file exists, but when it lacks either key below, say so in the report rather than editing it. Otherwise create the directory and the file holding exactly:
 
    ```json
    {
      "git.detectWorktrees": true,
      "files.watcherExclude": {
-       "**/worktrees/**": true
+       "**/.claude/worktrees/**": true
      }
    }
    ```
 
-   The first key, off by default, makes VS Code list the `worktrees/` checkouts in its Source Control Repositories view with open, open in new window and delete. The second stops the root window watching every file in every worktree; `.gitignore` already keeps them out of search and Quick Open but the file watcher ignores it.
+   The first key, off by default, makes VS Code list the `.claude/worktrees/` checkouts in its Source Control Repositories view with open, open in new window and delete. The second stops the root window watching every file in every worktree; `.gitignore` already keeps them out of search and Quick Open but the file watcher ignores it.
 6. **Report.** List each path created and each path skipped because it existed. Note when `git check-ignore -q .vscode/settings.json` succeeds, because the VS Code settings then stay local to this machine. State whether the root is inside a git work tree (`git rev-parse --is-inside-work-tree`) and whether a `main` branch exists (`git branch --list main` prints a line); when either check fails, say so, because `start-planning-session` and `add-worktree` fork from `main`, and leave it to the user: never run `git init` or create a branch. Offer to invoke `jodysalt:refine-vision` to fill in `docs/vision.md`. Leave everything unstaged and suggest `jodysalt:commit` (a `chore:` commit).
 
 ## Rules

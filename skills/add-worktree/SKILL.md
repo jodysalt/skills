@@ -1,6 +1,6 @@
 ---
 name: add-worktree
-description: Creates a git worktree at `worktrees/<branch>` under the repo root, on a branch that usually matches an open ticket slug from `docs/tickets/open/`, and switches the session into it. Use when the user says "add a worktree", "create a worktree", "make a worktree for X", or runs `/add-worktree`. Creates the branch from local `main` when it doesn't exist; enters the worktree when it already exists. Runs only from the main checkout. Never pushes, merges, fetches, or removes anything.
+description: Creates a git worktree at `.claude/worktrees/<branch>` under the repo root – the folder Claude Code's own `EnterWorktree` uses – on a branch that usually matches an open ticket slug from `docs/tickets/open/`. Use when the user says "add a worktree", "create a worktree", "make a worktree for X", or runs `/add-worktree`. Creates the branch from local `main` when it doesn't exist; says so when the worktree already exists. Runs only from the main checkout and never enters the worktree; that is `enter-worktree`. Never pushes, merges, fetches, or removes anything.
 argument-hint: "[branch or ticket slug – defaults to a pick from the open tickets]"
 ---
 
@@ -14,13 +14,12 @@ If empty, run `ls docs/tickets/open/` and `git worktree list`, then ask with `As
 
 ## Steps
 
-1. Worktrees are only created from the main checkout. If `git rev-parse --show-toplevel` isn't the first path in `git worktree list`, the session is inside a worktree: stop, create nothing, and tell the user to run this from that first path. A relative `worktrees/<branch>` would nest inside the current worktree, and `EnterWorktree` can't hop from one `worktrees/` checkout to another.
-2. If `worktrees/<branch>` already exists, say so and skip to step 4.
-3. If the branch exists: `git worktree add worktrees/<branch> <branch>`. Otherwise: `git worktree add worktrees/<branch> -b <branch> main`.
-4. **Enter it.** Call `EnterWorktree` with `path: worktrees/<branch>` so the session's working directory moves there; relative paths (`docs/…`) now resolve inside the worktree. An agent without that tool runs `cd worktrees/<branch>` instead. Skip only if the user asked to create without entering.
-5. Confirm the path, the branch name, and that the session now runs there.
+1. Worktrees are only created from the main checkout. If `git rev-parse --show-toplevel` isn't the first path in `git worktree list`, the session is inside a worktree: stop, create nothing, and tell the user to run `jodysalt:exit-worktree` first, because a relative `.claude/worktrees/<branch>` would nest inside the current worktree.
+2. If `.claude/worktrees/<branch>` already exists, say so and skip to step 4.
+3. If the branch exists: `git worktree add .claude/worktrees/<branch> <branch>`. Otherwise: `git worktree add .claude/worktrees/<branch> -b <branch> main`.
+4. Confirm the path and the branch name, and that the session still runs in the main checkout. Offer to invoke `jodysalt:enter-worktree` with the branch to switch into it.
 
 ## Rules
 
 - Runs only from the main checkout. Whatever branch that has checked out, a new branch forks from local `main` as-is; no fetch or pull.
-- Never pushes, merges, or deletes, and never touches the main checkout or any docs. Removal is `jodysalt:remove-worktrees`, after `ExitWorktree` with `keep` when the session is inside the worktree.
+- Never enters the worktree; that is `jodysalt:enter-worktree`. Never pushes, merges, or deletes, and never touches the main checkout or any docs. Removal is `jodysalt:remove-worktrees`.
