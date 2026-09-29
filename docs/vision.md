@@ -24,10 +24,6 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 
 ## Strategic bets
 
-### Adoption in one command
-
-A scaffold skill creates the layout a fresh repo needs: `docs/vision.md` from a template with the sections above, `docs/initiatives/{open,closed}/`, `docs/tickets/{open,closed}/`, and a CLAUDE.md snippet pointing at the workflow. A short README section explains the lifecycle. Success: a stranger's first `/jodysalt:add-ticket` works in a repo that had none of this an hour earlier.
-
 ### Dogfooding
 
 This repo runs its own workflow. Its purpose lives in this file, changes to the skills arrive as tickets, and the Ralph loop implements them. The scaffold skill's first run is here. Success: no change to a skill lands without a ticket behind it.
