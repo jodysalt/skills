@@ -1,6 +1,6 @@
 # Vision
 
-An opinionated, spec-driven workflow for Claude Code, from vision to initiatives to tickets to tasks to an unattended loop, plus the git and thinking skills the workflow depends on.
+An opinionated, spec-driven workflow for Claude Code, from vision to initiatives to tickets to tasks to an unattended loop, driven by hand or by one command, plus the git and thinking skills the workflow depends on.
 
 ## Target users
 
@@ -17,6 +17,7 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 
 - **One opinionated method.** A skill belongs here only if the method uses it. Anything that stands alone belongs somewhere else.
 - **Explore before asking.** A question the codebase can answer is never put to the user. When a question is needed, it comes one at a time with a recommended answer.
+- **Driver-agnostic.** A skill serves whoever invoked it, a person or an agent. It asks the same questions the same way and never assumes a human is reading the turn.
 - **Trim with the 80/20 principle.** Commit messages, skill bodies and question order all separate the vital few from the trivial many.
 - **One thing, then stop.** A skill does its one job, leaves the result for review, and never pushes.
 - **Claude Code first.** Skills call each other by namespaced name and spawn sub-agents where the method needs it. Nothing else leans on Claude Code without a reason, so the bodies stay readable to other agents where that is cheap.
@@ -30,11 +31,15 @@ This repo runs its own workflow. Its purpose lives in this file, changes to the 
 
 ### Evals for the risky skills
 
-Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the ones that move files and rewrite paths across a repo (`close-ticket`, `close-initiative`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn. Success: a regression in a risky skill fails an eval before it reaches `main`.
+Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the ones that move files and rewrite paths across a repo (`close-ticket`, `close-initiative`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn, and when `jarvis` drives them instead, its own suite covers the run. Success: a regression in a risky skill fails an eval before it reaches `main`.
 
 ### Adoption beyond the first user
 
 The first user's repo installs the plugin, deletes its local skill copies, and keeps only repo-specific detail in its own CLAUDE.md or a small local skill. Then one repo the maintainer does not own adopts the workflow end to end: scaffold, ticket, tasks, loop. Success: both have happened.
+
+### Hands-off delivery
+
+One command runs the whole chain from a brief to a `main` ready for review: `jarvis` scaffolds, fills the vision, drafts the initiative and its tickets, breaks each one down and runs the loop, and closes what it finished. The skills stay as they are, because the workflow does not care who drives it: `jarvis` is the user, answering the vital few questions from the brief while each stage settles the trivial many with its own recommendations. A thin root keeps only the run's state and hands every stage to a fresh sub-agent, and the docs are the state, so a run survives compaction and resumes where it stopped. Success: `/jodysalt:jarvis <brief>` in an empty directory ends with a closed initiative, closed tickets and a green suite on `main`, with no human turn between the command and the report.
 
 ## Non-goals
 

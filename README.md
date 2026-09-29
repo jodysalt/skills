@@ -32,6 +32,7 @@ Skills are namespaced under the plugin name, so each one runs as `/jodysalt:<ski
 | [`exit-worktree`](./skills/exit-worktree/SKILL.md) | Returns the session from a worktree to the main checkout, leaving the worktree and its branch on disk. |
 | [`grill-me`](./skills/grill-me/SKILL.md) | Interviews the user one question at a time, highest-leverage decisions first, with a recommended answer for each, and records the answers until a plan or design reaches shared understanding. |
 | [`list-worktrees`](./skills/list-worktrees/SKILL.md) | Lists the main checkout and every worktree under `.claude/worktrees/` with its branch, marking the current one and any stale leftovers. Read-only. |
+| [`merge-worktree`](./skills/merge-worktree/SKILL.md) | Fast-forwards a worktree's branch into local `main` after exiting the worktree, refusing a dirty checkout or a `main` that moved. Never pushes; leaves removal to `remove-worktrees`. |
 | [`refine-initiative`](./skills/refine-initiative/SKILL.md) | Assesses an open initiative against its template, `vision.md`, and its tickets, then interviews the user through the gaps and edits it in place. |
 | [`refine-ticket`](./skills/refine-ticket/SKILL.md) | Assesses an open ticket against its template and the current codebase, then interviews the user through the gaps and edits it in place. |
 | [`refine-vision`](./skills/refine-vision/SKILL.md) | Reports what `docs/vision.md` is missing or an open initiative contradicts, then interviews the user through the gaps and edits it in place. |
