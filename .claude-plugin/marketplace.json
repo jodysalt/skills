@@ -1,0 +1,14 @@
+{
+  "name": "jodysalt",
+  "owner": {
+    "name": "Jody Salt"
+  },
+  "description": "Jody Salt's skills for Claude Code.",
+  "plugins": [
+    {
+      "name": "jodysalt",
+      "source": "./",
+      "description": "Jody Salt's skills for Claude Code."
+    }
+  ]
+}

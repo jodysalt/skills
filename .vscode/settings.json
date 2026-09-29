@@ -1,0 +1,6 @@
+{
+  "git.detectWorktrees": true,
+  "files.watcherExclude": {
+    "**/worktrees/**": true
+  }
+}

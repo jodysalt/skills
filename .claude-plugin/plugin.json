@@ -1,0 +1,10 @@
+{
+  "name": "jodysalt",
+  "version": "0.1.0",
+  "description": "Jody Salt's skills for Claude Code.",
+  "author": {
+    "name": "Jody Salt"
+  },
+  "repository": "https://github.com/jodysalt/skills",
+  "license": "MIT"
+}

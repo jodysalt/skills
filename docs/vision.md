@@ -1,0 +1,49 @@
+# Vision
+
+An opinionated, spec-driven workflow for Claude Code, from vision to initiatives to tickets to tasks to an unattended loop, plus the git and thinking skills the workflow depends on.
+
+## Target users
+
+Any Claude Code user who wants their agent to work from a spec rather than from chat. The first user is the maintainer's SaaS repo, which the skills were extracted from and which now consumes the published plugin.
+
+## Core problems
+
+- **Decisions evaporate.** Plans, trade-offs and answers live in chat scrollback and are gone by the next session. The workflow writes them down as vision, initiatives and tickets, so every change traces back to why.
+- **Agents drift without a spec.** A ticket implemented from a conversation looks different every time. A ticket with a goal, scope, acceptance criteria and a test plan does not.
+- **Unattended work needs structure.** A loop that implements tasks in fresh sessions with no chat context only works if each task stands alone and each change lands as one clean commit.
+- **Conventions are hard to adopt.** The layout the workflow rests on has to exist before the first skill runs, and today nothing creates it.
+
+## Product principles
+
+- **One opinionated method.** A skill belongs here only if the method uses it. Anything that stands alone belongs somewhere else.
+- **Explore before asking.** A question the codebase can answer is never put to the user. When a question is needed, it comes one at a time with a recommended answer.
+- **Trim with the 80/20 principle.** Commit messages, skill bodies and question order all separate the vital few from the trivial many.
+- **One thing, then stop.** A skill does its one job, leaves the result for review, and never pushes.
+- **Claude Code first.** Skills call each other by namespaced name and spawn sub-agents where the method needs it. Nothing else leans on Claude Code without a reason, so the bodies stay readable to other agents where that is cheap.
+- **`main` is always installable.** Users auto-update from it, so every merge is a release. The plugin version bumps on any change to a skill's behaviour.
+
+## Strategic bets
+
+### Adoption in one command
+
+A scaffold skill creates the layout a fresh repo needs: `docs/vision.md` from a template with the sections above, `docs/initiatives/{open,closed}/`, `docs/tickets/{open,closed}/`, and a CLAUDE.md snippet pointing at the workflow. A short README section explains the lifecycle. Success: a stranger's first `/jodysalt:add-ticket` works in a repo that had none of this an hour earlier.
+
+### Dogfooding
+
+This repo runs its own workflow. Its purpose lives in this file, changes to the skills arrive as tickets, and the Ralph loop implements them. The scaffold skill's first run is here. Success: no change to a skill lands without a ticket behind it.
+
+### Evals for the risky skills
+
+Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the ones that move files and rewrite paths across a repo (`close-ticket`, `close-initiative`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn. Success: a regression in a risky skill fails an eval before it reaches `main`.
+
+### Adoption beyond the first user
+
+The first user's repo installs the plugin, deletes its local skill copies, and keeps only repo-specific detail in its own CLAUDE.md or a small local skill. Then one repo the maintainer does not own adopts the workflow end to end: scaffold, ticket, tasks, loop. Success: both have happened.
+
+## Non-goals
+
+- **A marketplace for other people's plugins.** The `jodysalt` marketplace publishes this plugin.
+- **A home for standalone skills.** A useful skill the method does not call does not belong here, however good it is.
+- **Portability as a goal.** Skill bodies avoid needless Claude Code specifics, but the method depends on Claude Code and is not contorted to run elsewhere.
+- **Several plugins.** The skills form one call chain and ship as one plugin. Installing all of them costs a user only their descriptions in context.
+- **A feature of the first user's product.** The skills were extracted from it, but it consumes the plugin and does not own it.
