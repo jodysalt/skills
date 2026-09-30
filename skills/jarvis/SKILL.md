@@ -84,6 +84,15 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
    - Then in the root `jodysalt:squash-commits`, which folds the workers' task commits and the wrap-up's `docs:` commit into one, `jodysalt:exit-worktree`, `jodysalt:merge-worktree <slug>` and `jodysalt:remove-worktrees <slug>`, yes to deleting its branch. A merge that cannot fast-forward stops the run with a report.
    - The root then counts the ticket toward the 5-ticket cap, the `## Caps` constant, and collects from the two stage reports every check left for the person, for the final report.
    - A lone ticket, one the scout sized as a single change, ends the run here: continue at step 7. A ticket under an initiative continues at step 6, the judge.
+6. **Judge.** For a bet-sized brief and for a resume, never for a lone ticket: a stage whose job, in place of a skill, is to read the initiative file's `## Success metrics`, every ticket in its `## Tickets` list with the `findings.md` of each spike among them, and the repo as it is. It reports, in a few lines:
+   - Each metric met or unmet, with a line of evidence.
+   - Next, one of three: the ticket that moves the unmet metrics most, as a one-line goal with its type; a spike, as the question to answer, when it cannot tell which ticket moves them or the brief needs facts the repo does not hold; or done, when every metric is met.
+
+   The root ratifies: it takes the verdict and the pick as reported. Then one of three:
+   - **Done.** A planning session that closes the initiative: `jodysalt:start-planning-session` in the root; a `close-initiative` stage, `jodysalt:close-initiative` with the initiative slug as its argument; `jodysalt:commit` in the root as a `docs:` commit with the verdict per metric in the body; then `jodysalt:squash-commits`, `jodysalt:exit-worktree`, `jodysalt:merge-worktree <planning worktree name>` and `jodysalt:remove-worktrees <name>`, yes to deleting its branch, a merge that cannot fast-forward stopping the run. Then step 7.
+   - **A pick, with 5 tickets worked**, the `## Caps` constant: the run ends at step 7 with the stop report instead, the cap its reason and the verdict and the pick in it for the person. The docs stay as they are, so a resume runs the judge again.
+   - **A pick, under the cap:** back to step 4 with the judge's pick, and its reason, as the `add-ticket` stage's argument. The verdict per metric and the reason for the pick go into that session's commit body.
+7. **Report.** Print the final report of `## Report`. The run ends in the main checkout with `git status --porcelain` empty.
 
 ## Report
 
