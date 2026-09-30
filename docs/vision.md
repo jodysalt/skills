@@ -37,10 +37,6 @@ Strict validation gates every skill. The skills that run unattended (`complete-t
 
 The first user's repo installs the plugin, deletes its local skill copies, and keeps only repo-specific detail in its own CLAUDE.md or a small local skill. Then one repo the maintainer does not own adopts the workflow end to end: scaffold, ticket, tasks, loop. Success: both have happened.
 
-### Hands-off delivery
-
-One command runs the whole chain from a brief to a `main` ready for review: `deliver-brief` scaffolds, fills the vision, drafts the initiative and its tickets, breaks each one down and runs the loop, and closes what it finished. The skills stay as they are, apart from changes any user can use, because the workflow does not care who drives it: `deliver-brief` is the user, answering the vital few questions from the brief while each stage settles the trivial many with its own recommendations. A thin root keeps only the run's state and hands every stage to a fresh sub-agent, and the docs are the state, so a run survives compaction and resumes where it stopped. Success: `/jodysalt:deliver-brief <brief>` in an empty directory ends with the brief's tickets closed and a green suite on `main`, with no human turn between the command and the report.
-
 ## Non-goals
 
 - **A marketplace for other people's plugins.** The `jodysalt` marketplace publishes this plugin.
