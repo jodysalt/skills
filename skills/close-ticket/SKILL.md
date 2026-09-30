@@ -1,6 +1,6 @@
 ---
 name: close-ticket
-description: Closes a ticket by moving `docs/tickets/open/{slug}/` to `docs/tickets/closed/{slug}/`, its `tasks.md` included, and rewriting every live path reference to it in the owning initiative's `## Tickets` list, other ticket bodies, and task entries. Use when the user says "close the X ticket", "mark X done/closed/shipped", or runs `/close-ticket`. Leaves the move unstaged for review; never commits, never edits the ticket body, never renames the slug, never deletes anything.
+description: Closes a ticket by moving `docs/tickets/open/{slug}/` to `docs/tickets/closed/{slug}/`, its `tasks.md` included, and rewriting every live path reference to it in the owning initiative's `## Tickets` list, other ticket bodies, and task entries. Use when the user says "close the X ticket", "mark X done/closed/shipped", or runs `/close-ticket`. Refuses while a task in its `tasks.md` is not done. Leaves the move unstaged for review; never commits, never edits the ticket body, never renames the slug, never deletes anything.
 argument-hint: "[ticket slug – defaults to the current branch's ticket or the only open ticket]"
 ---
 
@@ -16,7 +16,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 
 ## Steps
 
-1. **Guard.** Stop if `docs/tickets/open/{slug}/` doesn't exist (list what is open; it may be closed already or mistyped) or if `docs/tickets/closed/{slug}/` already exists (flag the collision; never overwrite).
+1. **Guard.** Stop if `docs/tickets/open/{slug}/` doesn't exist (list what is open; it may be closed already or mistyped) or if `docs/tickets/closed/{slug}/` already exists (flag the collision; never overwrite), or if `docs/tickets/open/{slug}/tasks.md` holds an entry whose `- **status:**` is anything but `done` (list the unfinished headings and change nothing). No `tasks.md` at all is fine, and done entries stay in the file as the ticket's record.
 2. **Move:** `mv docs/tickets/open/{slug} docs/tickets/closed/{slug}`. A plain `mv`; the ticket's `tasks.md` travels with the folder, and git detects the rename once both sides are staged at commit time.
 3. **Rewrite references.** Find them by exact slug, scoped so templates and unrelated docs are never touched:
 

@@ -14,5 +14,5 @@ description: Returns the session from a `.claude/worktrees/<branch>` worktree to
 
 ## Rules
 
-- Never `action: remove` and never `discard_changes`. Removal is `jodysalt:remove-worktrees`, run after this skill.
+- Never `action: remove` and never `discard_changes`. Removal is `jodysalt:remove-worktree`, which runs this skill first when the session is inside the worktree.
 - Never stashes, resets, commits, pushes, or checks out.

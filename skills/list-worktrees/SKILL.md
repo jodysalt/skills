@@ -13,4 +13,4 @@ description: Lists every git worktree of the repo – the main checkout and each
 
 ## Rules
 
-- Read-only. Never prunes, removes, creates, or enters; those are `jodysalt:remove-worktrees`, `jodysalt:add-worktree` and `jodysalt:enter-worktree`.
+- Read-only. Never prunes, removes, creates, or enters; those are `jodysalt:remove-worktree` for removing a worktree, `jodysalt:remove-worktrees` for pruning stale directories, `jodysalt:add-worktree` and `jodysalt:enter-worktree`.

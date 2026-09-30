@@ -1,6 +1,6 @@
 ---
 name: merge-worktree
-description: Fast-forwards the branch of a `.claude/worktrees/<name>` worktree into local `main` from the main checkout, exiting the worktree first when the session is inside one. Use when the user says "merge the worktree", "merge X into main", "land the X branch", or runs `/merge-worktree`. Fast-forward only – a dirty checkout, a `main` that moved, or a branch on `main` stops it before anything changes. Never pushes, never fetches, never removes the worktree or its branch; that is `remove-worktrees`.
+description: Fast-forwards the branch of a `.claude/worktrees/<name>` worktree into local `main` from the main checkout, exiting the worktree first when the session is inside one. Use when the user says "merge the worktree", "merge X into main", "land the X branch", or runs `/merge-worktree`. Fast-forward only – a dirty checkout, a `main` that moved, or a branch on `main` stops it before anything changes. Never pushes, never fetches, never removes the worktree or its branch; that is `remove-worktree`.
 argument-hint: "[worktree name – defaults to the worktree just left, else a pick from the existing worktrees]"
 ---
 
@@ -26,10 +26,10 @@ A name under `.claude/worktrees/`. If empty, take the worktree step 1 left. If t
    - `git rev-list --count main..<branch>` – must be above 0. Otherwise say there is nothing to merge. Keep the count for the report.
    - `git merge-base --is-ancestor main <branch>` – must succeed. Otherwise `main` has commits the branch lacks: say the branch needs rebasing by hand, and stop without a merge commit or a rebase.
 4. **Merge it.** From the main checkout: `git merge --ff-only <branch>`. If git refuses, report its message and stop; never retry with `--no-ff`, a rebase or a reset.
-5. Show `git log -1 --stat` and say how many commits came over, the count from step 3. When it was above 1, mention that `jodysalt:squash-commits` in the worktree would have landed them as one. Offer to invoke `jodysalt:remove-worktrees <name>` to clear the worktree and its branch; never run it unasked.
+5. Show `git log -1 --stat` and say how many commits came over, the count from step 3. When it was above 1, mention that `jodysalt:squash-commits` in the worktree would have landed them as one. Offer to invoke `jodysalt:remove-worktree <name>` to clear the worktree and its branch; never run it unasked.
 
 ## Rules
 
 - Fast-forward only. Never stash, reset, force, `--no-ff`, or rebase; a branch that can't fast-forward is the user's to rebase.
 - Never pushes, fetches, or touches a remote. Local `main` is the only target.
-- Never removes a worktree or deletes a branch; that is `jodysalt:remove-worktrees`, offered after the merge.
+- Never removes a worktree or deletes a branch; that is `jodysalt:remove-worktree`, offered after the merge.

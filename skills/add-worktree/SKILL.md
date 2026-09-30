@@ -22,4 +22,4 @@ If empty, run `ls docs/tickets/open/` and `git worktree list`, then ask with `As
 ## Rules
 
 - Runs only from the main checkout. Whatever branch that has checked out, a new branch forks from local `main` as-is; no fetch or pull.
-- Never enters the worktree; that is `jodysalt:enter-worktree`. Never pushes, merges, or deletes, and never touches the main checkout or any docs. Removal is `jodysalt:remove-worktrees`.
+- Never enters the worktree; that is `jodysalt:enter-worktree`. Never pushes, merges, or deletes, and never touches the main checkout or any docs. Removal is `jodysalt:remove-worktree`.

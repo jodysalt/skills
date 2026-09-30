@@ -33,16 +33,17 @@ Skills are namespaced under the plugin name, so each one runs as `/jodysalt:<ski
 | [`exit-worktree`](./skills/exit-worktree/SKILL.md) | Returns the session from a worktree to the main checkout, leaving the worktree and its branch on disk. |
 | [`grill-me`](./skills/grill-me/SKILL.md) | Interviews the user one question at a time, highest-leverage decisions first, with a recommended answer for each, and records the answers until a plan or design reaches shared understanding. |
 | [`list-worktrees`](./skills/list-worktrees/SKILL.md) | Lists the main checkout and every worktree under `.claude/worktrees/` with its branch, marking the current one and any stale leftovers. Read-only. |
-| [`merge-worktree`](./skills/merge-worktree/SKILL.md) | Fast-forwards a worktree's branch into local `main` after exiting the worktree, refusing a dirty checkout or a `main` that moved. Never pushes; leaves removal to `remove-worktrees`. |
+| [`merge-worktree`](./skills/merge-worktree/SKILL.md) | Fast-forwards a worktree's branch into local `main` after exiting the worktree, refusing a dirty checkout or a `main` that moved. Never pushes; leaves removal to `remove-worktree`. |
 | [`refine-initiative`](./skills/refine-initiative/SKILL.md) | Assesses an open initiative against its template, `vision.md`, and its tickets, then interviews the user through the gaps and edits it in place. |
 | [`refine-ticket`](./skills/refine-ticket/SKILL.md) | Assesses an open ticket against its template and the current codebase, then interviews the user through the gaps and edits it in place. |
 | [`refine-vision`](./skills/refine-vision/SKILL.md) | Reports what `docs/vision.md` is missing or an open initiative contradicts, then interviews the user through the gaps and edits it in place. |
-| [`remove-worktrees`](./skills/remove-worktrees/SKILL.md) | Removes chosen worktrees under `.claude/worktrees/` and stale leftovers, with confirmation before any force removal or branch deletion. |
+| [`remove-worktree`](./skills/remove-worktree/SKILL.md) | Removes one worktree under `.claude/worktrees/` and deletes its branch with the safe `git branch -d` when merged, keeping an unmerged one. Refuses a dirty worktree and never forces. |
+| [`remove-worktrees`](./skills/remove-worktrees/SKILL.md) | Removes picked worktrees under `.claude/worktrees/` through `remove-worktree`, skipping a dirty one, and prunes stale leftovers. |
 | [`setup-skills`](./skills/setup-skills/SKILL.md) | Creates the layout the other skills assume (`docs/vision.md` from a template, `docs/{initiatives,tickets}/{open,closed}/`, a CLAUDE.md pointer, a `.claude/worktrees/` ignore line and VS Code worktree settings), creating only what is missing. |
 | [`show-worktree`](./skills/show-worktree/SKILL.md) | Reports the checkout the session is in: path, branch, main checkout or worktree, and whether it has uncommitted changes. Read-only. |
 | [`squash-commits`](./skills/squash-commits/SKILL.md) | Squashes every commit on the current branch since it forked from `main` into one new commit, via `commit`. |
 | [`start-planning-session`](./skills/start-planning-session/SKILL.md) | Creates a fresh `planning-<YYYY-MM-DD>` branch as a worktree via `add-worktree` and switches the session into it via `enter-worktree`, so planning docs are drafted there. Joins today's planning worktree when one already exists. |
-| [`wrap-up-ticket`](./skills/wrap-up-ticket/SKILL.md) | Guards a finished ticket's `tasks.md`, then runs `close-ticket` and `commit` in sequence, producing one `docs:` commit. |
+| [`wrap-up-worktree`](./skills/wrap-up-worktree/SKILL.md) | Lands a finished worktree on local `main` in one command: closes the ticket on a ticket branch, squashes, fast-forwards the branch into local `main`, and removes the worktree and its branch. Refuses a dirty checkout, a `main` that moved, or a pending task. Never pushes. |
 
 ## Local development
 

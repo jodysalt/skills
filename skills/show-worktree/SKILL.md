@@ -13,4 +13,4 @@ description: Reports which checkout the session is in – its path, its branch, 
 
 ## Rules
 
-- Read-only. Never enters, exits, creates, removes, or edits anything; those are `jodysalt:enter-worktree`, `jodysalt:exit-worktree`, `jodysalt:add-worktree` and `jodysalt:remove-worktrees`.
+- Read-only. Never enters, exits, creates, removes, or edits anything; those are `jodysalt:enter-worktree`, `jodysalt:exit-worktree`, `jodysalt:add-worktree` and `jodysalt:remove-worktree`.

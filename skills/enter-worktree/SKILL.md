@@ -20,4 +20,4 @@ If empty, run `git worktree list`: the candidates are the registered worktrees u
 
 ## Rules
 
-- Never creates a worktree or branch, never removes one, never pushes, and never edits docs. Creation is `jodysalt:add-worktree`; removal is `jodysalt:remove-worktrees`, after `jodysalt:exit-worktree` when the session is inside the worktree.
+- Never creates a worktree or branch, never removes one, never pushes, and never edits docs. Creation is `jodysalt:add-worktree`; removal is `jodysalt:remove-worktree`, which runs `jodysalt:exit-worktree` first when the session is inside the worktree.

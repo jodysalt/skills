@@ -18,6 +18,6 @@ Get the session into a `planning-<DATE>` worktree so planning docs are drafted t
 
 ## Rules
 
-- Only picks a name and delegates. Never edits docs, pushes, merges, or removes a worktree or branch; removal is `jodysalt:remove-worktrees`.
+- Only picks a name and delegates. Never edits docs, pushes, merges, or removes a worktree or branch; removal is `jodysalt:remove-worktree`.
 - Never stashes, resets, or checks out on the user's behalf; a dirty main checkout only skips the refresh.
 - If the user wants to plan on the current branch, respect that and skip.
