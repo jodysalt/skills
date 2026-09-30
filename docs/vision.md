@@ -11,7 +11,7 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 - **Decisions evaporate.** Plans, trade-offs and answers live in chat scrollback and are gone by the next session. The workflow writes them down as vision, initiatives and tickets, so every change traces back to why.
 - **Agents drift without a spec.** A ticket implemented from a conversation looks different every time. A ticket with a goal, scope, acceptance criteria and a test plan does not.
 - **Unattended work needs structure.** A loop that implements tasks in fresh sessions with no chat context only works if each task stands alone and each change lands as one clean commit.
-- **Conventions are hard to adopt.** The layout the workflow rests on has to exist before the first skill runs, and today nothing creates it.
+- **Conventions are hard to adopt.** The layout the workflow rests on has to exist before the first skill runs.
 
 ## Product principles
 
@@ -39,7 +39,7 @@ The first user's repo installs the plugin, deletes its local skill copies, and k
 
 ### Hands-off delivery
 
-One command runs the whole chain from a brief to a `main` ready for review: `jarvis` scaffolds, fills the vision, drafts the initiative and its tickets, breaks each one down and runs the loop, and closes what it finished. The skills stay as they are, because the workflow does not care who drives it: `jarvis` is the user, answering the vital few questions from the brief while each stage settles the trivial many with its own recommendations. A thin root keeps only the run's state and hands every stage to a fresh sub-agent, and the docs are the state, so a run survives compaction and resumes where it stopped. Success: `/jodysalt:jarvis <brief>` in an empty directory ends with a closed initiative, closed tickets and a green suite on `main`, with no human turn between the command and the report.
+One command runs the whole chain from a brief to a `main` ready for review: `jarvis` scaffolds, fills the vision, drafts the initiative and its tickets, breaks each one down and runs the loop, and closes what it finished. The skills stay as they are, apart from changes any user can use, because the workflow does not care who drives it: `jarvis` is the user, answering the vital few questions from the brief while each stage settles the trivial many with its own recommendations. A thin root keeps only the run's state and hands every stage to a fresh sub-agent, and the docs are the state, so a run survives compaction and resumes where it stopped. Success: `/jodysalt:jarvis <brief>` in an empty directory ends with a closed initiative, closed tickets and a green suite on `main`, with no human turn between the command and the report.
 
 ## Non-goals
 
