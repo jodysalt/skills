@@ -61,7 +61,7 @@
 
 ## Bump `.claude-plugin/plugin.json` to version `0.3.0`
 - **category:** chore
-- **status:** pending
+- **status:** done
 - **steps:**
   - `grep -c '"version": "0.3.0"' .claude-plugin/plugin.json` prints 1 and nothing else in the file changed; a new skill is a minor bump under the vision's rule that the version bumps on any change to a skill's behaviour.
   - `claude plugin validate . --strict` passes.
