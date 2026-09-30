@@ -41,7 +41,6 @@ Skills are namespaced under the plugin name, so each one runs as `/jodysalt:<ski
 | [`show-worktree`](./skills/show-worktree/SKILL.md) | Reports the checkout the session is in: path, branch, main checkout or worktree, and whether it has uncommitted changes. Read-only. |
 | [`squash-commits`](./skills/squash-commits/SKILL.md) | Squashes every commit on the current branch since it forked from `main` into one new commit, via `commit`. |
 | [`start-planning-session`](./skills/start-planning-session/SKILL.md) | Creates a fresh `planning-<YYYY-MM-DD>` branch as a worktree via `add-worktree` and switches the session into it via `enter-worktree`, so planning docs are drafted there. Joins today's planning worktree when one already exists. |
-| [`use-the-8020-principle`](./skills/use-the-8020-principle/SKILL.md) | Applies the 80/20 (Pareto) principle to whatever is in context, separating the vital few inputs that drive most of the result from the trivial many. Use to prioritise a list or decide what to focus on or cut. |
 | [`wrap-up-ticket`](./skills/wrap-up-ticket/SKILL.md) | Guards a finished ticket's `tasks.md`, then runs `close-ticket` and `commit` in sequence, producing one `docs:` commit. |
 
 ## Local development

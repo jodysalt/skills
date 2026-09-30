@@ -15,14 +15,13 @@ If empty, the plan or design currently in context.
 ## Steps
 
 1. **Map the tree.** Read the subject and list every open decision in it: each point where more than one answer is plausible, and which decisions depend on which. Then look for the decisions it makes without saying so – an assumption it rests on, a failure mode it doesn't handle, an edge it doesn't cover, a non-goal it never states – and add each as an open decision. Anything the codebase can answer, answer by exploring; it never becomes a question.
-2. **Order the questions** by invoking the `use-the-8020-principle` skill from this plugin (`jodysalt:use-the-8020-principle`) with the target "the open decisions in this plan, for question order". Give it this framing:
+2. **Order the questions** with the 80/20 principle, applied to the open decisions from step 1:
    - **Output:** a plan the user can start building without a decision still open that would have changed its shape.
-   - **Inputs:** the open decisions from step 1.
    - **Vital few go first.** A decision whose wrong answer forces a rewrite, or that other decisions hang off, is asked before anything else, in dependency order.
    - **Trivial many go last.** Cosmetic, reversible and convention-driven choices are still asked – nothing is pruned – but only once the vital few are settled.
    - **Watch out ranks with the vital few.** A low-leverage choice that is hard to reverse – a schema, a public name, a file layout – is asked early however small it looks.
 
-   Use 80/20 Thinking; a design tree has no contribution figures. The working stays internal. Open the interview with one short paragraph naming the decisions you see and the order you'll take them, then ask the first question.
+   Keep the vital few genuinely few: if more than a third of the decisions land there, look harder. Open the interview with one short paragraph naming the decisions you see and the order you'll take them, then ask the first question.
 3. **Interview** the user relentlessly in that order, one question at a time in the shape below. Walk a branch to the bottom before starting the next. When an answer opens a branch you hadn't mapped, add its decisions to the tree and re-run step 2 only if they change what should come next. If the subject is a file, edit it as each answer lands so the file never lags the conversation.
 4. **Finish the tail.** Once the vital few are settled, work through the trivial many. Independent ones with an obvious default may go in a single message as a list of assumptions, each with the answer you'd take, for the user to accept or correct.
 5. **Close** when every decision has an answer you both hold. If the subject is a file, it now holds the answers: summarise what changed in a few lines and leave the edits uncommitted for review, suggesting `jodysalt:commit`. Otherwise end with a decision log – one line per decision, what was decided and why – so the shared understanding outlives the conversation.

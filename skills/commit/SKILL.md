@@ -19,14 +19,14 @@ If empty, commit all changes. If it names a change, stage only the files that im
 1. Run `git status`, `git diff` and `git diff --staged` in parallel. You cannot write a good subject without reading the diff.
 2. Stage with explicit paths: `git add path/a path/b`. Never `git add -A` or `git add .`. Files already staged that fit the scope can stay. If the tree holds unrelated changes and the scope is unclear, ask which to include.
 3. Stop and ask before staging anything that looks like a secret (`.env*`, `*.pem`, `*.key`, `credentials.json`, an embedded API key or token) or a build artefact (`dist/`, `build/`, archives, files over ~1 MB).
-4. Decide what the message says by invoking the `use-the-8020-principle` skill from this plugin (`jodysalt:use-the-8020-principle`) with the target "the staged diff, for a commit subject and body". Give it this framing:
+4. Decide what the message says with the 80/20 principle, applied to the staged diff:
    - **Output:** a reader skimming `git log` understands what changed and why without opening the diff.
    - **Inputs:** every fact in the staged diff – each behaviour change, its motivation, each file touched, each mechanical edit.
-   - **Vital few become the message.** The single fact a reader most needs is the subject; the rest are the body bullets.
+   - **Vital few become the message.** Rate each fact by how much the reader loses if it is missing. The single fact they most need is the subject; the rest are the body bullets.
    - **Trivial many are left out.** Renames, formatting, moved code, file lists and anything else the diff already shows. The diff is always there; the message is for what the diff can't say.
    - **Watch out stays in.** A breaking change, a migration, a step the deployer must take, or a small edit with a large effect goes in the body however few lines it touched.
 
-   Use 80/20 Thinking; a diff has no contribution figures to analyse. The working never goes in the commit. A one-line note in the reply of what was left out is enough.
+   Keep the vital few genuinely few: if more than a third of the facts survive, look harder. Be blunt – a body that keeps everything is the pass failing. A one-line note in the reply of what was left out is enough.
 5. Commit with a heredoc so the formatting survives:
 
    ```bash
