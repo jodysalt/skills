@@ -34,7 +34,7 @@
 
 ## Add step 5 to `skills/jarvis/SKILL.md`: the ticket, from its worktree through the loop and the wrap-up to one commit on `main`
 - **category:** functional
-- **status:** pending
+- **status:** done
 - **steps:**
   - Step 5, the ticket, for the slug step 4 drafted or step 3 resumed: `jodysalt:add-worktree <slug>` in the root, skipped when the worktree already exists, then `jodysalt:enter-worktree <slug>`; a `complete-tasks` stage with the slug as argument; on the first failed task the stage's report ends the run: the root runs `jodysalt:exit-worktree` so the session ends in the main checkout, leaves the worktree and its commits on disk for a resume or a person, and prints the stop report naming the branch, the worktree and the stage; a `wrap-up-ticket` stage with the slug, whose mention of `close-initiative` the root ignores because the judge decides; then in the root `jodysalt:squash-commits`, `jodysalt:exit-worktree`, `jodysalt:merge-worktree <slug>` and `jodysalt:remove-worktrees <slug>`, yes to deleting its branch, a merge that cannot fast-forward stopping the run. The root then counts the ticket toward the 5-ticket cap and collects, from the two stage reports, every check left for the person. A lone ticket, one the scout sized as a single change, ends the run here at step 7; a ticket under an initiative continues at step 6.
   - `grep -c 'jodysalt:add-worktree' skills/jarvis/SKILL.md`, `grep -c 'jodysalt:complete-tasks' skills/jarvis/SKILL.md` and `grep -c 'jodysalt:wrap-up-ticket' skills/jarvis/SKILL.md` each print at least 1, and `claude plugin validate skills --strict` passes.

@@ -77,6 +77,13 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
    - An `add-tasks` stage, `jodysalt:add-tasks` with the slug the `add-ticket` stage reported as its argument.
    - After every stage, `jodysalt:commit` in the root as a `docs:` commit whose body carries what a person would otherwise have been told: the answers the root gave and the recommendations it took because the brief and the vision were silent, any check the stage left for the person, and, for a session a judge sent the run back to, the verdict per metric and why this ticket next.
    - Then `jodysalt:squash-commits`, `jodysalt:exit-worktree`, `jodysalt:merge-worktree <planning worktree name>` and `jodysalt:remove-worktrees <name>`, yes to deleting its branch. A merge that cannot fast-forward stops the run with a report. `squash-commits` synthesises its body from the stage commits, so nothing a stage commit said is lost.
+5. **Ticket.** The slug step 4 drafted, or the one step 3's cursor resumed, from its worktree through the loop and the wrap-up to one commit on `main`. In this order, a resume entering where the cursor says:
+   - `jodysalt:add-worktree <slug>` in the root, skipped when `.claude/worktrees/<slug>` already exists, then `jodysalt:enter-worktree <slug>`.
+   - A `complete-tasks` stage, `jodysalt:complete-tasks` with the slug as its argument. On the first failed task the stage's report ends the run: the root runs `jodysalt:exit-worktree` so the session ends in the main checkout, leaves the worktree and its commits on disk for a resume or a person, and prints the stop report of `## Report`, naming the branch, the worktree and the stage.
+   - A `wrap-up-ticket` stage, `jodysalt:wrap-up-ticket` with the slug as its argument. Its report mentions `close-initiative` when the initiative's last listed ticket closed; the root ignores that, because the judge decides in step 6.
+   - Then in the root `jodysalt:squash-commits`, which folds the workers' task commits and the wrap-up's `docs:` commit into one, `jodysalt:exit-worktree`, `jodysalt:merge-worktree <slug>` and `jodysalt:remove-worktrees <slug>`, yes to deleting its branch. A merge that cannot fast-forward stops the run with a report.
+   - The root then counts the ticket toward the 5-ticket cap, the `## Caps` constant, and collects from the two stage reports every check left for the person, for the final report.
+   - A lone ticket, one the scout sized as a single change, ends the run here: continue at step 7. A ticket under an initiative continues at step 6, the judge.
 
 ## Report
 
