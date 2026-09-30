@@ -48,7 +48,7 @@
 
 ## Add the rule to `skills/grill-me/SKILL.md` that the caller's framing decides who answers
 - **category:** functional
-- **status:** pending
+- **status:** done
 - **steps:**
   - `## Rules` in `skills/grill-me/SKILL.md` gains one bullet and the file changes nowhere else: the caller's framing decides who answers; a caller that declares the run unattended makes the recommended answer count as the user's for the trivial many, and the vital few go back to the caller, each with its options and recommendation, instead of to a person. `grep -c "caller's framing" skills/grill-me/SKILL.md` prints 1, and `git diff --stat` for this entry touches that file only, one line added.
   - `claude plugin validate skills --strict` passes, and no other skill under `skills/` changed.

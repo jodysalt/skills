@@ -40,3 +40,4 @@ Each question is one message, short enough to answer in a line:
 - One question at a time, except the batched tail in step 4.
 - Explore before asking. A question the codebase can answer is never put to the user.
 - Never invent an answer. Only what the user agreed goes into the file or the log; a decision they deferred is recorded as open.
+- The caller's framing decides who answers. A caller that declares the run unattended makes the recommended answer count as the user's for the trivial many; the vital few go back to the caller, each with its options and recommendation, instead of to a person.
