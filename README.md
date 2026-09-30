@@ -21,7 +21,7 @@ Skills are namespaced under the plugin name, so each one runs as `/jodysalt:<ski
 | --- | --- |
 | [`add-initiative`](./skills/add-initiative/SKILL.md) | Drafts a new initiative at `docs/initiatives/open/{slug}.md`: a strategic push that bridges `docs/vision.md` to feature tickets. |
 | [`add-tasks`](./skills/add-tasks/SKILL.md) | Appends self-contained task entries to a ticket's `tasks.md`, beside its `index.md`, ending the list with a full-suite gate. Append-only. |
-| [`add-ticket`](./skills/add-ticket/SKILL.md) | Drafts a new ticket at `docs/tickets/open/{slug}/index.md`: one shippable change with a `type`. A `feat` ticket must tag an initiative. |
+| [`add-ticket`](./skills/add-ticket/SKILL.md) | Drafts a new ticket at `docs/tickets/open/{slug}/index.md`: one shippable change with a `type` (`feat | fix | refactor | chore | docs | test | spike`). A `feat` ticket must tag an initiative; a `spike` is research that ends in a recommendation in `findings.md` and may tag one. |
 | [`add-worktree`](./skills/add-worktree/SKILL.md) | Creates a git worktree at `.claude/worktrees/<branch>`, usually named after an open ticket slug, branching from local `main` when needed. Never enters it; that is `enter-worktree`. |
 | [`close-initiative`](./skills/close-initiative/SKILL.md) | Moves an initiative to `docs/initiatives/closed/`, rewrites path references, and retires its strategic bet from `vision.md` when no open initiative cites it. |
 | [`close-ticket`](./skills/close-ticket/SKILL.md) | Moves a ticket, `tasks.md` included, to `docs/tickets/closed/` and rewrites every live path reference in its initiative, other tickets, and task entries. Leaves the move uncommitted. |

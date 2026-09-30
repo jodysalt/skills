@@ -30,4 +30,4 @@ The *Hands-off delivery* bet in `vision.md`. The loop already runs unattended, b
 ## Tickets
 - docs/tickets/closed/merge-worktree/index.md
 - docs/tickets/open/jarvis/index.md
-- docs/tickets/open/spike-ticket-type/index.md
+- docs/tickets/closed/spike-ticket-type/index.md

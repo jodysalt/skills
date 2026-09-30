@@ -45,7 +45,9 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
      - Run the full test suite (`npm run test`) and confirm every suite passes.
    ```
 
-   Skip it when no task touches code, config, or tests (docs-only work, specs, research notes). Make the last task a review of the output against the ticket's acceptance criteria instead, and say the gate was skipped and why.
+   Skip it when no task touches code, config, or tests (docs-only work, specs, research notes, a ticket whose `index.md` has `type: spike`). Make the last task a review of the output against the ticket's acceptance criteria instead, and say the gate was skipped and why.
+
+   A `type: spike` ticket ships no code, so in place of implementation tasks and the gate it gets this fixed shape: one `chore` research task per item in the ticket's `# Approach`, each writing what it finds under `# Findings` in `docs/tickets/open/{slug}/findings.md`, with that path inlined in its heading; then one `chore` task that writes `# Recommendation` and `# Tickets implied` in the same file from the findings; then the review task, against the ticket's `# Done when`, in place of the gate, with the report saying the gate was skipped because a spike ships no code. A spike has no time box, so the task count is what bounds the research.
 
 4. **Dedup** by H2 heading against existing entries, gate included. Append only the net-new entries to the end of the ticket's `tasks.md`.
 5. **Report** a numbered list of the entries appended and any duplicates skipped. Don't commit, and don't start implementing.
