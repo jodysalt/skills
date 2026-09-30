@@ -69,6 +69,14 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
      - Then the cursor, from the initiative's `## Tickets` list. The first `docs/tickets/open/` path there is the open ticket: with no `tasks.md`, continue at step 4 from `add-tasks` on; with a pending entry, at step 5, entering the existing worktree instead of adding one when it exists; with every entry done, at step 5 from the `wrap-up-ticket` stage on. With no open ticket in the list, continue at step 6, the judge. With a list that holds no ticket at all, at step 4 from `add-ticket` on.
 
      A resumed run counts the tickets it works toward the 5-ticket cap as any run does.
+4. **Planning session.** The docs for the brief, or for the next ticket, drafted on a planning branch and landed on `main` as one commit. In this order, a resume entering where step 3's cursor says:
+   - `jodysalt:start-planning-session` in the root. Its refresh of `main` is best effort and allowed to fail offline; the session carries on from local `main`, as the skill does.
+   - A `refine-vision` stage when the scout reported template prompts, with the argument the whole vision, filled from the brief; or, for a bet-sized brief the scout found no bet for, with the argument a new bet under `## Strategic bets` for the brief. The argument quotes the brief in both cases, since a stage sees nothing else of it.
+   - An `add-initiative` stage with the brief as argument, for a bet-sized brief in the first session of a run only: on later loops and on a resume the initiative exists.
+   - An `add-ticket` stage whose argument is the brief for a lone change; "the ticket that moves the initiative's outcome most", naming the initiative file, for a bet-sized brief's first ticket; and the judge's pick with its reason on the loops step 6 sends back, a spike's pick being its question.
+   - An `add-tasks` stage, `jodysalt:add-tasks` with the slug the `add-ticket` stage reported as its argument.
+   - After every stage, `jodysalt:commit` in the root as a `docs:` commit whose body carries what a person would otherwise have been told: the answers the root gave and the recommendations it took because the brief and the vision were silent, any check the stage left for the person, and, for a session a judge sent the run back to, the verdict per metric and why this ticket next.
+   - Then `jodysalt:squash-commits`, `jodysalt:exit-worktree`, `jodysalt:merge-worktree <planning worktree name>` and `jodysalt:remove-worktrees <name>`, yes to deleting its branch. A merge that cannot fast-forward stops the run with a report. `squash-commits` synthesises its body from the stage commits, so nothing a stage commit said is lost.
 
 ## Report
 
