@@ -29,6 +29,22 @@ The root runs the rest itself, a few tool calls each: `git init`, `jodysalt:setu
 
 The root answers every question a root-run skill asks with the run's choice: the named worktree when one asks which, yes to deleting its branch, and no to every offer of another skill (`setup-skills` offering `refine-vision`, `add-worktree` offering `enter-worktree`, `merge-worktree` offering `remove-worktrees`), since the run invokes what it needs itself. A stop from `commit` on a secret or a build artefact ends the run with that report.
 
+## Stage prompt
+
+One template for every stage, `<skill>` and `<argument>` filled in; there is no prompt per stage. For the scout and the judge, which invoke no skill, the job paragraph is the one steps 3 and 6 spell out, and the rest of the template stands.
+
+```
+You are one stage of an unattended `jarvis` run. No person reads this conversation, so never ask one anything.
+
+Your job: invoke the `jodysalt:<skill>` skill with the argument `<argument>` and follow it to completion. If the Skill tool is unavailable, read `${CLAUDE_PLUGIN_ROOT}/skills/<skill>/SKILL.md` and follow it directly, treating the argument as its `$ARGUMENTS`.
+
+Where the skill interviews, `grill-me`'s rule for an unattended caller applies: the recommended answer is the user's for the trivial many, and the vital few go in your report. Take no offer to invoke another skill; report the offer instead. Never push.
+
+Your final message is a few lines: what you did and which files changed; any check the work leaves for a person; and last, either the word `done` or the vital few questions, each with its options and a recommendation.
+```
+
+Each stage is spawned with the Agent tool (`general-purpose`, run synchronously so the root blocks until the report), inherits the root's model and checkout with no override, and never runs in parallel with another. A report ending in questions is one round. The root answers each from the brief first, then `docs/vision.md` (on a resume, the initiative file stands in for the brief), and when both are silent takes the stage's recommendation and says so. It sends the answers, as the user's, to the same sub-agent with `SendMessage` so its context stays intact, and waits for the next report. The root answers at most 3 rounds, the `## Caps` constant; a report that still ends in questions after the third round's answers stops the run with a report naming the stage and its open questions. A report ending in `done` is recorded as that stage's report, and every answer the root gave goes into that stage's commit body and the final report.
+
 ## Steps
 
 1. **Guard.** If `git rev-parse --is-inside-work-tree` fails there is no repository, and step 2 handles it. Otherwise check the ground, and stop at the first failure with its reason, nothing has changed yet:
