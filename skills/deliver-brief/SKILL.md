@@ -1,12 +1,12 @@
 ---
-name: jarvis
-description: Runs the whole chain from a brief to a `main` ready for review with no human turn – scaffolds the layout, fills `docs/vision.md`, drafts the initiative and its tickets one at a time, breaks each one down, runs the loop and closes what it finished, playing the user at every question. Use when the user says "run jarvis", "deliver this brief", "jarvis, build X", or runs `/jarvis`. With no brief, resumes the only open initiative from the docs on `main`. Never pushes.
+name: deliver-brief
+description: Runs the whole chain from a brief to a `main` ready for review with no human turn – scaffolds the layout, fills `docs/vision.md`, drafts the initiative and its tickets one at a time, breaks each one down, runs the loop and closes what it finished, playing the user at every question. Use when the user says "deliver this brief", "deliver a brief", "build X from this brief", or runs `/deliver-brief`. With no brief, resumes the only open initiative from the docs on `main`. Never pushes.
 argument-hint: "[the brief – empty resumes the only open initiative, from the main checkout]"
 ---
 
-# Jarvis
+# Deliver brief
 
-Drive the existing chain from a brief to a `main` ready for review, the way a person does. Every skill runs as it does today and `jarvis` plays the user at every question, so no skill gains a jarvis mode. `main` changes only by fast-forward merge, so `git log` on `main` reads as the run's history: one commit per planning session and one per ticket. The root stays thin. It holds the brief, the step the run is at, the tickets worked so far, one report of a few lines per stage and the answers the root gave, and nothing else; the work happens in stages.
+Drive the existing chain from a brief to a `main` ready for review, the way a person does. Every skill runs as it does today and `deliver-brief` plays the user at every question, so no skill gains a `deliver-brief` mode. `main` changes only by fast-forward merge, so `git log` on `main` reads as the run's history: one commit per planning session and one per ticket. The root stays thin. It holds the brief, the step the run is at, the tickets worked so far, one report of a few lines per stage and the answers the root gave, and nothing else; the work happens in stages.
 
 ## Brief
 
@@ -34,7 +34,7 @@ The root answers every question a root-run skill asks with the run's choice: the
 One template for every stage, `<skill>` and `<argument>` filled in; there is no prompt per stage. For the scout and the judge, which invoke no skill, the job paragraph is the one steps 3 and 6 spell out, and the rest of the template stands.
 
 ```
-You are one stage of an unattended `jarvis` run. No person reads this conversation, so never ask one anything.
+You are one stage of an unattended `deliver-brief` run. No person reads this conversation, so never ask one anything.
 
 Your job: invoke the `jodysalt:<skill>` skill with the argument `<argument>` and follow it to completion. If the Skill tool is unavailable, read `${CLAUDE_PLUGIN_ROOT}/skills/<skill>/SKILL.md` and follow it directly, treating the argument as its `$ARGUMENTS`.
 
@@ -62,7 +62,7 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
      - Whether any section of `docs/vision.md` still holds the one-line prompt the `setup-skills` template writes; the thesis prompt "One paragraph on what this project is and the direction it is heading." is the example.
      - For a bet-sized brief, whether a `###` bet under `## Strategic bets` covers it, named by title.
 
-     The root only ratifies: it takes the sizing as reported. A lone `feat` with no open initiative that fits stops the run before anything is created, with `add-ticket`'s push-back that a `feat` needs an initiative and this one may not belong; docs as they were.
+     The root only ratifies: it takes the sizing as reported. A lone `feat` with no open initiative that fits stands on its own: it runs as a lone ticket, the same as any other single change, with no bet, no initiative and no judge.
    - **With no brief, the resume rules**, run from the main checkout:
      - `ls docs/initiatives/open/` must hold exactly one file; otherwise stop and list what is there. That initiative stands in for the brief.
      - Then every worktree `git worktree list` registers under `.claude/worktrees/`. One whose `git -C <path> status --porcelain` is not empty stops the run naming it. One whose branch has commits not on `main` (`git rev-list --count main..<branch>` above 0) gets `jodysalt:merge-worktree <name>` then `jodysalt:remove-worktrees <name>`, a merge that cannot fast-forward stopping the run. One with nothing to merge is kept, and reused when it is the open ticket's.
@@ -73,7 +73,7 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
    - `jodysalt:start-planning-session` in the root. Its refresh of `main` is best effort and allowed to fail offline; the session carries on from local `main`, as the skill does.
    - A `refine-vision` stage when the scout reported template prompts, with the argument the whole vision, filled from the brief; or, for a bet-sized brief the scout found no bet for, with the argument a new bet under `## Strategic bets` for the brief. The argument quotes the brief in both cases, since a stage sees nothing else of it.
    - An `add-initiative` stage with the brief as argument, for a bet-sized brief in the first session of a run only: on later loops and on a resume the initiative exists.
-   - An `add-ticket` stage whose argument is the brief for a lone change; "the ticket that moves the initiative's outcome most", naming the initiative file, for a bet-sized brief's first ticket; and the judge's pick with its reason on the loops step 6 sends back, a spike's pick being its question.
+   - An `add-ticket` stage whose argument is the brief for a lone change, which for a lone `feat` also names the open initiative file the scout found fits or, when the scout found none, states that the feature stands on its own, so the stage takes `add-ticket`'s standalone answer without a round; "the ticket that moves the initiative's outcome most", naming the initiative file, for a bet-sized brief's first ticket; and the judge's pick with its reason on the loops step 6 sends back, a spike's pick being its question.
    - An `add-tasks` stage, `jodysalt:add-tasks` with the slug the `add-ticket` stage reported as its argument.
    - After every stage, `jodysalt:commit` in the root as a `docs:` commit whose body carries what a person would otherwise have been told: the answers the root gave and the recommendations it took because the brief and the vision were silent, any check the stage left for the person, and, for a session a judge sent the run back to, the verdict per metric and why this ticket next.
    - Then `jodysalt:squash-commits`, `jodysalt:exit-worktree`, `jodysalt:merge-worktree <planning worktree name>` and `jodysalt:remove-worktrees <name>`, yes to deleting its branch. A merge that cannot fast-forward stops the run with a report. `squash-commits` synthesises its body from the stage commits, so nothing a stage commit said is lost.
@@ -111,7 +111,7 @@ On a stop: the reason, the branch, the worktree and the stage, and what is left 
 - Never asks the person anything; the brief is the whole input. A question is answered by a stage or by the root.
 - Never retries, re-plans or rolls back a failed task; the loop's first failure ends the run.
 - Never runs workers or tickets in parallel.
-- Gives no skill a jarvis mode; every skill runs as it does today.
+- Gives no skill a `deliver-brief` mode; every skill runs as any user would run it.
 - `main` changes only by fast-forward merge through `jodysalt:merge-worktree`, the scaffold's first commit on an empty `main` aside: never a merge commit, a rebase or a reset.
 - A brief that says "like X" gets X's layout and behaviour, never its brand assets or licensed material.
 - The root's transcript holds no stage skill's body and no worker's report: only the stage reports and the root's answers.

@@ -31,7 +31,7 @@ This repo runs its own workflow. Its purpose lives in this file, changes to the 
 
 ### Evals for the risky skills
 
-Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the ones that move files and rewrite paths across a repo (`close-ticket`, `close-initiative`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn, and when `jarvis` drives them instead, its own suite covers the run. Success: a regression in a risky skill fails an eval before it reaches `main`.
+Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the ones that move files and rewrite paths across a repo (`close-ticket`, `close-initiative`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn, and when `deliver-brief` drives them instead, its own suite covers the run. Success: a regression in a risky skill fails an eval before it reaches `main`.
 
 ### Adoption beyond the first user
 
@@ -39,7 +39,7 @@ The first user's repo installs the plugin, deletes its local skill copies, and k
 
 ### Hands-off delivery
 
-One command runs the whole chain from a brief to a `main` ready for review: `jarvis` scaffolds, fills the vision, drafts the initiative and its tickets, breaks each one down and runs the loop, and closes what it finished. The skills stay as they are, apart from changes any user can use, because the workflow does not care who drives it: `jarvis` is the user, answering the vital few questions from the brief while each stage settles the trivial many with its own recommendations. A thin root keeps only the run's state and hands every stage to a fresh sub-agent, and the docs are the state, so a run survives compaction and resumes where it stopped. Success: `/jodysalt:jarvis <brief>` in an empty directory ends with a closed initiative, closed tickets and a green suite on `main`, with no human turn between the command and the report.
+One command runs the whole chain from a brief to a `main` ready for review: `deliver-brief` scaffolds, fills the vision, drafts the initiative and its tickets, breaks each one down and runs the loop, and closes what it finished. The skills stay as they are, apart from changes any user can use, because the workflow does not care who drives it: `deliver-brief` is the user, answering the vital few questions from the brief while each stage settles the trivial many with its own recommendations. A thin root keeps only the run's state and hands every stage to a fresh sub-agent, and the docs are the state, so a run survives compaction and resumes where it stopped. Success: `/jodysalt:deliver-brief <brief>` in an empty directory ends with the brief's tickets closed and a green suite on `main`, with no human turn between the command and the report.
 
 ## Non-goals
 

@@ -17,14 +17,14 @@ If empty: the only directory in `docs/tickets/open/`, else the open ticket match
 ## Steps
 
 1. **Branch gate.** If the current branch is not `planning-<YYYY-MM-DD>` (optionally `-<N>`), offer to invoke `jodysalt:start-planning-session`. Continue on the current branch if the user declines. Skip if the gate already ran this conversation.
-2. **Read** the ticket directory and, for a `feat` and for a `spike` that carries `initiative:`, its initiative (`docs/initiatives/{open|closed}/{initiative}.md`) and `docs/vision.md`.
+2. **Read** the ticket directory; for a `feat` or a `spike` that carries `initiative:`, its initiative (`docs/initiatives/{open|closed}/{initiative}.md`) and `docs/vision.md`; for a `feat` that carries none, `docs/vision.md` alone, so its `Strategic fit` is still checked against the vision.
 3. **Verify code references**, read-only: every file path named in `# Context` and `# Implementation notes` (for a `spike`, `# Context` and `# Approach`) still exists, and the constraints, hooks, and config they describe still hold.
 4. **Report findings before editing anything:**
    - `TODO:` markers.
    - Empty, skeleton, or missing sections. For a `spike`: `Question`, `Context`, `Approach` and `Done when`, plus `Strategic fit` only when `initiative:` is set. For every other type: `Goal`, `Context`, `Scope`, `Acceptance criteria`, `Implementation notes`, `Test plan`, `Rollout`, plus `Strategic fit` for `feat`.
    - A `spike` whose directory has no `findings.md`. It should hold the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`; flag its absence, but this skill still edits only `index.md`.
    - Code drift: paths that no longer exist, constraints that have changed.
-   - Frontmatter: `type` outside `feat | fix | refactor | chore | docs | test | spike`; a `feat` without `initiative:`; an `initiative:` slug on a `feat` or a `spike` with no file under `docs/initiatives/`.
+   - Frontmatter: `type` outside `feat | fix | refactor | chore | docs | test | spike`; an `initiative:` slug on a `feat` or a `spike` with no file under `docs/initiatives/`.
    - Thin or untestable acceptance criteria (for a `spike`, `# Done when` is the acceptance section), a `Strategic fit` that no longer traces to `vision.md`, content contradicted by shipped work.
 
    If the work is already shipped, say so and point at `jodysalt:close-ticket`. Don't close it yourself.
