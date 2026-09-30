@@ -55,7 +55,7 @@
 
 ## Add the `jarvis` row to the skills table in `README.md`
 - **category:** chore
-- **status:** pending
+- **status:** done
 - **steps:**
   - `grep -c '\[`jarvis`\](./skills/jarvis/SKILL.md)' README.md` prints 1, the row sits between the `grill-me` and `list-worktrees` rows to keep the table alphabetical, and its description matches the table's style: runs the whole chain from a brief to a `main` ready for review with no human turn, scaffolding, filling the vision, drafting the initiative and its tickets one at a time, breaking each down, running the loop and closing what it finished while playing the user at every question; with no brief resumes the only open initiative; never pushes. The `## Workflow` paragraph and every other row stay as they are; that paragraph and the `CLAUDE.md` block belong to the initiative's fourth ticket.
 
