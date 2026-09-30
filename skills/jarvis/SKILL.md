@@ -54,6 +54,21 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
    - **No repository, or one with no commit on `main`** (`git rev-parse --verify --quiet main` fails): `git init -b main` when there is no repository, then `jodysalt:setup-skills`, then one `chore:` commit through `jodysalt:commit` that takes everything present, files that were already there included, because anything left untracked trips the dirty-main guard later. This is the one thing the scaffold refuses to do, and it gives the planning branches something to fork from.
    - **A repository whose `docs/vision.md` is missing**, code without the layout: the scaffold is a planning session of its own. `jodysalt:start-planning-session`, `jodysalt:setup-skills`, `jodysalt:commit` (`chore:`), `jodysalt:squash-commits` (which reports nothing to squash for one commit, and that is fine), `jodysalt:exit-worktree`, `jodysalt:merge-worktree <planning worktree name>` and `jodysalt:remove-worktrees <name>`, yes to deleting its branch.
    - **A repository with the layout**: continue at step 3.
+3. **Scout, or resume.** With a brief, the scout stage; with none, the resume rules.
+   - **With a brief, the scout stage.** A stage whose job, in place of a skill, is to read the brief and explore the repo: `README.md`, the manifest, everything under `docs/`, `git log --oneline -30`, `docs/vision.md` and `docs/initiatives/open/*.md`. It reports, in a few lines:
+     - The reading it took of the brief and why.
+     - The sizing, applying the judgment `add-ticket` step 2 and `add-initiative` step 3 already apply: either one shippable change with its type (`feat | fix | refactor | chore | docs | test | spike`), or a bet and an initiative when the brief spans several `feat` tickets with one user-visible outcome.
+     - For a lone `feat`, the open initiative that fits, or that none does.
+     - Whether any section of `docs/vision.md` still holds the one-line prompt the `setup-skills` template writes; the thesis prompt "One paragraph on what this project is and the direction it is heading." is the example.
+     - For a bet-sized brief, whether a `###` bet under `## Strategic bets` covers it, named by title.
+
+     The root only ratifies: it takes the sizing as reported. A lone `feat` with no open initiative that fits stops the run before anything is created, with `add-ticket`'s push-back that a `feat` needs an initiative and this one may not belong; docs as they were.
+   - **With no brief, the resume rules**, run from the main checkout:
+     - `ls docs/initiatives/open/` must hold exactly one file; otherwise stop and list what is there. That initiative stands in for the brief.
+     - Then every worktree `git worktree list` registers under `.claude/worktrees/`. One whose `git -C <path> status --porcelain` is not empty stops the run naming it. One whose branch has commits not on `main` (`git rev-list --count main..<branch>` above 0) gets `jodysalt:merge-worktree <name>` then `jodysalt:remove-worktrees <name>`, a merge that cannot fast-forward stopping the run. One with nothing to merge is kept, and reused when it is the open ticket's.
+     - Then the cursor, from the initiative's `## Tickets` list. The first `docs/tickets/open/` path there is the open ticket: with no `tasks.md`, continue at step 4 from `add-tasks` on; with a pending entry, at step 5, entering the existing worktree instead of adding one when it exists; with every entry done, at step 5 from the `wrap-up-ticket` stage on. With no open ticket in the list, continue at step 6, the judge. With a list that holds no ticket at all, at step 4 from `add-ticket` on.
+
+     A resumed run counts the tickets it works toward the 5-ticket cap as any run does.
 
 ## Report
 
