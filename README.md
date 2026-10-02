@@ -20,6 +20,7 @@ Skills are namespaced under the plugin name, so each one runs as `/jodysalt:<ski
 | Skill | Description |
 | --- | --- |
 | [`add-initiative`](./skills/add-initiative/SKILL.md) | Drafts a new initiative at `docs/initiatives/open/{slug}.md`: a strategic push that bridges `docs/vision.md` to feature tickets. |
+| [`add-skill`](./skills/add-skill/SKILL.md) | Drafts a new Claude Code skill at `skills/{name}/SKILL.md` in a plugin repo, else at `.claude/skills/{name}/SKILL.md`, in house style and filled in through `grill-me`. Adds the README row and validates strictly in a plugin repo; reports the owed version bump without making it. Never overwrites an existing skill. |
 | [`add-tasks`](./skills/add-tasks/SKILL.md) | Appends self-contained task entries to a ticket's `tasks.md`, beside its `index.md`, ending the list with a full-suite gate. Append-only. |
 | [`add-ticket`](./skills/add-ticket/SKILL.md) | Drafts a new ticket at `docs/tickets/open/{slug}/index.md`: one shippable change with a `type` (`feat | fix | refactor | chore | docs | test | spike`). A `feat` ticket tags the open initiative that fits or, with none and the user's say-so, stands on its own; a `spike` is research that ends in a recommendation in `findings.md` and may tag one. |
 | [`add-worktree`](./skills/add-worktree/SKILL.md) | Creates a git worktree at `.claude/worktrees/<branch>`, usually named after an open ticket slug, branching from whatever the main checkout has checked out when needed. Never enters it; that is `enter-worktree`. |
