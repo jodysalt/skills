@@ -1,6 +1,6 @@
 ---
 name: refine-vision
-description: Revisits `docs/vision.md` and improves it in place – explores the repo, reports which sections are missing or still hold the scaffold's template prompt and what an open initiative cites or contradicts, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the vision", "revisit the vision", "flesh out the vision", "fill in the vision", or runs `/refine-vision`. Edits `docs/vision.md` only; never invents content, never touches initiatives or tickets, never commits.
+description: Revisits `docs/vision.md` and improves it in place – explores the repo, reports which sections are missing or still hold the scaffold's template prompt and what an open initiative cites or contradicts, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the vision", "revisit the vision", "flesh out the vision", "fill in the vision", or runs `/refine-vision`. Edits `docs/vision.md` in place and, when a bet is renamed, the citation in each open initiative's `## Why now` with it; never invents content, never touches tickets, never commits.
 argument-hint: "[what to revisit, e.g. 'target users' – defaults to the whole vision]"
 ---
 
@@ -32,12 +32,12 @@ If given, one or more section names matched case-insensitively against the `## `
    - Seed the decision tree with the findings from step 3, then add the decisions the vision makes without saying so.
    - The README, manifests, docs and git log from step 2 count as explorable; a question they answer is never asked, and each recommended answer cites what it came from.
    - Only an answer the user agrees to lands. A run where the user declines every question leaves the file byte for byte unchanged.
-   - Edit only `docs/vision.md` as answers land, keeping the opening thesis paragraph, the five `## ` headings in order (*Target users*, *Core problems*, *Product principles*, *Strategic bets*, *Non-goals*) and one `### {Title}` per strategic bet. Initiatives and tickets stay untouched.
+   - Edit `docs/vision.md` as answers land, keeping the opening thesis paragraph, the five `## ` headings in order (*Target users*, *Core problems*, *Product principles*, *Strategic bets*, *Non-goals*) and one `### {Title}` per strategic bet. When an answer renames a bet, rewrite the citation in every open initiative's `## Why now` that names it by the old title in the same edit and say so, since `add-initiative` and `close-initiative` match on the exact title; that needs no second question. Anything more in an initiative or a ticket is surfaced, not changed.
 5. Stop. Leave the edit uncommitted for review and suggest `jodysalt:commit` (a `docs:` commit).
 
 ## Rules
 
-- Edit nothing but `docs/vision.md`.
+- Edit `docs/vision.md`, plus a renamed bet's citations in open initiatives, and nothing else.
 - Never invent content; ask, or leave a `TODO:` marker.
-- Never touch initiatives or tickets; surface what they contradict and leave the fix to `refine-initiative` or `refine-ticket`.
+- Never rewrite an initiative or a ticket beyond that citation; surface what they contradict and leave the fix to `refine-initiative` or `refine-ticket`.
 - Keep the section headings and the `###`-per-bet shape: `add-initiative` cites a bet by its exact title and `close-initiative` deletes its section by that title.

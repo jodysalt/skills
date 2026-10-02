@@ -1,7 +1,7 @@
 ---
 name: squash-commits
-description: Squashes every commit on the current branch since it forked from `main` into one new commit, synthesising the message from the commits being replaced and handing off to the `commit` skill for house style. Use when the user says "squash these commits", "squash the branch", "squash to one commit", or runs `/squash-commits`. Refuses on `main`; never pushes or force-pushes.
-argument-hint: "[base branch – defaults to main]"
+description: Squashes every commit on the current branch since it forked from its base branch – the one the main checkout has checked out, unless named – into one new commit, synthesising the message from the commits being replaced and handing off to the `commit` skill for house style. Use when the user says "squash these commits", "squash the branch", "squash to one commit", or runs `/squash-commits`. Refuses on the base branch; never pushes or force-pushes.
+argument-hint: "[base branch – defaults to the branch the main checkout has checked out]"
 ---
 
 # Squash commits
@@ -12,12 +12,12 @@ Collapse the branch's commits since it forked from the base branch into one new 
 
 $ARGUMENTS
 
-If empty, the base is `main`.
+If empty, the base is the branch the main checkout has checked out: `git -C <main checkout> branch --show-current`, the main checkout being the first path in `git worktree list`. When that prints nothing (a detached `HEAD`), or the session is in the main checkout itself so the base would be the current branch, stop and ask for the base by name.
 
 ## Steps
 
 1. Check the ground in parallel, and stop at the first failure:
-   - `git rev-parse --abbrev-ref HEAD` – must not be `main` or the base branch. Refuse otherwise.
+   - `git rev-parse --abbrev-ref HEAD` – must not be the base branch. Refuse otherwise.
    - `git status --porcelain` – must be empty. Otherwise tell the user to commit or stash first; don't stash for them.
    - `git merge-base <base> HEAD` – this is `$BASE`.
    - `git rev-list --count $BASE..HEAD` – fewer than 2 means there is nothing to squash; say so and stop.

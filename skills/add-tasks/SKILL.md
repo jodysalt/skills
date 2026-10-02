@@ -16,7 +16,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 
 ## Steps
 
-1. **Read** `docs/tickets/open/{slug}/index.md` and, when it carries `initiative:`, the initiative file too, so entries serve the outcome and not just the ticket text. Then read `docs/tickets/open/{slug}/tasks.md` in full if it exists; existing headings are needed for dedup. If it doesn't, create it holding exactly `# Tasks` followed by one newline.
+1. **Read** `docs/tickets/open/{slug}/index.md` and, when it carries `initiative:`, the initiative file too, so entries serve the outcome and not just the ticket text. Then read `docs/tickets/open/{slug}/tasks.md` in full if it exists; existing headings are needed for dedup. If it doesn't, create it holding exactly `# Tasks` followed by one newline. A `type: spike` ticket with no `findings.md` beside its `index.md` gets one now, holding exactly the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`, so the research tasks have a file to write to; say so in the report.
 2. **Draft entries** in this shape:
 
    ```markdown
@@ -55,4 +55,4 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 ## Rules
 
 - Append-only: never edit, reorder, or remove existing entries, and never change a `status`; the loop owns transitions.
-- Touches nothing but the ticket's `tasks.md`.
+- Touches nothing but the ticket's `tasks.md`, and a spike's missing `findings.md`.

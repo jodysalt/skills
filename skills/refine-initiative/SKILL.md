@@ -1,6 +1,6 @@
 ---
 name: refine-initiative
-description: Revisits an existing open initiative at `docs/initiatives/open/{slug}.md` and improves it in place – assesses it against the initiative template, `vision.md`, and its tickets, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the X initiative", "revisit X", "flesh out the X initiative", "update the spec for X", or runs `/refine-initiative`. Edits an open initiative only; never creates, moves, closes, or deletes docs, never edits `vision.md` or ticket files, never commits.
+description: Revisits an existing open initiative at `docs/initiatives/open/{slug}.md` and improves it in place – assesses it against the initiative template, `vision.md`, and its tickets, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the X initiative", "revisit X", "flesh out the X initiative", "update the spec for X", or runs `/refine-initiative`. Edits an open initiative in place and makes the small related edits its answers settle – a ticket's `initiative:` tag, a new bet's section in `vision.md` – without a second question; never creates, moves, closes, or deletes docs, never commits.
 argument-hint: "[initiative slug – defaults to the only open initiative]"
 ---
 
@@ -29,11 +29,11 @@ If empty: the only file in `docs/initiatives/open/`, else `ls docs/initiatives/o
 4. **Interview** by invoking the `grill-me` skill from this plugin (`jodysalt:grill-me`) with the subject "the initiative at `docs/initiatives/open/{slug}.md`". Give it this framing:
    - Seed the decision tree with the findings from step 3, then add the decisions the initiative makes without saying so.
    - The tickets and the codebase count as explorable; a question they answer is never asked.
-   - Edit only the initiative file as answers land. `vision.md` and ticket files stay untouched.
-5. **Edit** within these constraints on top of `grill-me`'s: fixing `## Tickets` drift is in scope. Never invent `Outcome`, `Success metrics`, or `Non-goals`; ask, or leave a `TODO:` marker.
+   - Edit the initiative file as answers land, plus the related edits step 5 allows; nothing else outside it.
+5. **Edit** within these constraints on top of `grill-me`'s. Never invent `Outcome`, `Success metrics`, or `Non-goals`; ask, or leave a `TODO:` marker. A related edit that a finding or an answer settles outright, needing no decision of its own, is made on the spot and named in the report rather than raised as a second question or left to another skill: `## Tickets` drift; a ticket's `initiative:` tag the interview moves to or from this initiative, both initiatives' `## Tickets` lists following; a `## Why now` citation that differs from a `vision.md` bet title only in spelling or case; and the `### {Title}` section for a new bet the user names, added under `## Strategic bets` in `vision.md` in a few lines from `## Outcome` and `## Why now`. Anything more in `vision.md` or a ticket body is surfaced for `jodysalt:refine-vision` or `jodysalt:refine-ticket`.
 6. Stop. Leave the edits uncommitted for review and suggest `jodysalt:commit` (a `docs:` commit).
 
 ## Rules
 
-- Never edit `vision.md`; surface a stale bet instead. `close-initiative` owns bet removal.
-- Never edit ticket files; this initiative's `## Tickets` list is the boundary.
+- `vision.md` changes only by gaining a new bet's section; never rename or remove a bet there, `close-initiative` owns removal, and anything else is surfaced.
+- A ticket file changes only in its `initiative:` tag; its body is `jodysalt:refine-ticket`'s.

@@ -1,18 +1,18 @@
 ---
 name: deliver-brief
-description: Runs the whole chain from a brief to a `main` ready for review with no human turn – scaffolds the layout, fills `docs/vision.md`, drafts the initiative and its tickets one at a time, breaks each one down, runs the loop and closes what it finished, playing the user at every question. Use when the user says "deliver this brief", "deliver a brief", "build X from this brief", or runs `/deliver-brief`. With no brief, resumes the only open initiative from the docs on `main`. Never pushes.
+description: Runs the whole chain from a brief to a branch ready for review – the one the main checkout has checked out, local `main` in the usual case – with no human turn: scaffolds the layout, fills `docs/vision.md`, drafts the initiative and its tickets one at a time, breaks each one down, runs the loop and closes what it finished, playing the user at every question. Use when the user says "deliver this brief", "deliver a brief", "build X from this brief", or runs `/deliver-brief`. With no brief, resumes the only open initiative from the docs in the main checkout. Never pushes.
 argument-hint: "[the brief – empty resumes the only open initiative, from the main checkout]"
 ---
 
 # Deliver brief
 
-Drive the existing chain from a brief to a `main` ready for review, the way a person does. Every skill runs as it does today and `deliver-brief` plays the user at every question, so no skill gains a `deliver-brief` mode. `main` changes only by fast-forward merge, so `git log` on `main` reads as the run's history: one commit per planning session and one per ticket. The root stays thin. It holds the brief, the step the run is at, the tickets worked so far, one report of a few lines per stage and the answers the root gave, and nothing else; the work happens in stages.
+Drive the existing chain from a brief to a base branch ready for review, the way a person does. The base is whatever the main checkout has checked out when the run starts, `main` in the usual case: every worktree forks from it and lands on it, and the run never checks out anything else there. Every skill runs as it does today and `deliver-brief` plays the user at every question, so no skill gains a `deliver-brief` mode. The base changes only by fast-forward merge, so `git log` on it reads as the run's history: one commit per planning session and one per ticket. The root stays thin. It holds the brief, the step the run is at, the tickets worked so far, one report of a few lines per stage and the answers the root gave, and nothing else; the work happens in stages.
 
 ## Brief
 
 $ARGUMENTS
 
-If empty, the run resumes by step 3's resume rules: the only open initiative stands in for the brief, and the run continues at the first unfinished piece the docs on `main` record.
+If empty, the run resumes by step 3's resume rules: the only open initiative stands in for the brief, and the run continues at the first unfinished piece the docs in the main checkout record.
 
 ## Caps
 
@@ -49,9 +49,10 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
 
 1. **Guard.** If `git rev-parse --is-inside-work-tree` fails there is no repository, and step 2 handles it. Otherwise check the ground, and stop at the first failure with its reason, nothing has changed yet:
    - `git rev-parse --show-toplevel` must equal the first path in `git worktree list`. Otherwise the run was started from inside a worktree: stop and point at `jodysalt:exit-worktree`, because `add-worktree` and `merge-worktree` run from the main checkout.
+   - `git branch --show-current` must print a branch: the base. Otherwise `HEAD` is detached: stop and say so, because `merge-worktree` has nothing to fast-forward into.
    - `git status --porcelain` must be empty. Otherwise stop and point at commit or stash; do neither on the person's behalf. `merge-worktree` refuses a dirty main checkout, so the run would stop later with a branch half landed.
 2. **Directory state.** One of three:
-   - **No repository, or one with no commit on `main`** (`git rev-parse --verify --quiet main` fails): `git init -b main` when there is no repository, then `jodysalt:setup-skills`, then one `chore:` commit through `jodysalt:commit` that takes everything present, files that were already there included, because anything left untracked trips the dirty-main guard later. This is the one thing the scaffold refuses to do, and it gives the planning branches something to fork from.
+   - **No repository, or one whose `HEAD` has no commit** (`git rev-parse --verify --quiet HEAD` fails): `git init -b main` when there is no repository, then `jodysalt:setup-skills`, then one `chore:` commit through `jodysalt:commit` that takes everything present, files that were already there included, because anything left untracked trips the dirty-checkout guard later. This is the one thing the scaffold refuses to do, and it gives the planning branches something to fork from.
    - **A repository whose `docs/vision.md` is missing**, code without the layout: the scaffold is a planning session of its own. `jodysalt:start-planning-session`, `jodysalt:setup-skills`, `jodysalt:commit` (`chore:`), `jodysalt:squash-commits` (which reports nothing to squash for one commit, and that is fine), `jodysalt:exit-worktree`, `jodysalt:merge-worktree <planning worktree name>` and `jodysalt:remove-worktree <name>`.
    - **A repository with the layout**: continue at step 3.
 3. **Scout, or resume.** With a brief, the scout stage; with none, the resume rules.
@@ -65,22 +66,22 @@ Each stage is spawned with the Agent tool (`general-purpose`, run synchronously 
      The root only ratifies: it takes the sizing as reported. A lone `feat` with no open initiative that fits stands on its own: it runs as a lone ticket, the same as any other single change, with no bet, no initiative and no judge.
    - **With no brief, the resume rules**, run from the main checkout:
      - `ls docs/initiatives/open/` must hold exactly one file; otherwise stop and list what is there. That initiative stands in for the brief.
-     - Then every worktree `git worktree list` registers under `.claude/worktrees/`. One whose `git -C <path> status --porcelain` is not empty stops the run naming it. One whose branch has commits not on `main` (`git rev-list --count main..<branch>` above 0) gets `jodysalt:merge-worktree <name>` then `jodysalt:remove-worktree <name>`, a merge that cannot fast-forward stopping the run. One with nothing to merge is kept, and reused when it is the open ticket's.
+     - Then every worktree `git worktree list` registers under `.claude/worktrees/`. One whose `git -C <path> status --porcelain` is not empty stops the run naming it. One whose branch has commits not on the base (`git rev-list --count <base>..<branch>` above 0) gets `jodysalt:merge-worktree <name>` then `jodysalt:remove-worktree <name>`, a merge that cannot fast-forward stopping the run. One with nothing to merge is kept, and reused when it is the open ticket's.
      - Then the cursor, from the initiative's `## Tickets` list. The first `docs/tickets/open/` path there is the open ticket: with no `tasks.md`, continue at step 4 from `add-tasks` on; with a pending entry, at step 5, entering the existing worktree instead of adding one when it exists; with every entry done, at step 5 from `wrap-up-worktree` on. With no open ticket in the list, continue at step 6, the judge. With a list that holds no ticket at all, at step 4 from `add-ticket` on.
 
      A resumed run counts the tickets it works toward the 5-ticket cap as any run does.
-4. **Planning session.** The docs for the brief, or for the next ticket, drafted on a planning branch and landed on `main` as one commit. In this order, a resume entering where step 3's cursor says:
-   - `jodysalt:start-planning-session` in the root. Its refresh of `main` is best effort and allowed to fail offline; the session carries on from local `main`, as the skill does.
+4. **Planning session.** The docs for the brief, or for the next ticket, drafted on a planning branch and landed on the base as one commit. In this order, a resume entering where step 3's cursor says:
+   - `jodysalt:start-planning-session` in the root. Its refresh of the base is best effort and allowed to fail offline or without an upstream; the session carries on from the base as-is, as the skill does.
    - A `refine-vision` stage when the scout reported template prompts, with the argument the whole vision, filled from the brief; or, for a bet-sized brief the scout found no bet for, with the argument a new bet under `## Strategic bets` for the brief. The argument quotes the brief in both cases, since a stage sees nothing else of it.
    - An `add-initiative` stage with the brief as argument, for a bet-sized brief in the first session of a run only: on later loops and on a resume the initiative exists.
    - An `add-ticket` stage whose argument is the brief for a lone change, which for a lone `feat` also names the open initiative file the scout found fits or, when the scout found none, states that the feature stands on its own, so the stage takes `add-ticket`'s standalone answer without a round; "the ticket that moves the initiative's outcome most", naming the initiative file, for a bet-sized brief's first ticket; and the judge's pick with its reason on the loops step 6 sends back, a spike's pick being its question.
    - An `add-tasks` stage, `jodysalt:add-tasks` with the slug the `add-ticket` stage reported as its argument.
    - After every stage, `jodysalt:commit` in the root as a `docs:` commit whose body carries what a person would otherwise have been told: the answers the root gave and the recommendations it took because the brief and the vision were silent, any check the stage left for the person, and, for a session a judge sent the run back to, the verdict per metric and why this ticket next.
-   - Then `jodysalt:wrap-up-worktree <planning worktree name>` in the root, which squashes the planning branch, fast-forwards it into `main` and removes the worktree and its branch. A merge that cannot fast-forward stops the run with a report. `squash-commits`, which it runs, synthesises its body from the stage commits, so nothing a stage commit said is lost.
-5. **Ticket.** The slug step 4 drafted, or the one step 3's cursor resumed, from its worktree through the loop and the wrap-up to one commit on `main`. In this order, a resume entering where the cursor says:
+   - Then `jodysalt:wrap-up-worktree <planning worktree name>` in the root, which squashes the planning branch, fast-forwards it into the base and removes the worktree and its branch. A merge that cannot fast-forward stops the run with a report. `squash-commits`, which it runs, synthesises its body from the stage commits, so nothing a stage commit said is lost.
+5. **Ticket.** The slug step 4 drafted, or the one step 3's cursor resumed, from its worktree through the loop and the wrap-up to one commit on the base. In this order, a resume entering where the cursor says:
    - `jodysalt:add-worktree <slug>` in the root, skipped when `.claude/worktrees/<slug>` already exists, then `jodysalt:enter-worktree <slug>`.
    - A `complete-tasks` stage, `jodysalt:complete-tasks` with the slug as its argument. On the first failed task the stage's report ends the run: the root runs `jodysalt:exit-worktree` so the session ends in the main checkout, leaves the worktree and its commits on disk for a resume or a person, and prints the stop report of `## Report`, naming the branch, the worktree and the stage.
-   - Then in the root `jodysalt:wrap-up-worktree <slug>`, which closes the ticket, folds the workers' task commits and the close into one commit, fast-forwards it into `main` and removes the worktree and its branch. A merge that cannot fast-forward stops the run with a report. Its report mentions `close-initiative` when the initiative's last listed ticket closed; the root ignores that, because the judge decides in step 6.
+   - Then in the root `jodysalt:wrap-up-worktree <slug>`, which closes the ticket, folds the workers' task commits and the close into one commit, fast-forwards it into the base and removes the worktree and its branch. A merge that cannot fast-forward stops the run with a report. Its report mentions `close-initiative` when the initiative's last listed ticket closed; the root ignores that, because the judge decides in step 6.
    - The root then counts the ticket toward the 5-ticket cap, the `## Caps` constant, and collects from the `complete-tasks` stage report every check left for the person, for the final report.
    - A lone ticket, one the scout sized as a single change, ends the run here: continue at step 7. A ticket under an initiative continues at step 6, the judge.
 6. **Judge.** For a bet-sized brief and for a resume, never for a lone ticket: a stage whose job, in place of a skill, is to read the initiative file's `## Success metrics`, every ticket in its `## Tickets` list with the `findings.md` of each spike among them, and the repo as it is. It reports, in a few lines:
@@ -100,7 +101,7 @@ The final report, in this order:
 1. The reading the scout took of the brief and why, so a person who meant another reading sees it first. On a resume, the initiative taken and the piece resumed at.
 2. The answers the root gave, each with the stage that asked and where the answer came from: the brief, `docs/vision.md`, or the stage's recommendation, taken because both were silent.
 3. Every check left for the person, a visual match or a manual step in a test plan among them: anything no worker could verify, neither dropped nor marked done.
-4. `git log --oneline` of `main` for the run's commits.
+4. `git log --oneline` of the base branch, named, for the run's commits.
 
 On a stop: the reason, the branch, the worktree and the stage, and what is left on disk for a resume or a person, the docs as they were.
 
@@ -111,7 +112,7 @@ On a stop: the reason, the branch, the worktree and the stage, and what is left 
 - Never retries, re-plans or rolls back a failed task; the loop's first failure ends the run.
 - Never runs workers or tickets in parallel.
 - Gives no skill a `deliver-brief` mode; every skill runs as any user would run it.
-- `main` changes only by fast-forward merge through `jodysalt:merge-worktree`, the scaffold's first commit on an empty `main` aside: never a merge commit, a rebase or a reset.
+- The base branch changes only by fast-forward merge through `jodysalt:merge-worktree`, the scaffold's first commit on an unborn branch aside: never a merge commit, a rebase, a reset or a checkout.
 - A brief that says "like X" gets X's layout and behaviour, never its brand assets or licensed material.
 - The root's transcript holds no stage skill's body and no worker's report: only the stage reports and the root's answers.
 - There is no run log; git history is the trail, and each planning commit's body carries what a person would otherwise have been told.

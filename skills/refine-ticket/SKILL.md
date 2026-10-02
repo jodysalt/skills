@@ -1,6 +1,6 @@
 ---
 name: refine-ticket
-description: Revisits an existing open ticket at `docs/tickets/open/{slug}/index.md` and improves it in place – assesses it against the ticket template, verifies its code references against the current codebase, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the X ticket", "revisit X", "flesh out the X ticket", "update the spec for X", or runs `/refine-ticket`. Edits an open ticket only; never creates, moves, closes, or deletes docs, never touches source code, never commits.
+description: Revisits an existing open ticket at `docs/tickets/open/{slug}/index.md` and improves it in place – assesses it against the ticket template, verifies its code references against the current codebase, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the X ticket", "revisit X", "flesh out the X ticket", "update the spec for X", or runs `/refine-ticket`. Edits an open ticket in place and makes the small related edits its answers settle – the initiative's `## Tickets` list, a spike's missing `findings.md`, an `initiative:` retag – without a second question; never moves, closes, or deletes docs, never touches source code, never commits.
 argument-hint: "[ticket slug – defaults to the only open ticket or the current branch]"
 ---
 
@@ -22,7 +22,8 @@ If empty: the only directory in `docs/tickets/open/`, else the open ticket match
 4. **Report findings before editing anything:**
    - `TODO:` markers.
    - Empty, skeleton, or missing sections. For a `spike`: `Question`, `Context`, `Approach` and `Done when`, plus `Strategic fit` only when `initiative:` is set. For every other type: `Goal`, `Context`, `Scope`, `Acceptance criteria`, `Implementation notes`, `Test plan`, `Rollout`, plus `Strategic fit` for `feat`.
-   - A `spike` whose directory has no `findings.md`. It should hold the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`; flag its absence, but this skill still edits only `index.md`.
+   - A `spike` whose directory has no `findings.md`; step 6 creates it.
+   - The ticket missing from its initiative's `## Tickets` list, or listed there under a stale path; step 6 fixes the list.
    - Code drift: paths that no longer exist, constraints that have changed.
    - Frontmatter: `type` outside `feat | fix | refactor | chore | docs | test | spike`; an `initiative:` slug on a `feat` or a `spike` with no file under `docs/initiatives/`.
    - Thin or untestable acceptance criteria (for a `spike`, `# Done when` is the acceptance section), a `Strategic fit` that no longer traces to `vision.md`, content contradicted by shipped work.
@@ -31,12 +32,12 @@ If empty: the only directory in `docs/tickets/open/`, else the open ticket match
 5. **Interview** by invoking the `grill-me` skill from this plugin (`jodysalt:grill-me`) with the subject "the ticket at `docs/tickets/open/{slug}/index.md`". Give it this framing:
    - Seed the decision tree with the findings from step 4, then add the decisions the ticket makes without saying so.
    - The codebase counts as explorable; a question it answers is never asked.
-   - Edit only `index.md` as answers land. Source, `vision.md`, and initiative files stay untouched.
-6. **Edit** within these constraints on top of `grill-me`'s: never invent `Goal`, acceptance criteria, or scope; ask, or leave a `TODO:` marker.
+   - Edit `index.md` as answers land, plus the related edits step 6 allows. Source and `vision.md` stay untouched.
+6. **Edit** within these constraints on top of `grill-me`'s: never invent `Goal`, acceptance criteria, or scope; ask, or leave a `TODO:` marker. A related edit that a finding or an answer settles outright, needing no decision of its own, is made on the spot and named in the report rather than raised as a second question or left to another skill: a spike's missing `findings.md`, created beside `index.md` holding exactly the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`; the initiative's `## Tickets` list, when this ticket is missing from it or listed under a stale path; and an `initiative:` retag the interview decides, the old and new initiatives' `## Tickets` lists following. Anything more in an initiative or `vision.md` is surfaced for `jodysalt:refine-initiative` or `jodysalt:refine-vision`.
 7. Stop. Leave the edits uncommitted for review and suggest `jodysalt:commit` (a `docs:` commit).
 
 ## Rules
 
 - Code verification is read-only; never edit source.
-- Never edit `vision.md` or initiative files; surface staleness there instead.
+- Never edit `vision.md`; an initiative file changes only in its `## Tickets` list. Surface anything more.
 - Re-tagging `initiative:` is a user decision made in the interview, never a silent edit.

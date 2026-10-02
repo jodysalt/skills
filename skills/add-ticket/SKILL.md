@@ -100,12 +100,12 @@ If empty, ask what the change is.
 7. **Fill it in** by invoking the `grill-me` skill from this plugin (`jodysalt:grill-me`) with the subject "the ticket being drafted at `docs/tickets/open/{slug}/index.md`". Give it this framing:
    - Each template section is an open decision; for a `feat`, `Strategic fit` must trace to `vision.md`. For a `spike`, `# Done when` is the acceptance section, and `Strategic fit` must trace to `vision.md` only when the spike is tagged.
    - The codebase, the initiative, `vision.md`, and any spike `findings.md` read in step 4 count as explorable; a question they answer is never asked.
-   - Edit only `index.md` as answers land, and record a deferred decision as a `TODO:` marker in its section.
-8. **`feat` or `spike` with `initiative:`:** append `docs/tickets/open/{slug}/index.md` to the initiative's `## Tickets` list, dropping the template placeholder bullet if it is still there. Don't reorder the list.
+   - Edit `index.md` as answers land, and record a deferred decision as a `TODO:` marker in its section. A related edit an answer settles outright and that needs no decision of its own – a stale `open/` or `closed/` path in the initiative's `## Tickets` list, say – is made too and reported, never raised as a second question or left to another skill. Source code and `vision.md` stay untouched; a gap there is surfaced.
+8. **`feat` or `spike` with `initiative:`:** append `docs/tickets/open/{slug}/index.md` to the initiative's `## Tickets` list, dropping the template placeholder bullet if it is still there and fixing any path there that points at the wrong side of `open/` and `closed/` while at it. Don't reorder the list.
 
 ## Rules
 
 - `Strategic fit` must trace to at least one product principle or named target-user problem in `vision.md`. If it can't, push back; the feature may not belong.
 - Lifecycle is the directory, so there is no `status` field. New tickets start in `open/`.
 - Initiatives are virtual: never create `docs/tickets/{initiative-slug}/`.
-- Never rewrite or delete existing tickets; they are project memory. Never touch source code or `vision.md`, and never commit.
+- Never rewrite or delete existing tickets; they are project memory. An initiative file changes only in its `## Tickets` list. Never touch source code or `vision.md`, and never commit.
