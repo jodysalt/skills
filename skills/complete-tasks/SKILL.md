@@ -19,7 +19,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 1. **Find** the first entry in `docs/tickets/open/{slug}/tasks.md` whose status line is `- **status:** pending` and note its heading. If there is none, print the summary and stop.
 2. **Spawn one worker** with the Agent tool (`general-purpose`, run synchronously so the loop blocks until it finishes) with this prompt, `{slug}` filled in:
 
-   > Invoke the `jodysalt:complete-task` skill with the argument `docs/tickets/open/{slug}` and follow it to completion. If the Skill tool is unavailable, read `${CLAUDE_PLUGIN_ROOT}/skills/complete-task/SKILL.md` and follow it directly, treating that path as its `$ARGUMENTS`. Your final message must state the task heading you worked on, what changed, whether every step was satisfied, and any judgment calls you made on ambiguous steps.
+   > Invoke the `jodysalt:complete-task` skill with the argument `docs/tickets/open/{slug}` and follow it to completion. If the Skill tool is unavailable, read `${CLAUDE_PLUGIN_ROOT}/skills/complete-task/SKILL.md` and follow it directly, treating that path as its `$ARGUMENTS`. Your final message must state the task heading you worked on, what changed, whether every step was satisfied, and any judgment calls you made on ambiguous steps, and which later task headings you left notes on.
 
    Never run workers in parallel; entries are dependency-ordered.
 3. **Check:** re-read the same `tasks.md` and run `git status --short`. Success is the noted entry now `done` **and** a clean tree. Anything else means the worker failed (a failed commit, or a worker that died mid-task): report its summary and the tree state, then stop the loop.

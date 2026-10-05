@@ -28,6 +28,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
      - Verification step 2
    ```
 
+   - **notes:** a fourth, last bullet, `- **notes:**`, that `complete-task` workers append to later pending entries as handover from what they learned – a path, a working command, a judgment call that now constrains the task. This skill never writes one, and dedup stays on the H2 heading.
    - **Heading:** specific enough that a fresh agent can implement it from the heading and bullets alone. Inline file paths, symbols, and acceptance criteria; never "as discussed" or "per the ticket". The sibling `index.md` is context, not a substitute.
    - **Granularity:** one Ralph iteration each, no mid-way decisions. Split anything that would span several commits.
    - **Order:** independent where possible; when B needs A, A comes first. The loop consumes top-down.

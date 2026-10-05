@@ -27,7 +27,7 @@ Skills are namespaced under the plugin name, so each one runs as `/jodysalt:<ski
 | [`close-initiative`](./skills/close-initiative/SKILL.md) | Moves an initiative to `docs/initiatives/closed/`, rewrites path references, and retires its strategic bet from `vision.md` when no open initiative cites it. |
 | [`close-ticket`](./skills/close-ticket/SKILL.md) | Moves a ticket, `tasks.md` included, to `docs/tickets/closed/` and rewrites every live path reference in its initiative, other tickets, and task entries. Leaves the move uncommitted. |
 | [`commit`](./skills/commit/SKILL.md) | Creates one git commit in house style: conventional prefix, past-tense subject, bulleted body trimmed with the 80/20 principle, no AI attribution. Never pushes. |
-| [`complete-task`](./skills/complete-task/SKILL.md) | Implements the first pending entry in a ticket's `tasks.md`, flips it to `done`, and commits via `commit`. Runs unattended. |
+| [`complete-task`](./skills/complete-task/SKILL.md) | Implements the first pending entry in a ticket's `tasks.md`, flips it to `done`, commits via `commit`, and leaves handover notes on the later tasks that need what it learned. Runs unattended. |
 | [`complete-tasks`](./skills/complete-tasks/SKILL.md) | Runs the Ralph loop for one ticket: spawns a fresh `complete-task` worker per pending entry until none remain, stopping on the first failure. |
 | [`deliver-brief`](./skills/deliver-brief/SKILL.md) | Runs the whole chain from a brief to a branch ready for review, the one the main checkout has checked out, with no human turn: scaffolds the layout, fills `docs/vision.md`, drafts the initiative and its tickets one at a time, breaks each down, runs the loop and closes what it finished, playing the user at every question. With no brief, resumes the only open initiative. Never pushes. |
 | [`enter-worktree`](./skills/enter-worktree/SKILL.md) | Switches the session into an existing worktree under `.claude/worktrees/`, from the main checkout or from another worktree. Never creates one. |
@@ -55,7 +55,7 @@ claude plugin marketplace add /path/to/skills
 claude plugin install jodysalt@jodysalt
 ```
 
-Both marketplaces are named `jodysalt`, so run `claude plugin marketplace remove jodysalt` before switching between them. To try the plugin in one session without registering anything, start Claude Code with `claude --plugin-dir /path/to/skills`. Before committing, run `claude plugin validate . --strict` for the manifest and `claude plugin validate skills --strict` for every skill's frontmatter.
+Both marketplaces are named `jodysalt`, so run `claude plugin marketplace remove jodysalt` before switching between them. To try the plugin in one session without registering anything, start Claude Code with `claude --plugin-dir /path/to/skills`. Before committing, run `claude plugin validate .` for the manifest and `claude plugin validate skills --strict` for every skill's frontmatter. The root run skips `--strict` because it turns the warning about `CLAUDE.md` at the plugin root into a failure, and that file is this repo's project context rather than plugin content.
 
 ## License
 

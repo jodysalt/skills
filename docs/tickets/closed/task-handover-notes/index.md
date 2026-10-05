@@ -13,7 +13,7 @@ A worker that has just finished a task leaves what it learned on the later tasks
 - Only `- **status:**` is read by the loop (`complete-tasks` steps 1 and 3), `close-ticket`'s guard and `wrap-up-worktree`'s guard. A new bullet on an entry breaks none of them.
 - `skills/complete-tasks/SKILL.md` never edits `tasks.md`; workers own all file changes. Its check after each worker is the noted entry `done` and a clean tree, which a note written before the worker's commit satisfies. Its worker prompt fixes what the worker's final message must state, and its summary carries the workers' judgment calls for the user's return-and-inspect pass.
 - `skills/deliver-brief/SKILL.md` reads only the `complete-tasks` stage report, so it needs no change.
-- `plugin.json` is `0.5.0`; the version bumps on any change to a skill's behaviour. `README.md` lists every skill in a table, and `claude plugin validate . --strict` and `claude plugin validate skills --strict` gate the manifest and frontmatter.
+- `plugin.json` is `0.5.0`; the version bumps on any change to a skill's behaviour. `README.md` lists every skill in a table, and `claude plugin validate .` and `claude plugin validate skills --strict` gate the manifest and frontmatter; `--strict` on the root fails on the warning about `CLAUDE.md` at the plugin root, which is this repo's project context rather than plugin content, so the manifest gate runs without it.
 - No eval suites exist yet; the *Evals for the risky skills* bet in `vision.md` owns them, and `complete-task` is named there.
 
 # Scope
@@ -47,7 +47,7 @@ Out:
 - `skills/complete-task/SKILL.md`: step 2 reads the entry's `notes`; a hand-over step sits between implement and mark-done and spells out the filter and the hint-only rule; step 5 admits what it wrote; step 6's failure path reverts the notes; step 7 reports the annotated headings; the `description` says it never changes a second task's status or steps; `grep -c 'Touch nothing else' skills/complete-task/SKILL.md` prints 0.
 - `skills/complete-tasks/SKILL.md`: the worker prompt asks for the later task headings the worker left notes on, and nothing else in the file changes.
 - `skills/add-tasks/SKILL.md` names `- **notes:**` as a bullet only the loop writes and still writes entries of three bullets.
-- `README.md`'s `complete-task` row mentions handover notes, `plugin.json` is `0.6.0`, and both `claude plugin validate` commands pass with `--strict`.
+- `README.md`'s `complete-task` row mentions handover notes, `plugin.json` is `0.6.0`, and `claude plugin validate .` and `claude plugin validate skills --strict` pass.
 - Nothing is pushed.
 
 # Implementation notes
@@ -57,7 +57,7 @@ Out:
 - `README.md`: the `complete-task` row. `.claude-plugin/plugin.json`: `0.6.0`.
 
 # Test plan
-- `claude plugin validate . --strict` and `claude plugin validate skills --strict` pass.
+- `claude plugin validate .` and `claude plugin validate skills --strict` pass.
 - Manual, throwaway repo: `git init`, the layout from `setup-skills`, a ticket with a three-entry `tasks.md` whose first task moves a file the third task's steps name by its old location, then each acceptance case in turn, following the edited `skills/complete-task/SKILL.md` from this checkout by hand rather than the installed plugin's copy: the first entry leaves a note on the third, an entry with nothing to pass on flips only its status, the third entry's worker uses the note, a second note appends to the first, later entries' other lines are identical before and after, a forced commit failure leaves no note, and `close-ticket` and `wrap-up-worktree`'s guard pass with notes present.
 - Manual, this repo: the rollout run below.
 
