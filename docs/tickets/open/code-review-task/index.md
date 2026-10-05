@@ -1,0 +1,92 @@
+---
+title: Code Review Task
+type: feat
+priority: high
+---
+
+# Goal
+A ticket's backlog ends with a review of the branch against the repo's own coding standards, so the code the loop lands meets `docs/coding-standards/index.md` without a human reading the diff for style. The review is itself a task: a fresh worker diffs the branch against its base and, for each breach of the standards, appends a refactor task the loop then implements. The standards are enforced by the same unattended loop that wrote the code, and the human's return-and-inspect pass starts from code that already meets them.
+
+# Context
+- `skills/add-tasks/SKILL.md` fixes the entry shape (an H2 heading plus `- **category:**`, `- **status:**` and `- **steps:**` bullets, no others), drafts entries one Ralph iteration each, and in step 3 appends exactly one completion gate, `## Run full test suite for {slug}`, after the implementation tasks. The gate is skipped for docs-only work and `type: spike` tickets, where the last task is a review against the ticket's acceptance criteria instead. Step 4 dedups by H2 heading; the skill is append-only and touches nothing but the ticket's `tasks.md` and a spike's missing `findings.md`.
+- `skills/complete-task/SKILL.md` runs in a fresh context: step 2 reads the entry's `steps` and `category`, the sibling `index.md`, the initiative and `CLAUDE.md`; step 5 flips the status line and says "Touch nothing else in `tasks.md`"; step 6 commits once via `commit`, staging the task's files plus `tasks.md`. Its `description` says it never touches a second task. The open `task-handover-notes` ticket already edits step 5, step 6 and that `description` line.
+- `skills/complete-tasks/SKILL.md` re-reads `tasks.md` after every worker and picks the first `pending` entry, so entries a worker appends are picked up on the next iteration with no change to the loop. Its check after a worker is the noted entry `done` and a clean tree, which appended entries committed with the task satisfy.
+- `skills/squash-commits/SKILL.md` already resolves a branch's base the way every worktree skill does: the branch the main checkout has checked out, `git -C <main checkout> branch --show-current` with the main checkout the first path in `git worktree list`, and `git merge-base <base> HEAD` as the fork point. The review's diff is that range.
+- `close-ticket` and `wrap-up-worktree` guard only on `- **status:**`; `deliver-brief` runs an `add-tasks` stage then a `complete-tasks` stage and reads only their reports. None needs a change.
+- `skills/setup-skills/SKILL.md` creates nothing under `docs/coding-standards/`, and no repo this plugin scaffolded holds `docs/coding-standards/index.md`, this one included. The first user's repo is where the file is expected to exist.
+- `plugin.json` is `0.5.0`; the version bumps on any change to a skill's behaviour, and the open `task-handover-notes` ticket claims `0.6.0`. `README.md`'s `add-tasks` row says it ends the list with a full-suite gate. `claude plugin validate . --strict` and `claude plugin validate skills --strict` gate the manifest and frontmatter.
+
+# Scope
+
+In:
+- `add-tasks` appends the review task only when `docs/coding-standards/index.md` exists in the repo. When it doesn't, no review task is appended and the report says so and why; a repo opts in by writing the file.
+- The review worker appends the refactor entries itself, directly after its own entry's work, in the entry shape `add-tasks` fixes, which the review entry's steps inline so a fresh worker needs no other skill. The appended entries ride in the review task's one commit with its status flip. `add-tasks` stays ticket-only and never writes a refactor entry.
+- `complete-task` gains one allowance: an entry whose steps say to append entries to `tasks.md` may append them, in the fixed shape and after every existing entry, and still changes no existing entry beyond its own status line.
+- The review is the last entry `add-tasks` writes, after the full-suite gate, so the branch is green before it is reviewed. When the review finds breaches it appends the refactor entries and then one closing gate with a heading distinct from the first; when it finds none it appends nothing and the ticket ends on the review. There is no second review, so the loop always terminates.
+- The review covers only the lines the branch added or changed: the diff from `git merge-base <base> HEAD` to `HEAD`, the base resolved as `squash-commits` resolves it. A pre-existing breach in a touched file but outside the diff hunks is left alone, so the refactors stay inside the ticket's own change and a one-line edit to a legacy file cannot balloon the backlog. From the main checkout on the base branch itself there is no fork point; the review says so and appends nothing.
+- The review entry is a `chore` headed `## Review the branch against docs/coding-standards/index.md for {slug}`, appended by a new `add-tasks` step after the gate. Its steps inline everything a fresh worker needs: resolving the base, the diff range, reading `docs/coding-standards/index.md` and every file it links under `docs/coding-standards/` and nothing outside it, the per-standard grouping, the entry shape, the closing gate, the no-breach case and the no-fork-point case.
+- A refactor entry is one `chore` entry per standard breached, in the order the standards appear in the file, its heading naming the standard's heading, its steps listing each file and hunk to change and one narrowest check, never the full suite, which the closing gate owns. The count is bounded by the number of standards.
+- The closing gate is headed `## Run full test suite for {slug} after review`, its steps copied verbatim from the first gate so the test command matches the repo. It is appended only when at least one refactor entry was.
+- Docs-only and `type: spike` tickets get no review task, as they get no gate; the report says so alongside the gate.
+- Running `add-tasks` again on a ticket whose review is done skips the review entry by heading, as it skips the gate today, and the report lists it as a duplicate.
+- `complete-tasks`'s worker prompt asks the worker to name the headings of any entries it appended, and the loop summary lists them for the user's return-and-inspect pass. Nothing else in the loop changes.
+- `README.md`'s `add-tasks` row names the review; the `complete-task` row stays as `task-handover-notes` leaves it. `plugin.json` to `0.7.0`.
+- This ticket lands after `task-handover-notes` and is written against `complete-task` as that ticket leaves it: the hand-over step exists, the step after it already admits what the hand-over wrote, and the `description` already says it never changes a second task's status or steps.
+
+Out:
+- A `docs/coding-standards/index.md` template in `setup-skills`, and a standards file for this repo. A repo that wants the review writes its own.
+- Reviewing against `CLAUDE.md` when the standards file is missing. `complete-task` already reads `CLAUDE.md` for coding norms while implementing; the review enforces the standards file alone.
+- A second source for `add-tasks`, or a findings file beside `tasks.md` that a human turns into tasks later. The review's output is the tasks themselves.
+- A re-review after the refactors. One pass per `add-tasks` run; the closing gate is what checks the refactors.
+- Breaches outside the diff hunks, and auditing the whole repo against the standards. The review is of the branch, not the codebase.
+- A cap on refactor entries; one per standard bounds them.
+- Any change to `close-ticket`, `wrap-up-worktree`, `deliver-brief` or `setup-skills`.
+- Eval suites; those belong to the *Evals for the risky skills* bet.
+
+# Acceptance criteria
+- In a throwaway repo holding `docs/coding-standards/index.md` with two standards and a ticket with no `tasks.md`, following `add-tasks` by hand appends the implementation tasks, the gate, and last one `chore` entry headed `## Review the branch against docs/coding-standards/index.md for {slug}` whose steps inline the base resolution, the diff range, the entry shape, the closing gate heading, the no-breach case and the no-fork-point case.
+- In the same repo with the standards file removed, `add-tasks` appends no review entry and its report says the review was skipped because `docs/coding-standards/index.md` is missing.
+- On a docs-only ticket and on a `type: spike` ticket, no review entry is appended and the report says so with the gate.
+- On a ticket branch whose diff breaches one of the two standards, following `complete-task` by hand on the review entry: `tasks.md` gains, after the review entry, exactly one refactor entry headed with the breached standard's heading, of three bullets with `- **category:** chore` and `- **status:** pending` and steps naming the file and hunk, then the closing gate `## Run full test suite for {slug} after review` with the first gate's steps verbatim; both are in the review task's single commit with the review entry `done`; every other existing line in `tasks.md` is unchanged.
+- A breach of the second standard in a touched file but outside the diff hunks yields no entry.
+- On a branch with no breach, the only change to `tasks.md` is the review entry's status flip and the report says nothing was appended without calling that a gap.
+- From the main checkout on the base branch, the review appends nothing and reports there is no fork point.
+- `complete-tasks` run on the ticket after the review continues into the refactor entry and the closing gate, and its summary lists the headings the review appended.
+- Running `add-tasks` again on the ticket skips the review entry as a duplicate and the report lists it.
+- `skills/add-tasks/SKILL.md`: a step after the gate appends the review entry only when `docs/coding-standards/index.md` exists; `grep -c 'docs/coding-standards/index.md' skills/add-tasks/SKILL.md` prints at least 1; the `description` names the review.
+- `skills/complete-task/SKILL.md`: the mark-done step admits entries appended when the task's steps say so, after every existing entry and in the fixed shape, and the report step lists the headings appended.
+- `skills/complete-tasks/SKILL.md`: the worker prompt asks for the headings the worker appended, the summary lists them, and nothing else in the file changes.
+- `README.md`'s `add-tasks` row mentions the review, `plugin.json` is `0.7.0`, and both `claude plugin validate` commands pass with `--strict`.
+- Nothing is pushed.
+
+# Implementation notes
+- `skills/add-tasks/SKILL.md`: a new step 4, **Review task**, between the gate and dedup, which become 5 and 6. When the gate was appended and `docs/coding-standards/index.md` exists, append exactly one entry after the gate; otherwise append none and say in the report which condition failed. The entry's text is fixed in the skill, `{slug}` filled in:
+
+  ```markdown
+  ## Review the branch against docs/coding-standards/index.md for {slug}
+  - **category:** chore
+  - **status:** pending
+  - **steps:**
+    - Resolve the base: the main checkout is the first path in `git worktree list`, the base is `git -C <main checkout> branch --show-current`. If the current branch is the base, or the base is empty, append nothing, say there is no fork point, and finish. Otherwise the review's range is `git diff $(git merge-base <base> HEAD)..HEAD`.
+    - Read `docs/coding-standards/index.md` and every file it links under `docs/coding-standards/`, nothing outside it. For each standard, check only the lines the range adds or changes; a breach outside those hunks is left alone.
+    - For each standard breached, in the order the standards appear, append after the last entry in `docs/tickets/open/{slug}/tasks.md` one entry: `## Refactor {files} to meet "{standard heading}" in docs/coding-standards/index.md`, `- **category:** chore`, `- **status:** pending`, and `- **steps:**` listing each file and hunk to change and one narrowest check for it, never the full suite.
+    - When at least one entry was appended, append after it `## Run full test suite for {slug} after review` with the first gate's `category`, `status` and `steps` copied verbatim.
+    - With no breach, append nothing; that is a fine outcome, not a gap. Report the headings appended, or that none were.
+  ```
+
+  Step 6's dedup covers the review heading like any other, and the `description` says the list ends with a gate and, where the repo holds `docs/coding-standards/index.md`, a review task that appends refactor tasks.
+- `skills/complete-task/SKILL.md`, against the file as `task-handover-notes` leaves it: the mark-done step gains one sentence, "An entry whose steps say to append entries to `tasks.md` appends them after every existing entry in the shape `add-tasks` fixes; that, the hand-over notes and this status flip are the only edits." The report step adds the headings of any entries appended. The Rules gain: never changes an existing entry beyond its own status line and the notes the hand-over step allows.
+- `skills/complete-tasks/SKILL.md`: the worker prompt's final-message sentence adds "and the headings of any entries you appended"; `## Summary` lists them.
+- `README.md`: the `add-tasks` row. `.claude-plugin/plugin.json`: `0.7.0`.
+
+# Test plan
+- `claude plugin validate . --strict` and `claude plugin validate skills --strict` pass.
+- Manual, throwaway repo: `git init -b main`, the layout from `setup-skills`, a `package.json` whose `test` script passes, a `docs/coding-standards/index.md` holding two standards under their own headings (say, every exported function declares its return type, and no `console.log` outside one named file), a file breaching the second standard committed on `main`, and a ticket with two implementation tasks whose first adds an exported function with no return type. Follow the edited `add-tasks`, `complete-task` and `complete-tasks` from this checkout's `skills/<name>/SKILL.md` by hand rather than the installed plugin's copy, then each acceptance case in turn on a worktree for the ticket branch: the list ends gate then review, the review appends one refactor entry for the first standard and the closing gate in one commit, the pre-existing breach of the second standard yields nothing, a no-breach branch flips only the status, the main checkout on `main` reports no fork point, the loop continues into the appended entries, a second `add-tasks` run skips the review, and with the standards file removed, a docs-only ticket and a spike no review is appended. Remove the throwaway directory afterwards.
+- Manual, this repo: the rollout run below.
+
+# Rollout
+- Depends on `task-handover-notes` having landed on `main`: its `tasks.md` must not be broken down or run until then, since its `complete-task` edits build on that ticket's wording. Bump `plugin.json` to `0.7.0`; merging to `main` is the release, and users on auto-update get it at their next session. No flags or migrations; fallback is reverting the commit.
+- This repo has no `docs/coding-standards/index.md`, so this ticket's own loop appends no review task and its `add-tasks` report says so; that run checks the skip path, and the skill's first real review runs in the first user's repo.
+
+## Strategic fit
+Stands on its own. It serves the *Agents drift without a spec* problem in `vision.md`: a ticket now has a written standard for how its code looks, not only for what it does, and the loop enforces it the same way every time. It serves *Unattended work needs structure* by keeping the enforcement inside the loop, as tasks that stand alone and land as one commit each, rather than as a human's style pass afterwards. It keeps *One thing, then stop*: the review task reviews and writes the backlog, and the refactors are separate tasks with their own commits. It respects the *A home for standalone skills* non-goal by changing method skills rather than adding one, and the review is appended only where a repo has written the standards it enforces.
