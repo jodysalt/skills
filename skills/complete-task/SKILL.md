@@ -23,14 +23,15 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
    - Contradiction or impossibility (steps conflict, a referenced file doesn't exist, a criterion can't be met as written): stop without modifying any file and report the blocker. That's a bug in the ticket's backlog entry, not a failure of this skill.
 4. **Implement** the minimum change that satisfies every step, including the entry's own verification steps. Surgical edits only; nothing speculative.
 5. **Hand over:** scan every entry below this one whose status line is `- **status:** pending` and, on each one that needs a fact this worker had to discover, append that fact as a sub-bullet under its `- **notes:**` bullet – one fact per sub-bullet, appended to an existing bullet rather than a second one, the bullet created last in the entry after `steps` when it is missing, and never removing or rewriting another worker's sub-bullet. What counts: where a thing lives (a path, a symbol, a test directory that isn't where you'd look), a command that works and its quirks, a judgment call that now constrains the later task, a setup or environment gotcha. Never what the heading, the steps, `index.md` or `CLAUDE.md` already say, and never a narrative of what this worker did; the commit holds that. Trim with the 80/20 principle: a few sub-bullets, never longer than the entry's own steps. A note is a hint, never a backlog edit: the later entry's heading, `category`, `status` and `steps` stay as `add-tasks` wrote them, a later task is never marked done because this change already satisfies it, and a stale step is still that worker's contradiction to report. Done entries and this entry never gain notes; zero notes is a fine outcome, never reported as a gap.
-6. **Mark done:** change that entry's status line to `- **status:** done` and touch nothing else in `tasks.md` beyond what step 5 wrote.
+6. **Mark done:** change that entry's status line to `- **status:** done` and touch nothing else in `tasks.md` beyond what step 5 wrote. An entry whose steps say to append entries to `tasks.md` appends them after every existing entry in the shape `add-tasks` fixes; that, the hand-over notes and this status flip are the only edits.
 7. **Commit** exactly once via `jodysalt:commit`, staging only the files this task touched plus `docs/tickets/open/{slug}/tasks.md`, with any judgment calls in the body. If the commit fails for good, revert the status flip and the notes step 5 wrote, so `tasks.md` holds neither, and report the failure; never leave an entry `done` with the work uncommitted.
-8. **Report:** the task heading, what changed, which steps were satisfied, any judgment calls made, and one line per later task heading annotated in step 5.
+8. **Report:** the task heading, what changed, which steps were satisfied, any judgment calls made, one line per later task heading annotated in step 5, and the headings of any entries appended.
 
 ## Rules
 
 - One task per invocation, always the first pending one in the ticket's file. Never skip ahead.
 - Never continue past a failed acceptance criterion; report it instead.
 - Never changes a later entry's heading, `category`, `status` or `steps`.
+- Never changes an existing entry beyond its own status line and the notes step 5 allows; an entry this task appended is new, not a later entry edited.
 - A note is additive: never removes or rewrites another worker's.
 - Never push.
