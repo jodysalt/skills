@@ -1,6 +1,6 @@
 ---
 name: setup-skills
-description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/coding-standards.md` from a template, `docs/initiatives/{open,closed}/` and `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `.claude/worktrees/` line in `.gitignore`, and a `.vscode/settings.json` that makes VS Code detect the worktrees – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` and `refine-coding-standards` to fill in `docs/vision.md` and `docs/coding-standards.md`.
+description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/coding-standards.md` from a template, `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `.claude/worktrees/` line in `.gitignore`, and a `.vscode/settings.json` that makes VS Code detect the worktrees – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` and `refine-coding-standards` to fill in `docs/vision.md` and `docs/coding-standards.md`.
 ---
 
 # Setup skills
@@ -9,8 +9,8 @@ Every other skill in this plugin assumes this layout exists and none creates it.
 
 ## Steps
 
-1. **Directories.** For each of `docs/initiatives/open/`, `docs/initiatives/closed/`, `docs/tickets/open/` and `docs/tickets/closed/`: if the directory exists, skip it whole, `.gitkeep` included; otherwise create it holding an empty `.gitkeep` so git tracks it while empty.
-2. **`docs/vision.md`.** Skip if the file exists. Otherwise write it from this template. The section bodies are prompts for `refine-vision`, not content. Keep one `###` per strategic bet: `add-initiative` cites a bet by its exact title and `close-initiative` deletes its section by that title.
+1. **Directories.** For each of `docs/tickets/open/` and `docs/tickets/closed/`: if the directory exists, skip it whole, `.gitkeep` included; otherwise create it holding an empty `.gitkeep` so git tracks it while empty.
+2. **`docs/vision.md`.** Skip if the file exists. Otherwise write it from this template. The section bodies are prompts for `refine-vision`, not content. Keep one `###` per strategic bet: a `feat` ticket cites a bet by its exact title with `bet:`, and `refine-vision` matches on it.
 
    ```markdown
    # Vision
@@ -31,7 +31,7 @@ Every other skill in this plugin assumes this layout exists and none creates it.
 
    ## Strategic bets
 
-   The few pushes that move the vision forward, one `###` section per bet; an initiative cites a bet by its exact title.
+   The few pushes that move the vision forward, one `###` section per bet; a `feat` ticket cites a bet by its exact title with `bet:`.
 
    ### {Bet title}
 
@@ -55,7 +55,7 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    ```markdown
    ## Workflow
 
-   This repo runs the `jodysalt` plugin's spec-driven workflow: `docs/vision.md` sets direction and names its strategic bets, `docs/initiatives/` turns a bet into a focused push, `docs/tickets/` makes that concrete, `docs/coding-standards.md` holds the standards each ticket's branch is reviewed against, and each ticket's `tasks.md` is the backlog an unattended loop implements. Draft with `/jodysalt:add-initiative` and `/jodysalt:add-ticket`, break a ticket down with `/jodysalt:add-tasks`, and run the loop with `/jodysalt:complete-tasks`.
+   This repo runs the `jodysalt` plugin's spec-driven workflow: `docs/vision.md` sets direction and names its strategic bets, `docs/tickets/` slices a bet into tickets and any ticket into `{slug}--{sub}` sub-tickets, `docs/coding-standards.md` holds the standards each ticket's branch is reviewed against, and each ticket's `tasks.md` is the backlog an unattended loop implements. Draft with `/jodysalt:add-ticket`, break a ticket down with `/jodysalt:add-tasks`, and run the loop with `/jodysalt:complete-tasks`.
    ```
 
 5. **`.gitignore`.** Skip if a whole line equals `.claude/worktrees/` or `/.claude/worktrees/`, or if `git check-ignore -q .claude/worktrees` succeeds (the repo already ignores `.claude/` wholesale). Otherwise append `.claude/worktrees/` on its own line (add a newline first when the file doesn't end with one), creating the file when missing. `add-worktree` and Claude Code's own `EnterWorktree` both put worktrees under `.claude/worktrees/` at the repo root; nothing ignores that directory by default, and it must never be committed.

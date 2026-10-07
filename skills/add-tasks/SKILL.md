@@ -16,7 +16,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 
 ## Steps
 
-1. **Read** `docs/tickets/open/{slug}/index.md` and, when it carries `initiative:`, the initiative file too, so entries serve the outcome and not just the ticket text. Then read `docs/tickets/open/{slug}/tasks.md` in full if it exists; existing headings are needed for dedup. If it doesn't, create it holding exactly `# Tasks` followed by one newline. A `type: spike` ticket with no `findings.md` beside its `index.md` gets one now, holding exactly the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`, so the research tasks have a file to write to; say so in the report.
+1. **Read** `docs/tickets/open/{slug}/index.md`; then, for a slug holding `--`, each parent's `index.md` up the chain, `docs/tickets/*/{parent}/index.md` for each `--` prefix of the slug, so entries serve the parent's goal and not just the ticket text; then the `index.md` of every sub-ticket `docs/tickets/*/{slug}--*/` when any exist, so what they already cover is known; then `docs/tickets/open/{slug}/tasks.md` in full if it exists; existing headings are needed for dedup. A `type: spike` ticket with no `findings.md` beside its `index.md` gets one now, holding exactly the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`, so the research tasks have a file to write to; say so in the report.
 2. **Draft entries** in this shape:
 
    ```markdown
@@ -31,6 +31,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
    - **notes:** a fourth, last bullet, `- **notes:**`, that `complete-task` workers append to later pending entries as handover from what they learned – a path, a working command, a judgment call that now constrains the task. This skill never writes one, and dedup stays on the H2 heading.
    - **Heading:** specific enough that a fresh agent can implement it from the heading and bullets alone. Inline file paths, symbols, and acceptance criteria; never "as discussed" or "per the ticket". The sibling `index.md` is context, not a substitute.
    - **Granularity:** one Ralph iteration each, no mid-way decisions. Split anything that would span several commits.
+   - **Coverage:** an entry a sub-ticket's `index.md` already covers is not written, so a parent's backlog holds only what no sub-ticket does; a parent whose sub-tickets cover everything gets no entry, no gate and no review.
    - **Order:** independent where possible; when B needs A, A comes first. The loop consumes top-down.
    - **category:** `functional` (user-visible behaviour), `non-functional` (perf, security, infra, observability), `bug`, `chore` (cleanup, docs, refactors, deps). No others.
    - **status:** always `pending`.
@@ -66,8 +67,8 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 
    Otherwise append none and say in the report which condition failed: no gate, no file, or no `## ` standard written yet.
 
-5. **Dedup** by H2 heading against existing entries, gate and review included. Append only the net-new entries to the end of the ticket's `tasks.md`.
-6. **Report** a numbered list of the entries appended and any duplicates skipped. Don't commit, and don't start implementing.
+5. **Dedup** by H2 heading against existing entries, gate and review included. When at least one net-new entry remains and `tasks.md` doesn't exist, create it holding exactly `# Tasks` followed by one newline; then append only the net-new entries to the end of the ticket's `tasks.md`. With nothing to append, create nothing.
+6. **Report** a numbered list of the entries appended and any duplicates skipped; when nothing was appended because the sub-tickets cover the ticket, say so and name them. Don't commit, and don't start implementing.
 
 ## Rules
 
