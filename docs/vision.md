@@ -1,6 +1,6 @@
 # Vision
 
-An opinionated, spec-driven workflow for Claude Code, from vision to initiatives to tickets to tasks to an unattended loop, driven by hand or by one command, plus the git and thinking skills the workflow depends on.
+An opinionated, spec-driven workflow for Claude Code, from vision to bets to tickets, sub-tickets and tasks to an unattended loop, driven by hand or by one command, plus the git and thinking skills the workflow depends on.
 
 ## Target users
 
@@ -8,7 +8,7 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 
 ## Core problems
 
-- **Decisions evaporate.** Plans, trade-offs and answers live in chat scrollback and are gone by the next session. The workflow writes them down as vision, initiatives and tickets, so every change traces back to why.
+- **Decisions evaporate.** Plans, trade-offs and answers live in chat scrollback and are gone by the next session. The workflow writes them down as a vision with its bets and as tickets that cite them, so every change traces back to why.
 - **Agents drift without a spec.** A ticket implemented from a conversation looks different every time. A ticket with a goal, scope, acceptance criteria and a test plan does not.
 - **Unattended work needs structure.** A loop that implements tasks in fresh sessions with no chat context only works if each task stands alone and each change lands as one clean commit.
 - **Conventions are hard to adopt.** The layout the workflow rests on has to exist before the first skill runs.
@@ -31,7 +31,7 @@ This repo runs its own workflow. Its purpose lives in this file, changes to the 
 
 ### Evals for the risky skills
 
-Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the ones that move files and rewrite paths across a repo (`close-ticket`, `close-initiative`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn, and when `deliver-brief` drives them instead, its own suite covers the run. Success: a regression in a risky skill fails an eval before it reaches `main`.
+Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the one that moves files and rewrites paths across a repo (`close-ticket`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn, and when `deliver-brief` drives them instead, its own suite covers the run. Success: a regression in a risky skill fails an eval before it reaches `main`.
 
 ### Adoption beyond the first user
 
