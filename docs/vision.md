@@ -1,6 +1,6 @@
 # Vision
 
-An opinionated, spec-driven workflow for Claude Code, from vision to bets to tickets, sub-tickets and tasks to an unattended loop, driven by hand or by one command, plus the git and thinking skills the workflow depends on.
+An opinionated, spec-driven workflow for Claude Code, from vision to goals to tickets, sub-tickets and tasks to an unattended loop, driven by hand or by one command, plus the git and thinking skills the workflow depends on.
 
 ## Target users
 
@@ -8,7 +8,7 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 
 ## Core problems
 
-- **Decisions evaporate.** Plans, trade-offs and answers live in chat scrollback and are gone by the next session. The workflow writes them down as a vision with its bets and as tickets that cite them, so every change traces back to why.
+- **Decisions evaporate.** Plans, trade-offs and answers live in chat scrollback and are gone by the next session. The workflow writes them down as a vision with its goals and principles and as tickets that cite them, so every change traces back to why.
 - **Agents drift without a spec.** A ticket implemented from a conversation looks different every time. A ticket with a goal, scope, acceptance criteria and a test plan does not.
 - **Unattended work needs structure.** A loop that implements tasks in fresh sessions with no chat context only works if each task stands alone and each change lands as one clean commit.
 - **Conventions are hard to adopt.** The layout the workflow rests on has to exist before the first skill runs.
@@ -22,12 +22,9 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 - **One thing, then stop.** A skill does its one job, leaves the result for review, and never pushes.
 - **Claude Code first.** Skills call each other by namespaced name and spawn sub-agents where the method needs it. Nothing else leans on Claude Code without a reason, so the bodies stay readable to other agents where that is cheap.
 - **`main` is always installable.** Users auto-update from it, so every merge is a release. The plugin version bumps on any change to a skill's behaviour.
+- **Dogfooding.** This repo runs its own workflow: its purpose lives in this file, changes to the skills arrive as tickets, and the loop implements them. No change to a skill lands without a ticket behind it.
 
-## Strategic bets
-
-### Dogfooding
-
-This repo runs its own workflow. Its purpose lives in this file, changes to the skills arrive as tickets, and the Ralph loop implements them. The scaffold skill's first run is here. Success: no change to a skill lands without a ticket behind it.
+## Goals
 
 ### Evals for the risky skills
 

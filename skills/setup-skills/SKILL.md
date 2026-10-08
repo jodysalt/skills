@@ -10,7 +10,7 @@ Every other skill in this plugin assumes this layout exists and none creates it.
 ## Steps
 
 1. **Directories.** For each of `docs/tickets/open/` and `docs/tickets/closed/`: if the directory exists, skip it whole, `.gitkeep` included; otherwise create it holding an empty `.gitkeep` so git tracks it while empty.
-2. **`docs/vision.md`.** Skip if the file exists. Otherwise write it from this template. The section bodies are prompts for `refine-vision`, not content. Keep one `###` per strategic bet: a `feat` ticket cites a bet by its exact title with `bet:`, and `refine-vision` matches on it.
+2. **`docs/vision.md`.** Skip if the file exists. Otherwise write it from this template. The section bodies are prompts for `refine-vision`, not content. Keep one `###` per goal: a `feat` ticket names the goal it delivers by its exact title with `delivers:`, and `refine-vision` matches on it.
 
    ```markdown
    # Vision
@@ -29,13 +29,13 @@ Every other skill in this plugin assumes this layout exists and none creates it.
 
    The rules every change is judged by, one bolded name and a sentence each.
 
-   ## Strategic bets
+   ## Goals
 
-   The few pushes that move the vision forward, one `###` section per bet; a `feat` ticket cites a bet by its exact title with `bet:`.
+   The outcomes the vision commits to, one `###` section per goal; a `feat` ticket names the goal it delivers by its exact title with `delivers:`.
 
-   ### {Bet title}
+   ### {Goal title}
 
-   What this bet changes, why now, and what success looks like.
+   What is true when this goal is met, and why it matters now.
 
    ## Non-goals
 
@@ -55,7 +55,7 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    ```markdown
    ## Workflow
 
-   This repo runs the `jodysalt` plugin's spec-driven workflow: `docs/vision.md` sets direction and names its strategic bets, `docs/tickets/` slices a bet into tickets and any ticket into `{slug}--{sub}` sub-tickets, `docs/coding-standards.md` holds the standards each ticket's branch is reviewed against, and each ticket's `tasks.md` is the backlog an unattended loop implements. Draft with `/jodysalt:add-ticket`, break a ticket down with `/jodysalt:add-tasks`, and run the loop with `/jodysalt:complete-tasks`.
+   This repo runs the `jodysalt` plugin's spec-driven workflow: `docs/vision.md` sets direction with its goals and principles, `docs/tickets/` slices a goal into tickets and any ticket into `{slug}--{sub}` sub-tickets, `docs/coding-standards.md` holds the standards each ticket's branch is reviewed against, and each ticket's `tasks.md` is the backlog an unattended loop implements. Draft with `/jodysalt:add-ticket`, break a ticket down with `/jodysalt:add-tasks`, and run the loop with `/jodysalt:complete-tasks`.
    ```
 
 5. **`.gitignore`.** Skip if a whole line equals `.claude/worktrees/` or `/.claude/worktrees/`, or if `git check-ignore -q .claude/worktrees` succeeds (the repo already ignores `.claude/` wholesale). Otherwise append `.claude/worktrees/` on its own line (add a newline first when the file doesn't end with one), creating the file when missing. `add-worktree` and Claude Code's own `EnterWorktree` both put worktrees under `.claude/worktrees/` at the repo root; nothing ignores that directory by default, and it must never be committed.

@@ -1,7 +1,7 @@
 ---
 title: Sub-Tickets
 type: feat
-bet: Dogfooding
+delivers: Dogfooding
 priority: high
 ---
 

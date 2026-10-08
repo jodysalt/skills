@@ -1,7 +1,7 @@
 ---
 title: Vision Goals
 type: feat
-bet: Dogfooding
+delivers: Dogfooding
 priority: high
 ---
 
