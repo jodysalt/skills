@@ -101,6 +101,7 @@ If empty, ask what the change is.
    - Each template section is an open decision; for a `feat`, `Strategic fit` must trace to `vision.md` or, for a sub-ticket, to its parent. For a `spike`, `# Done when` is the acceptance section, and `Strategic fit` must trace to `vision.md` only when the spike is tagged.
    - The codebase, `vision.md`, any parent `index.md` and any spike `findings.md` read in step 4 count as explorable; a question they answer is never asked.
    - Edit `index.md` as answers land, and record a deferred decision as a `TODO:` marker in its section. Source code and `vision.md` stay untouched; a gap there is surfaced.
+8. **Hand off.** Once `grill-me` closes, end with the next steps in order: `jodysalt:commit` (a `docs:` commit); on a planning branch, land it with `jodysalt:wrap-up-worktree`; then `/jodysalt:complete-ticket {slug}`, which breaks the ticket into tasks on its own branch just before the loop. Never suggest `jodysalt:add-tasks` here.
 
 ## Rules
 

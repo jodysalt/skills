@@ -68,7 +68,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
    Otherwise append none and say in the report which condition failed: no gate, no file, or no `## ` standard written yet.
 
 5. **Dedup** by H2 heading against existing entries, gate and review included. When at least one net-new entry remains and `tasks.md` doesn't exist, create it holding exactly `# Tasks` followed by one newline; then append only the net-new entries to the end of the ticket's `tasks.md`. With nothing to append, create nothing.
-6. **Report** a numbered list of the entries appended and any duplicates skipped; when nothing was appended because the sub-tickets cover the ticket, say so and name them. Don't commit, and don't start implementing.
+6. **Report** a numbered list of the entries appended and any duplicates skipped; when nothing was appended because the sub-tickets cover the ticket, say so and name them. When `git branch --show-current` is not `{slug}`, end the report with one line saying tasks are best written on the ticket's own branch just before the loop runs, so changes landing in between can't make them stale, and that `jodysalt:complete-ticket {slug}` does that. Don't commit, and don't start implementing.
 
 ## Rules
 

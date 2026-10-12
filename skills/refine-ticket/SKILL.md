@@ -33,7 +33,7 @@ If empty: the only directory in `docs/tickets/open/`, else the open ticket match
    - The codebase counts as explorable; a question it answers is never asked.
    - Edit `index.md` as answers land, plus the related edits step 6 allows. Source and `vision.md` stay untouched.
 6. **Edit** within these constraints on top of `grill-me`'s: never invent `Goal`, acceptance criteria, or scope; ask, or leave a `TODO:` marker. A related edit that a finding or an answer settles outright, needing no decision of its own, is made on the spot and named in the report rather than raised as a second question or left to another skill: a spike's missing `findings.md`, created beside `index.md` holding exactly the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`; and a `delivers:` retag the interview decides, to the exact title of a `###` heading in `docs/vision.md`. Anything more in `vision.md` or a parent ticket is surfaced for `jodysalt:refine-vision` or a `refine-ticket` run on the parent.
-7. Stop. Leave the edits uncommitted for review and suggest `jodysalt:commit` (a `docs:` commit).
+7. Stop. Leave the edits uncommitted for review and suggest `jodysalt:commit` (a `docs:` commit). Then name the next steps in order: on a planning branch, land it with `jodysalt:wrap-up-worktree`; then `/jodysalt:complete-ticket {slug}` when the ticket has no `tasks.md` yet or pending tasks.
 
 ## Rules
 
