@@ -29,7 +29,7 @@ Out:
 - A size heuristic or an author's mark that chooses between one backlog and slices; every ticket is sliced.
 - Changing `complete-ticket-slice`'s judge, pick or landing; only its step 1 changes.
 - Changing `add-tasks`, `complete-tasks`, `wrap-up-worktree` or `close-ticket`.
-- Rewriting `deliver-brief`; that is `docs/tickets/open/deliver-brief-in-slices/`, which builds on this ticket. Until it lands, `deliver-brief`'s judge, pick path and resume rules assume the old sub-ticket model and are not used on a sliced ticket.
+- Rewriting `deliver-brief`; that is `docs/tickets/closed/deliver-brief-in-slices/`, which builds on this ticket. Until it lands, `deliver-brief`'s judge, pick path and resume rules assume the old sub-ticket model and are not used on a sliced ticket.
 - Migrating the first user's repo; its `CLAUDE.md` sentence is updated by hand.
 - Eval suites. Pushing.
 
