@@ -17,7 +17,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 ## Loop
 
 1. **Find** the first entry in `docs/tickets/open/{slug}/tasks.md` whose status line is `- **status:** pending` and note its heading. If there is none, print the summary and stop.
-2. **Spawn one worker** with the Agent tool (`general-purpose`, run synchronously so the loop blocks until it finishes) with this prompt, `{slug}` filled in:
+2. **Spawn one worker** with the Agent tool (`general-purpose`) with this prompt, `{slug}` filled in, and wait for it to finish before going on; when the tool runs it in the background, that is its completion notification:
 
    > Invoke the `jodysalt:complete-task` skill with the argument `docs/tickets/open/{slug}` and follow it to completion. If the Skill tool is unavailable, read `${CLAUDE_PLUGIN_ROOT}/skills/complete-task/SKILL.md` and follow it directly, treating that path as its `$ARGUMENTS`. Your final message must state the task heading you worked on, what changed, whether every step was satisfied, and any judgment calls you made on ambiguous steps, which later task headings you left notes on, and the headings of any entries you appended.
 
