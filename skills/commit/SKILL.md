@@ -16,7 +16,7 @@ If empty, commit all changes. If it names a change, stage only the files that im
 
 ## Steps
 
-1. Run `git status`, `git diff` and `git diff --staged` in parallel. You cannot write a good subject without reading the diff.
+1. Run `git status`, `git diff` and `git diff --staged` in parallel. You cannot write a good subject without reading the diff. Read `docs/glossary.md` when it exists, a missing or template-only file counting as an empty glossary, and use each defined term in its defined sense in the subject and body, never redefining one in passing; a term the glossary lacks is used as the input uses it.
 2. Stage with explicit paths: `git add path/a path/b`. Never `git add -A` or `git add .`. Files already staged that fit the scope can stay. If the tree holds unrelated changes and the scope is unclear, ask which to include.
 3. Stop and ask before staging anything that looks like a secret (`.env*`, `*.pem`, `*.key`, `credentials.json`, an embedded API key or token) or a build artefact (`dist/`, `build/`, archives, files over ~1 MB).
 4. Decide what the message says with the 80/20 principle, applied to the staged diff:
