@@ -16,7 +16,7 @@ If empty: the only directory in `docs/tickets/open/`, else the open ticket match
 
 ## Steps
 
-1. **Branch gate.** If the current branch is not `planning-<YYYY-MM-DD>` (optionally `-<N>`), offer to invoke `jodysalt:start-planning-session`. Continue on the current branch if the user declines. Skip if the gate already ran this conversation.
+1. **Branch gate.** If the current branch does not match `planning-<YYYY-MM-DD>` followed by anything (a pre-upgrade `planning-2026-10-21` counts), offer to invoke `jodysalt:start-planning-session <description>`, the description being the ticket's slug; on yes pass it and ask nothing else. Continue on the current branch if the user declines. Skip if the gate already ran this conversation.
 2. **Read** the ticket directory; for a `feat` or a `spike`, `docs/vision.md`, so a `delivers:` is checked against its `###` headings and a `feat`'s `Strategic fit` against the vision; and for a slug holding `--`, each parent's `index.md` up the chain, `docs/tickets/*/{parent}/index.md` for each `--` prefix of the slug. Read `docs/glossary.md` when it exists, a missing or template-only file counting as an empty glossary, and use each defined term in its defined sense in the edits and the findings report, never redefining one in passing; a term the glossary lacks is used as the input uses it.
 3. **Verify code references**, read-only: every file path named in `# Context` and `# Implementation notes` (for a `spike`, `# Context` and `# Approach`) still exists, and the constraints, hooks, and config they describe still hold.
 4. **Report findings before editing anything:**
