@@ -1,6 +1,6 @@
 ---
 name: setup-skills
-description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/coding-standards.md` from a template, `docs/glossary.md` from a template, `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `.claude/worktrees/` line in `.gitignore`, and a `.vscode/settings.json` that makes VS Code detect the worktrees – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` and `refine-coding-standards` to fill in `docs/vision.md` and `docs/coding-standards.md`.
+description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/coding-standards.md` from a template, `docs/glossary.md` from a template, `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `.claude/worktrees/` line in `.gitignore`, a `.vscode/settings.json` that makes VS Code detect the worktrees, and a placeholder `Dockerfile.sandbox` – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` and `refine-coding-standards` to fill in `docs/vision.md` and `docs/coding-standards.md`, and `refine-sandbox` to tailor `Dockerfile.sandbox`.
 ---
 
 # Setup skills
@@ -79,7 +79,20 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    ```
 
    The first key, off by default, makes VS Code list the `.claude/worktrees/` checkouts in its Source Control Repositories view with open, open in new window and delete. The second stops the root window watching every file in every worktree; `.gitignore` already keeps them out of search and Quick Open but the file watcher ignores it.
-8. **Report.** List each path created and each path skipped because it existed. Note when `git check-ignore -q .vscode/settings.json` succeeds, because the VS Code settings then stay local to this machine. State whether the root is inside a git work tree (`git rev-parse --is-inside-work-tree`) and whether the checked-out branch has a commit (`git rev-parse --verify --quiet HEAD` succeeds); when either check fails, say so, because `start-planning-session` and `add-worktree` fork from whatever the main checkout has checked out and an unborn branch has nothing to fork from, and leave it to the user: never run `git init`, create a branch or commit. Offer to invoke `jodysalt:refine-vision` to fill in `docs/vision.md` and `jodysalt:refine-coding-standards` to fill in `docs/coding-standards.md`. Leave everything unstaged and suggest `jodysalt:commit` (a `chore:` commit).
+8. **`Dockerfile.sandbox`.** Skip if the file exists at the repo root. Otherwise write it from this template. The comments are prompts for `refine-sandbox`, not content, and the first line is the marker `run-in-sandbox` and `refine-sandbox` match exactly, so it must not change.
+
+   ```dockerfile
+   # Placeholder: run /jodysalt:refine-sandbox to tailor this file to the project.
+   # The image run-in-sandbox builds: one fresh container per run, the checkout mounted at /app.
+   FROM debian:bookworm-slim
+   WORKDIR /app
+   # Runtime: replace FROM with the runtime's official image, pinned to the version the repo declares.
+   # Dependencies: copy the manifests and lockfile, install, and declare each dependency directory with VOLUME.
+   # Environment: name the host variables a run needs, names only: LABEL sandbox.env="NAME NAME"
+   # Services: install any the tests need and start them in an ENTRYPOINT script that ends exec "$@".
+   ```
+
+9. **Report.** List each path created and each path skipped because it existed. Note when `git check-ignore -q .vscode/settings.json` succeeds, because the VS Code settings then stay local to this machine. State whether the root is inside a git work tree (`git rev-parse --is-inside-work-tree`) and whether the checked-out branch has a commit (`git rev-parse --verify --quiet HEAD` succeeds); when either check fails, say so, because `start-planning-session` and `add-worktree` fork from whatever the main checkout has checked out and an unborn branch has nothing to fork from, and leave it to the user: never run `git init`, create a branch or commit. Offer to invoke `jodysalt:refine-vision` to fill in `docs/vision.md`, `jodysalt:refine-coding-standards` to fill in `docs/coding-standards.md` and `jodysalt:refine-sandbox` to tailor `Dockerfile.sandbox`. Leave everything unstaged and suggest `jodysalt:commit` (a `chore:` commit).
 
 ## Rules
 
