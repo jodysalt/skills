@@ -24,12 +24,12 @@ A name under `.claude/worktrees/`. If empty, take the worktree step 1 left. If t
    - `git branch --show-current` in the main checkout must print a branch: that is the base, since `--ff-only` merges into whatever is checked out. Otherwise `HEAD` is detached there: say the main checkout must have a branch checked out.
    - The worktree's branch must not be the base. Otherwise say there is nothing to merge from a worktree on the base branch.
    - `git rev-list --count <base>..<branch>` – must be above 0. Otherwise say there is nothing to merge. Keep the count for the report.
-   - `git merge-base --is-ancestor <base> <branch>` – must succeed. Otherwise the base has commits the branch lacks: say the branch needs rebasing by hand, and stop without a merge commit or a rebase.
+   - `git merge-base --is-ancestor <base> <branch>` – must succeed. Otherwise the base has commits the branch lacks: say to run `/jodysalt:rebase-worktree <name>` first, and stop without a merge commit or a rebase.
 4. **Merge it.** From the main checkout: `git merge --ff-only <branch>`. If git refuses, report its message and stop; never retry with `--no-ff`, a rebase or a reset.
 5. Show `git log -1 --stat` and say which branch they landed on and how many commits came over, the count from step 3. When it was above 1, mention that `jodysalt:squash-commits` in the worktree would have landed them as one. Offer to invoke `jodysalt:remove-worktree <name>` to clear the worktree and its branch; never run it unasked.
 
 ## Rules
 
-- Fast-forward only. Never stash, reset, force, `--no-ff`, or rebase; a branch that can't fast-forward is the user's to rebase.
+- Fast-forward only. Never stash, reset, force, `--no-ff`, or rebase; a branch that can't fast-forward is rebased first with `/jodysalt:rebase-worktree <name>`.
 - Never pushes, fetches, touches a remote, or checks out. The base branch is whatever the main checkout already has checked out: read, never chosen.
 - Never removes a worktree or deletes a branch; that is `jodysalt:remove-worktree`, offered after the merge.
