@@ -4,7 +4,7 @@ An opinionated, spec-driven workflow for Claude Code, from vision to goals to ti
 
 ## Target users
 
-Any Claude Code user who wants their agent to work from a spec rather than from chat. The first user is the maintainer's SaaS repo, which the skills were extracted from and which now consumes the published plugin.
+Any Claude Code user who wants their agent to work from a spec rather than from chat, or who has an idea and an empty repo and wants to test the market before writing one. The first user is the maintainer's SaaS repo, which the skills were extracted from and which now consumes the published plugin.
 
 ## Core problems
 
@@ -30,6 +30,10 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 
 Strict validation gates every skill. The skills that run unattended (`complete-task`, `complete-tasks`) and the one that moves files and rewrites paths across a repo (`close-ticket`) also get eval suites, because nobody is watching when they regress. Interview skills stay eval-free; a human reads every turn, and when `deliver-brief` drives them instead, its own suite covers the run. Success: a regression in a risky skill fails an eval before it reaches `main`.
 
+### Market test before building
+
+A product idea can enter the method through a market test: a single static landing page that sells the product before it exists, hosted from the repo on GitHub Pages or the like, and the product mocks whose screenshots give the page its copy and which outlive the test as the design the first tickets are drafted against. Its hypothesis, metric and threshold are written down beside the page before it goes live, and its result lands there too, so `refine-vision` can cite what the market said instead of what the maintainer remembers. The test is optional; a repo that already knows what it is building starts at `docs/vision.md` as before. Success: one real idea goes through it end to end in a repo with no vision yet – page and mocks scaffolded by the skills, published, the result written beside the page, and `docs/vision.md` then written citing it – whether the idea passed or failed.
+
 ### Adoption beyond the first user
 
 The first user's repo installs the plugin, deletes its local skill copies, and keeps only repo-specific detail in its own CLAUDE.md or a small local skill. Then one repo the maintainer does not own adopts the workflow end to end: scaffold, ticket, tasks, loop. Success: both have happened.
@@ -38,6 +42,7 @@ The first user's repo installs the plugin, deletes its local skill copies, and k
 
 - **A marketplace for other people's plugins.** The `jodysalt` marketplace publishes this plugin.
 - **A home for standalone skills.** A useful skill the method does not call does not belong here, however good it is.
+- **A website builder.** A landing page is one static file with no framework or build step; ads, traffic and analytics are the user's own.
 - **Portability as a goal.** Skill bodies avoid needless Claude Code specifics, but the method depends on Claude Code and is not contorted to run elsewhere.
 - **Several plugins.** The skills form one call chain and ship as one plugin. Installing all of them costs a user only their descriptions in context.
 - **A feature of the first user's product.** The skills were extracted from it, but it consumes the plugin and does not own it.

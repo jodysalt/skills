@@ -7,6 +7,21 @@ One `## ` section per term, alphabetical: what the term means here in a sentence
 Whoever invoked a skill: a person at the keyboard, or an agent such as a `deliver-brief` stage, the slice drafter `complete-ticket-slice` spawns, or a `complete-tasks` worker. By the vision's *Driver-agnostic* principle a skill serves either the same way, asking the same questions in the same shape, and learns which it has only from the caller's framing.
 Not: a person a skill detects from the session; nothing detects one.
 
+## landing page
+
+The single static page a market test publishes to sell the product before it exists.
+Not: the product's marketing site once it ships.
+
+## market test
+
+A landing page that sells a product before it exists, published to measure interest against a threshold set in advance; the vision for the product is written from its result.
+Not: a survey, interviews, or a page for a product that already ships.
+
+## mock
+
+A static HTML page that fakes one product screen, made for the screenshots a landing page's copy needs and kept as design reference for the tickets that build the real screen.
+Not: a test double.
+
 ## project command
 
 A command that runs the project's own code or toolchain – a manifest script (`npm run …`, `make …`, `just …`) or the runtime or a tool directly (`npx tsc`, `pytest`) – as tests, type-checks, lints and builds do. In a repo whose `Dockerfile.sandbox` is tailored, `complete-task` runs each one through `run-in-sandbox`.
