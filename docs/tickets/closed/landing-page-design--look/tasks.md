@@ -1,0 +1,36 @@
+# Tasks
+
+## Add the Look branch between Offer and Screens in step 4 of skills/refine-landing-page/SKILL.md with the three mood value sets and the accent derivation
+- **category:** functional
+- **status:** done
+- **steps:**
+  - A new nested bullet `**Look**` sits between the `**Offer**` and `**Screens**` bullets of step 4 (currently lines 35 and 36), raised by the "look not set" finding or by `look` in the scope, asking in order: the accent – one hex, recommended from the audience the eyebrow names (a sea green such as `#0b7a75` for coastal, outdoor and travel products, a deep blue such as `#1d4ed8` for finance and B2B software, a warm orange such as `#c2410c` for food and hospitality, a plum such as `#6d28d9` for creative tools; on *dark ink* a brighter hue of the same family such as `#3b82f6`), quoting the current `--accent`; then the mood – *warm paper* (consumer, outdoors and craft; the template's defaults, the marker still removed when kept), *cool white* (software, B2B), *dark ink* (developer tools, finance) – quoting the current `--surface`.
+  - The three value sets are written in the bullet as literal lines, exactly as `docs/tickets/closed/landing-page-design--look/index.md` Scope gives them: warm paper `--surface: #f7f4ed; --surface-deep: #efe9dd; --panel: #fffdf8; --ink: #0e1b21; --ink-soft: #33444c; --muted: #6a7980; --line: rgba(14, 27, 33, 0.12); --line-strong: rgba(14, 27, 33, 0.22);`, cool white `--surface: #f8fafc; --surface-deep: #eef2f6; --panel: #ffffff; --ink: #0f172a; --ink-soft: #334155; --muted: #64748b; --line: rgba(15, 23, 42, 0.12); --line-strong: rgba(15, 23, 42, 0.22);`, dark ink `--surface: #0f1419; --surface-deep: #151b22; --panel: #1a222b; --ink: #eef1f4; --ink-soft: #c5ced6; --muted: #8b98a5; --line: rgba(238, 241, 244, 0.12); --line-strong: rgba(238, 241, 244, 0.22);`; then the accent's three lines `--accent: {hex};`, `--accent-deep: color-mix(in srgb, var(--accent) 70%, black);` for warm paper and cool white and `color-mix(in srgb, var(--accent) 70%, white);` for dark ink, `--accent-mist: color-mix(in srgb, var(--accent) 18%, var(--surface));` for every mood; `--gold` and `--serif` named as fixed and never asked or changed.
+  - The bullet says how the answers land: the `:root` block of `docs/landing-page/index.html` and of `docs/landing-page/mocks/mock.css` get the same eleven value lines and the `/* TODO: look */` line is removed from both, nothing outside either `:root` changing; on a page whose `:root` lacks the thirteen tokens (one `0.22.0` wrote) the branch says the page predates the design language and asks nothing; with `look` in the scope on a set page the recommended answers are the page's own values and the same edit lands with nothing to remove. The shape bullet's "the template's tokens, components and 54rem breakpoint as they are" gains "their values the Look branch's".
+  - `grep -n '\*\*Offer\*\*\|\*\*Look\*\*\|\*\*Screens\*\*\|\*\*Test\*\*\|\*\*Analytics\*\*' skills/refine-landing-page/SKILL.md` prints five consecutive bullet lines in that order inside step 4; `grep -c 'warm paper\|cool white\|dark ink' skills/refine-landing-page/SKILL.md` is at least 3; `grep -c -- '--surface: #f7f4ed\|--surface: #f8fafc\|--surface: #0f1419' skills/refine-landing-page/SKILL.md` prints at least 1 for each; `grep -c 'color-mix(in srgb, var(--accent) 70%, black)\|color-mix(in srgb, var(--accent) 70%, white)\|color-mix(in srgb, var(--accent) 18%, var(--surface))' skills/refine-landing-page/SKILL.md` prints at least 1 for each of the three; `claude plugin validate skills --strict` passes.
+
+## Add `look` to the Scope section of skills/refine-landing-page/SKILL.md and reword the step 3 finding and the step 7 report for a set look
+- **category:** functional
+- **status:** done
+- **steps:**
+  - `## Scope` names a fourth kind of argument, `look`, beside the section names, the `README.md` headings, a mock slug and `result`: `refine-landing-page look` runs the findings and asks only the Look branch, re-asking on a page whose look is set, and combines with section names as the others do. `grep -n 'look' skills/refine-landing-page/SKILL.md` matches inside `## Scope`.
+  - Step 3's marker finding (line 27) keeps "look not set" and loses its sentence saying the Look branch is not in this skill yet and the marker is left in place: `grep -c 'not in this skill yet' skills/refine-landing-page/SKILL.md` prints 0.
+  - Step 7 (line 51) no longer says the marker is waiting for the Look branch: when the branch ran it names the mood and the accent set (`look: dark ink, #3b82f6`) and the two files they landed in; when the marker is still there it says the look is not set and `refine-landing-page look` sets it. `grep -c 'waiting for the Look branch' skills/refine-landing-page/SKILL.md` prints 0 and `grep -n 'refine-landing-page look' skills/refine-landing-page/SKILL.md` matches in step 7.
+- **notes:**
+  - The Look bullet and its five sub-bullets (lines 36–41) pushed step 7 from line 51 to line 57; step 3's marker finding is still line 27 and `## Scope`'s paragraph still line 15.
+
+## Prove the dark-ink and cool-white value sets of skills/refine-landing-page/SKILL.md by applying them to a copied template in the scratchpad and screenshotting it
+- **category:** non-functional
+- **status:** done
+- **steps:**
+  - Copy `skills/add-landing-page/templates/index.html` to the session scratchpad twice; in one, edit `:root` by hand to the step's *dark ink* lines with `--accent: #3b82f6;` and the step's two `color-mix()` expressions for dark ink, removing the `/* TODO: look */` line; in the other, the *cool white* lines with `--accent: #1d4ed8;` and the warm-paper/cool-white expressions. `diff` each copy against the template shows changed lines inside `:root` only. Where the step text is too vague to make the edit from, fix the step in `skills/refine-landing-page/SKILL.md` and note it in the commit.
+  - Screenshot each with `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --screenshot={scratchpad}/look-dark.png --window-size=1280,800 {scratchpad}/dark.html` (and `look-cool.png`; run from a `.sh` in the scratchpad if the shell tool refuses the quoted path) and read both PNGs: dark ink shows light text on dark surfaces with the eyebrow, the nav button's outline and the card numerals visible; cool white shows a legible light page. Remove the scratch files afterwards.
+  - `git diff --stat landing-page-design` lists exactly `skills/refine-landing-page/SKILL.md`, this ticket's own files aside; `grep -n '"version"' .claude-plugin/plugin.json` prints `0.22.0`; `git diff --quiet landing-page-design -- README.md skills/add-landing-page` exits 0.
+- **notes:**
+  - The value sets to copy are one sub-bullet each at `skills/refine-landing-page/SKILL.md` lines 37–39 (warm paper, cool white, dark ink) and the three accent lines at line 40; in the template the marker is `index.html` line 12 with the eleven value lines at 13–23 (`mock.css` lines 2–13), `--gold` and `--serif` following.
+
+## Run full test suite for landing-page-design--look
+- **category:** chore
+- **status:** done
+- **steps:**
+  - Run the full test suite (`claude plugin validate .` and `claude plugin validate skills --strict`) and confirm both pass.

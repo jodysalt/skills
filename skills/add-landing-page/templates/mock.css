@@ -1,0 +1,42 @@
+:root {
+  /* TODO: look */
+  --surface: #f7f4ed;
+  --surface-deep: #efe9dd;
+  --panel: #fffdf8;
+  --ink: #0e1b21;
+  --ink-soft: #33444c;
+  --muted: #6a7980;
+  --line: rgba(14, 27, 33, 0.12);
+  --line-strong: rgba(14, 27, 33, 0.22);
+  --accent: #0b7a75;
+  --accent-deep: #064f4b;
+  --accent-mist: #dcebe7;
+  --gold: #b8955c;
+  --serif: "New York", ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+  background: var(--surface);
+  font-size: 16px;
+  line-height: 1.45;
+}
+.frame { min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--accent); color: var(--panel); font-weight: 700; }
+.topbar small { font-weight: 400; opacity: 0.85; }
+.content { padding: 20px; flex: 1; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+.muted { color: var(--muted); font-size: 0.9em; }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.button { display: block; width: 100%; box-sizing: border-box; padding: 16px; border: 0; border-radius: 10px; background: var(--accent); color: var(--panel); font: inherit; font-weight: 700; text-align: center; }
+.button.secondary { background: var(--surface-deep); color: var(--ink); }
+.pill { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.8em; font-weight: 600; background: var(--surface-deep); }
+.pill.ok { background: var(--accent-mist); color: var(--accent-deep); }
+.pill.warn { background: color-mix(in srgb, var(--gold) 24%, var(--panel)); color: color-mix(in srgb, var(--gold) 60%, var(--ink)); }
+.pill.bad { background: color-mix(in srgb, var(--ink) 12%, var(--panel)); color: var(--ink); }
+.notice { background: var(--accent-mist); color: var(--accent-deep); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+table { width: 100%; border-collapse: collapse; background: var(--panel); }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+th { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); background: var(--surface-deep); }
+.frame.phone { width: 390px; overflow: hidden; }
