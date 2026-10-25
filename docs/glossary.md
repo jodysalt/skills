@@ -2,6 +2,16 @@
 
 One `## ` section per term, alphabetical: what the term means here in a sentence or two, then an optional `Not:` sentence naming what it is not. `grill-me` adds a term when an interview meets an ambiguous one; every skill that writes or implements from a spec reads this file first.
 
+## boilerplate
+
+The files `add-landing-page` copies verbatim from its templates: the landing page in the house design language with `TODO:` placeholders where the copy goes, and the mocks' stylesheet and index.
+Not: a page `refine-landing-page` has filled.
+
+## design language
+
+The fixed set of tokens, type scale, components and breakpoint `add-landing-page` writes every landing page from; a product changes only its accent and mood.
+Not: a per-page design, or a CSS framework.
+
 ## driver
 
 Whoever invoked a skill: a person at the keyboard, or an agent such as a `deliver-brief` stage, the slice drafter `complete-ticket-slice` spawns, or a `complete-tasks` worker. By the vision's *Driver-agnostic* principle a skill serves either the same way, asking the same questions in the same shape, and learns which it has only from the caller's framing.
