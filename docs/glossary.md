@@ -32,6 +32,11 @@ Not: a survey, interviews, or a page for a product that already ships.
 A static HTML page that fakes one product screen, made for the screenshots a landing page's copy needs and kept as design reference for the tickets that build the real screen.
 Not: a test double.
 
+## planning branch
+
+The `planning-<YYYY-MM-DD>-<description>` worktree `start-planning-session` creates, where anything that lands on `main` through `wrap-up-worktree` without a ticket is drafted: the vision, tickets, the coding standards and the market test. A skill that writes one of those runs the branch gate first.
+Not: a ticket's own branch, or source such as `Dockerfile.sandbox`, which a ticket lands.
+
 ## project command
 
 A command that runs the project's own code or toolchain – a manifest script (`npm run …`, `make …`, `just …`) or the runtime or a tool directly (`npx tsc`, `pytest`) – as tests, type-checks, lints and builds do. In a repo whose `Dockerfile.sandbox` is tailored, `complete-task` runs each one through `run-in-sandbox`.
