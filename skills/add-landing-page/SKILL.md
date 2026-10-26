@@ -1,12 +1,12 @@
 ---
 name: add-landing-page
-description: Scaffolds the market test from the plugin's templates – the landing page at `docs/landing-page/index.html` in the house design language with placeholders, its notes in `docs/landing-page/README.md`, the mocks' stylesheet and index under `docs/landing-page/mocks/`, the workflow when missing – then hands off to `refine-landing-page`, which interviews and fills it. Use when the user says "add a landing page", "market-test this idea", "make a landing page for X", or runs `/add-landing-page`. Never overwrites an existing page, never pushes, never commits.
+description: Scaffolds the market test from the plugin's templates – the landing page at `docs/landing-page/index.html` in the house design language with placeholders, its notes in `docs/landing-page/README.md`, the mocks' stylesheet and index under `docs/landing-page/mocks/`, the workflow when missing – then hands off to `refine-landing-page`, which serves the page locally, interviews and fills it. Use when the user says "add a landing page", "market-test this idea", "make a landing page for X", or runs `/add-landing-page`. Never overwrites an existing page, never pushes, never commits.
 argument-hint: "[the idea in one line, e.g. 'a calendar that books your haircut']"
 ---
 
 # Add landing page
 
-Scaffold one market test from an idea and hand it off: copy the boilerplate – the landing page in the house design language with `TODO:` placeholders where the copy goes, the mocks' stylesheet and index – from the templates beside this skill, write the notes with every section a `TODO:` prompt and the workflow that publishes the page, all uncommitted, then invoke `refine-landing-page` in the same session to interview for the copy and fill the placeholders in. It writes nothing from the idea itself; the idea reaches the interview through the hand-off's framing. Publishing is the user's, and improving a page that exists is `refine-landing-page`'s. No branch gate: the page is a product artefact, not a planning doc.
+Scaffold one market test from an idea and hand it off: copy the boilerplate – the landing page in the house design language with `TODO:` placeholders where the copy goes, the mocks' stylesheet and index – from the templates beside this skill, write the notes with every section a `TODO:` prompt and the workflow that publishes the page, all uncommitted, then invoke `refine-landing-page` in the same session, which serves the page locally, interviews for the copy and fills the placeholders in. It writes nothing from the idea itself; the idea reaches the interview through the hand-off's framing. Publishing is the user's, and improving a page that exists is `refine-landing-page`'s. No branch gate: the page is a product artefact, not a planning doc.
 
 ## Idea
 
