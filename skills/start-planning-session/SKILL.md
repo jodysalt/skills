@@ -1,6 +1,6 @@
 ---
 name: start-planning-session
-description: Starts a planning session by creating a fresh `planning-<YYYY-MM-DD>-<description>` branch, the description required, as a git worktree at `.claude/worktrees/planning-<YYYY-MM-DD>-<description>` via `add-worktree` (suffixed `-<N>` when that name is taken) and switching the session into it via `enter-worktree`, so planning docs are drafted there while the main checkout stays where it is. Joins the worktree of the same description instead when today already has one. Use when the user says "start a planning session", "checkout a planning branch", runs `/start-planning-session`, or when `add-ticket`, `refine-ticket`, `refine-coding-standards`, or `refine-vision` escalates here because the current branch isn't a planning branch. Refreshes the branch the main checkout has checked out first when it can; never pushes, merges, checks out, or removes anything.
+description: Starts a planning session by creating a fresh `planning-<YYYY-MM-DD>-<description>` branch, the description required, as a git worktree at `.claude/worktrees/planning-<YYYY-MM-DD>-<description>` via `add-worktree` (suffixed `-<N>` when that name is taken) and switching the session into it via `enter-worktree`, so planning docs are drafted there while the main checkout stays where it is. Joins the worktree of the same description instead when today already has one. Use when the user says "start a planning session", "checkout a planning branch", runs `/start-planning-session`, or when `add-ticket`, `refine-ticket`, `refine-coding-standards`, `refine-vision`, `add-landing-page` or `refine-landing-page` escalates here because the current branch isn't a planning branch. Refreshes the branch the main checkout has checked out first when it can; never pushes, merges, checks out, or removes anything.
 argument-hint: "[description – what this session plans, e.g. glossary terms]"
 ---
 
@@ -12,7 +12,7 @@ Get the session into a `planning-<DATE>-<description>` worktree so planning docs
 
 $ARGUMENTS
 
-What this session plans, required: the branch and worktree are `planning-<YYYY-MM-DD>-<description>`. Normalize it to kebab-case (`Glossary terms` becomes `glossary-terms`). If empty, ask once with `AskUserQuestion` before creating anything. The recommended answer is the subject the escalating skill holds when one escalated here (the ticket's input, the ticket's slug, `vision`, `coding-standards`); by hand with nothing said, run `ls docs/tickets/open/` and offer one option per open ticket slug, most recently modified first, the first recommended. The built-in "Other" option covers a typed description, so don't add one.
+What this session plans, required: the branch and worktree are `planning-<YYYY-MM-DD>-<description>`. Normalize it to kebab-case (`Glossary terms` becomes `glossary-terms`). If empty, ask once with `AskUserQuestion` before creating anything. The recommended answer is the subject the escalating skill holds when one escalated here (the ticket's input, the ticket's slug, `vision`, `coding-standards`, `landing-page`); by hand with nothing said, run `ls docs/tickets/open/` and offer one option per open ticket slug, most recently modified first, the first recommended. The built-in "Other" option covers a typed description, so don't add one.
 
 ## Steps
 
