@@ -56,5 +56,5 @@ If empty, ask what the skill should do.
 ## Rules
 
 - Never overwrite or edit an existing skill; a path that exists stops the run before anything is written.
-- `SKILL.md` only: no supporting files, and no personal `~/.claude/skills/` target.
+- Never a personal `~/.claude/skills/` target.
 - Never drafts a partner; it names them. Never bumps the plugin version, never edits `README.md`, never touches `CLAUDE.md`, never commits.

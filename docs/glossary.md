@@ -17,6 +17,11 @@ Not: a guard on what the checkout holds, such as a page that already exists.
 The document at `docs/competitor-analysis.md` that records an idea's main keywords, the pricing, guarantees and positioning of the three or four competitors those searches rank highest, and the opening the offer should take, written before the market test so the landing page's offer is shaped against it.
 Not: the vision's competitive landscape, or a feature comparison.
 
+## design
+
+One or more static HTML pages under `designs/{name}/` – beside the ticket at `docs/tickets/open/{slug}/`, or under `docs/designs/` before the ticket exists – showing one candidate for what the ticket builds: a screen, a flow of screens, or something that is not a screen at all, kept as the reference for what to build and what not to.
+Not: a mock, which fakes one screen for a landing page's screenshot; not the design language.
+
 ## design language
 
 The fixed set of tokens, type scale, components and breakpoint `add-landing-page` writes every landing page from; a product changes only its accent and mood.
