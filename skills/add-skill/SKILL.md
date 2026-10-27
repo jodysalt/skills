@@ -1,12 +1,12 @@
 ---
 name: add-skill
-description: Drafts a new Claude Code skill at `skills/{name}/SKILL.md` when the repo root holds `.claude-plugin/plugin.json`, else at `.claude/skills/{name}/SKILL.md` – frontmatter that says when it triggers and what it never does, an argument section, steps and rules in this plugin's house style, filled in through `grill-me`. Use when the user says "add a skill for X", "create a skill", "make a skill that does Y", "write a skill", or runs `/add-skill`. In a plugin repo it adds the README row and runs `claude plugin validate` strictly, and reports that the version owes a bump without making it. Never overwrites or edits an existing skill, never commits.
+description: Writes the boilerplate of a new Claude Code skill at `skills/{name}/SKILL.md` when the repo root holds `.claude-plugin/plugin.json`, else at `.claude/skills/{name}/SKILL.md` – frontmatter, an argument section, steps and rules in this plugin's house style, every section a prompt – then hands off to `refine-skill`, which interviews and fills it in; a skill that could take the `add-{foo}` form is suggested as one, and an `add-{foo}` is drafted with its `refine-{foo}`. Use when the user says "add a skill for X", "create a skill", "make a skill that does Y", "write a skill", or runs `/add-skill`. Never overwrites or edits an existing skill, never drafts a partner, never commits.
 argument-hint: "[what the skill does, e.g. 'runs the migrations and reports the result']"
 ---
 
 # Add skill
 
-Draft one skill in house style: a `SKILL.md` whose frontmatter says when it triggers and what it never does, whose body takes an argument, walks numbered steps and ends in rules. The template's section bodies are prompts; `grill-me` fills them in. No branch gate: a skill is source, not a planning doc.
+Write one skill's boilerplate in house style and hand it off: a `SKILL.md` whose frontmatter says when it triggers and what it never does, whose body takes an argument, walks numbered steps and ends in rules, every section a prompt, then invoke `refine-skill` in the same session, which interviews, fills the prompts in, validates and adds the row in `README.md`. Whatever the method adds comes as a pair, so a skill that can plausibly take the `add-{foo}` form is suggested as one, and an `add-{foo}` is drafted with its `refine-{foo}`. Branch gate as a spec skill's, an open ticket's branch passing too: a skill is source, and lands through a ticket or a planning branch.
 
 ## Skill
 
@@ -17,9 +17,9 @@ If empty, ask what the skill should do.
 ## Steps
 
 1. **Target.** The root is `git rev-parse --show-toplevel`, else the working directory. When the root holds `.claude-plugin/plugin.json`, the skill goes at `skills/{name}/SKILL.md` and runs as `/{plugin}:{name}`, `{plugin}` being the manifest's `name`; otherwise at `.claude/skills/{name}/SKILL.md`, run as `/{name}`. Call the directory `{dir}`.
-2. **Read** `CLAUDE.md` for the repo's norms and one or two skills already under `{dir}` for tone, when any exist. Read `docs/glossary.md` when it exists, a missing or template-only file counting as an empty glossary, and use each defined term in its defined sense in the skill file's description, steps and rules, never redefining one in passing; a term the glossary lacks is used as the input uses it.
-3. **Name.** Kebab-case verb-noun naming what it does: `add-skill`, `run-migrations`, `close-ticket`. No prefix, no date. It is the directory and the slash command, so confirm it with the user before writing. Stop and say so if `{dir}/{name}/SKILL.md` exists: editing an existing skill is out of scope.
-4. **Write** `{dir}/{name}/SKILL.md` from this template. Frontmatter is `name`, equal to the directory, `description` in three parts, and `argument-hint`, dropped when the skill takes no argument. Any other field – `disable-model-invocation`, `context: fork`, `allowed-tools` – appears only when step 5 lands an answer that needs it. The section bodies are prompts for the next step, not content. `{arguments placeholder}` stands for a dollar sign followed by `ARGUMENTS`, the line Claude Code replaces with what the user typed; write it out, on its own line.
+2. **Name.** Kebab-case verb-noun naming what it does: `add-skill`, `run-migrations`, `close-ticket`. No prefix, no date. When the input adds, sets up or scaffolds a thing and the name is not `add-{foo}`, suggest `add-{foo}` for that thing with the reason – it gets a `refine-{foo}` beside it, so the thing can always be refined – the user's pick standing. It is the directory and the slash command, so confirm it with the user before writing. An `add-{foo}` is drafted with `refine-{foo}` beside it; say so. Stop and say so if `{dir}/{name}/SKILL.md` exists for either name: editing an existing skill is `jodysalt:refine-skill`'s.
+3. **Branch gate.** If the current branch does not match `planning-<YYYY-MM-DD>` followed by anything and `docs/tickets/open/<branch>/` does not exist, offer to invoke `jodysalt:start-planning-session {name}`; on yes pass it and ask nothing else. Continue on the current branch if the user declines. Skip if the gate already ran this conversation. Either way, the root is `git rev-parse --show-toplevel` from here on.
+4. **Write** `{dir}/{name}/SKILL.md` from this template. Frontmatter is `name`, equal to the directory, `description` in three parts, and `argument-hint`, dropped when the skill takes no argument; any other field is `refine-skill`'s to add when a step needs it. The section bodies are prompts for the interview, not content. `{arguments placeholder}` stands for a dollar sign followed by `ARGUMENTS`, the line Claude Code replaces with what the user typed; write it out, on its own line.
 
    ```markdown
    ---
@@ -49,17 +49,12 @@ If empty, ask what the skill should do.
    - What it never does.
    ```
 
-5. **Fill it in** by invoking the `grill-me` skill from this plugin (`jodysalt:grill-me`) with the subject "the skill being drafted at `{dir}/{name}/SKILL.md`". Give it this framing:
-   - Each template prompt is an open decision: the description's three parts and its trigger phrases, the argument and its empty case, each step, each rule. The name is settled. A frontmatter field beyond the three is a decision only when a step needs it: `disable-model-invocation` for side effects a stray mention must not trigger, `context: fork` for work that should not share the caller's context.
-   - The codebase, `CLAUDE.md` and the skills under `{dir}` count as explorable; a question they answer is never asked.
-   - Edit `SKILL.md` as answers land, and record a deferred decision as a `TODO:` marker in its section. Another skill is named the way it is invoked: `{plugin}:{name}` for a plugin skill, the bare name for a sibling under `{dir}`.
-   - The skill stays one file. No `scripts/`, `references/` or other supporting files.
-6. **Validate.** Run `claude plugin validate {dir} --strict` and fix what it reports before going on. It reads `.claude/skills/` as it reads `skills/`, and it tolerates unknown frontmatter keys, so step 4's three fields plus what an answer needed is the whole list.
-7. **README row.** In a plugin repo whose `README.md` holds a table with rows linking `skills/*/SKILL.md`, add a row for the new skill in alphabetical position, its text the description's first sentence. No table, no row. Outside a plugin repo, skip this step.
-8. **Report.** The path; the row, when one was added; the validation result; in a plugin repo, that `.claude-plugin/plugin.json` is at its current version and owes a bump the commit that lands the skill should make, never made here; and how to load the skill: `/reload-plugins` for a project skill, `claude --plugin-dir .` or `/reload-plugins` for a plugin clone registered as a local marketplace. Leave everything unstaged and suggest `jodysalt:commit` (a `feat:` commit).
+   For a pair, both files come from the template with two differences. In `add-{foo}` the lead prompt is "One paragraph: write the boilerplate for {foo} and hand off to `refine-{foo}`, and where it stops." and a step **Hand off** – "Invoke `refine-{foo}` in the same session, framed with the input." – comes before **Report**. In `refine-{foo}` the lead prompt is "One paragraph: improve the {foo} that exists in place – explore, report, interview, edit – and where it stops."
+5. **Hand off.** Invoke the `refine-skill` skill from this plugin (`jodysalt:refine-skill`) with `{name}`, or the pair's two names, in the same session – the Skill tool call, never a sub-agent – and state in the same turn the framing "the skill should: {input}; this is a fresh boilerplate", `{input}` the line from `## Skill`. The framing is how the input reaches the interview; `refine-skill` reads it from there and otherwise from the file, finds every prompt the template left, and asks for each, landing the answers as edits. The interview, the validation, the row in `README.md` and the version-bump report are its.
+6. **Report.** Before the hand-off's own report, in the turn that invokes it, so the user sees what was written even when the interview stops early: the path or paths written, and the partners the new skill implies, as suggestions for a later `add-skill` run and nothing more – `remove-{foo}` for an `add-{foo}`, `list-{foo}` for a thing there can be several of, and whatever else the input implies. Say that everything is uncommitted and that `refine-skill`'s report follows.
 
 ## Rules
 
 - Never overwrite or edit an existing skill; a path that exists stops the run before anything is written.
 - `SKILL.md` only: no supporting files, and no personal `~/.claude/skills/` target.
-- Never bumps the plugin version, never edits `README.md` beyond its skills table, never touches `CLAUDE.md`, never commits.
+- Never drafts a partner; it names them. Never bumps the plugin version, never edits `README.md`, never touches `CLAUDE.md`, never commits.
