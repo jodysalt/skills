@@ -19,7 +19,7 @@ Not: the vision's competitive landscape, or a feature comparison.
 
 ## design
 
-One or more static HTML pages under `designs/{name}/` – beside the ticket at `docs/tickets/open/{slug}/`, or under `docs/designs/` before the ticket exists – showing one candidate for what the ticket builds: a screen, a flow of screens, or something that is not a screen at all, kept as the reference for what to build and what not to.
+One or more static HTML pages under `designs/{name}/` beside the ticket at `docs/tickets/open/{slug}/`, showing one candidate for what the ticket builds: a screen, a flow of screens, or something that is not a screen at all, kept as the reference for what to build and what not to.
 Not: a mock, which fakes one screen for a landing page's screenshot; not the design language.
 
 ## design language

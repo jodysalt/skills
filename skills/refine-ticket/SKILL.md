@@ -1,6 +1,6 @@
 ---
 name: refine-ticket
-description: Revisits an existing open ticket at `docs/tickets/open/{slug}/index.md` and improves it in place – assesses it against the ticket template, verifies its code references against the current codebase, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the X ticket", "revisit X", "flesh out the X ticket", "update the spec for X", or runs `/refine-ticket`. Edits an open ticket in place and makes the small related edits its answers settle – a spike's missing `findings.md`, a `delivers:` retag – without a second question; never moves, closes, or deletes docs, never touches source code, never commits.
+description: Revisits an existing open ticket at `docs/tickets/open/{slug}/index.md` and improves it in place – assesses it against the ticket template and its designs, verifies its code references against the current codebase, then interviews the user one question at a time and edits as answers land. Use when the user says "refine the X ticket", "revisit X", "flesh out the X ticket", "update the spec for X", or runs `/refine-ticket`. Makes the small related edits its answers settle – a spike's missing `findings.md`, a `delivers:` retag – without a second question; never moves, closes, or deletes docs, never touches source code, never commits.
 argument-hint: "[ticket slug – defaults to the only open ticket or the current branch]"
 ---
 
@@ -17,7 +17,7 @@ If empty: the only directory in `docs/tickets/open/`, else the open ticket match
 ## Steps
 
 1. **Branch gate.** If the current branch does not match `planning-<YYYY-MM-DD>` followed by anything (a pre-upgrade `planning-2026-10-21` counts), offer to invoke `jodysalt:start-planning-session <description>`, the description being the ticket's slug; on yes pass it and ask nothing else. Continue on the current branch if the user declines. Skip if the gate already ran this conversation.
-2. **Read** the ticket directory; for a `feat` or a `spike`, `docs/vision.md`, so a `delivers:` is checked against its `###` headings and a `feat`'s `Strategic fit` against the vision; and for a slug holding `--`, each parent's `index.md` up the chain, `docs/tickets/*/{parent}/index.md` for each `--` prefix of the slug. Read `docs/glossary.md` when it exists, a missing or template-only file counting as an empty glossary, and use each defined term in its defined sense in the edits and the findings report, never redefining one in passing; a term the glossary lacks is used as the input uses it.
+2. **Read** the ticket directory, the designs under it included – each `designs/*/README.md` for its `## Shows` and `## Verdict`, and its pages; for a `feat` or a `spike`, `docs/vision.md`, so a `delivers:` is checked against its `###` headings and a `feat`'s `Strategic fit` against the vision; and for a slug holding `--`, each parent's `index.md` up the chain, `docs/tickets/*/{parent}/index.md` for each `--` prefix of the slug. Read `docs/glossary.md` when it exists, a missing or template-only file counting as an empty glossary, and use each defined term in its defined sense in the edits and the findings report, never redefining one in passing; a term the glossary lacks is used as the input uses it.
 3. **Verify code references**, read-only: every file path named in `# Context` and `# Implementation notes` (for a `spike`, `# Context` and `# Approach`) still exists, and the constraints, hooks, and config they describe still hold.
 4. **Report findings before editing anything:**
    - `TODO:` markers.
@@ -26,17 +26,12 @@ If empty: the only directory in `docs/tickets/open/`, else the open ticket match
    - Code drift: paths that no longer exist, constraints that have changed.
    - Frontmatter: `type` outside `feat | fix | refactor | chore | docs | test | spike`; a `delivers:` whose title matches no `### ` heading in `docs/vision.md`; a `delivers:` on a sub-ticket, which inherits its parent's trace; a `--` prefix with no folder under `docs/tickets/open/`, the parent closed or never drafted.
    - Thin or untestable acceptance criteria (for a `spike`, `# Done when` is the acceptance section), a `Strategic fit` that no longer traces to `vision.md`, a `feat` sub-ticket whose `## Strategic fit` does not name its parent, a `feat` with no `delivers:` whose `## Strategic fit` names no product principle or core problem from `vision.md`, content contradicted by shipped work.
+   - Designs out of step with the ticket: a design whose `## Verdict` is still `TODO:`, which `jodysalt:refine-design {name} verdict` records; a `build` design that `# Scope` and `# Acceptance criteria` never cite; a `reject` design whose screen `# Scope` still includes; and a criterion naming a screen or flow with no design under `designs/`.
 
    If the work is already shipped, say so and point at `jodysalt:close-ticket`. Don't close it yourself.
 5. **Interview** by invoking the `grill-me` skill from this plugin (`jodysalt:grill-me`) with the subject "the ticket at `docs/tickets/open/{slug}/index.md`". Give it this framing:
    - Seed the decision tree with the findings from step 4, then add the decisions the ticket makes without saying so.
-   - The codebase counts as explorable; a question it answers is never asked.
+   - The codebase and the ticket's designs count as explorable; a question they answer is never asked, and a recommended answer about a screen cites the design's verdict and the page that shows it.
    - Edit `index.md` as answers land, plus the related edits step 6 allows. Source and `vision.md` stay untouched.
 6. **Edit** within these constraints on top of `grill-me`'s: never invent `Goal`, acceptance criteria, or scope; ask, or leave a `TODO:` marker. A related edit that a finding or an answer settles outright, needing no decision of its own, is made on the spot and named in the report rather than raised as a second question or left to another skill: a spike's missing `findings.md`, created beside `index.md` holding exactly the three prompt headings `# Findings`, `# Recommendation` and `# Tickets implied`; and a `delivers:` retag the interview decides, to the exact title of a `###` heading in `docs/vision.md`. Anything more in `vision.md` or a parent ticket is surfaced for `jodysalt:refine-vision` or a `refine-ticket` run on the parent.
-7. Stop. Leave the edits uncommitted for review and suggest `jodysalt:commit` (a `docs:` commit). Then name the next steps in order: on a planning branch, land it with `jodysalt:wrap-up-worktree`; then `/jodysalt:complete-ticket {slug}` when the ticket has no `tasks.md` yet or pending tasks.
-
-## Rules
-
-- Code verification is read-only; never edit source.
-- Never edit `vision.md` or a parent ticket. Surface anything more.
-- Re-tagging `delivers:` is a user decision made in the interview, never a silent edit.
+7. Stop. Leave the edits uncommitted for review and suggest `jodysalt:commit` (a `docs:` commit). Then name the next steps in order: `/jodysalt:add-design` for each screen or flow a criterion names with no design under `designs/`, named here and never run; on a planning branch, land it with `jodysalt:wrap-up-worktree`; then `/jodysalt:complete-ticket {slug}` when the ticket has no `tasks.md` yet or pending tasks.
