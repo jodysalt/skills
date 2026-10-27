@@ -59,7 +59,7 @@ Not: the `refine-{foo}` of the pair.
 
 ## planning branch
 
-The `planning-<YYYY-MM-DD>-<description>` worktree `start-planning-session` creates, where anything that lands on `main` through `wrap-up-worktree` without a ticket is drafted: the vision, tickets, the coding standards and the market test. A skill that writes one of those runs the branch gate first.
+The `planning-<YYYY-MM-DD>-<description>` worktree `start-planning-session` creates, where anything that lands on `main` through `wrap-up-worktree` without a ticket is drafted: the vision, tickets, designs, the coding standards, the market test and this plugin's skills. A skill that writes one of those runs the branch gate first.
 Not: a ticket's own branch, or source such as `Dockerfile.sandbox`, which a ticket lands.
 
 ## project command
