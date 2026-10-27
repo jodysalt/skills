@@ -18,7 +18,9 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 - **One opinionated method.** A skill belongs here only if the method uses it. Anything that stands alone belongs somewhere else.
 - **Explore before asking.** A question the codebase can answer is never put to the user. When a question is needed, it comes one at a time with a recommended answer.
 - **Driver-agnostic.** A skill serves whoever invoked it, a person or an agent. It asks the same questions the same way and never assumes a human is reading the turn.
-- **Trim with the 80/20 principle.** Commit messages, skill bodies and question order all separate the vital few from the trivial many.
+- **Trim with the 80/20 principle.** Commit messages, skill bodies and question order all separate the vital few from the trivial many. Refining anything starts with what can be removed while it works as well or better, before anything is added.
+- **Add, then refine.** Whatever the method adds comes as a pair: `add-{foo}` writes the boilerplate and hands off to `refine-{foo}`, which improves what exists in place, so anything added can always be refined and the two share no steps. A skill that can plausibly take the `add-{foo}` form does, and names the partners it implies, `remove-{foo}` first.
+- **Branches before `main`.** A planning doc is drafted on a planning branch and a change to source is made on a ticket's branch; a skill that writes to the repo runs the branch gate first, so nothing is edited on the base by accident.
 - **One thing, then stop.** A skill does its one job, leaves the result for review, and never pushes.
 - **Claude Code first.** Skills call each other by namespaced name and spawn sub-agents where the method needs it. Nothing else leans on Claude Code without a reason, so the bodies stay readable to other agents where that is cheap.
 - **`main` is always installable.** Users auto-update from it, so every merge is a release. The plugin version bumps on any change to a skill's behaviour.

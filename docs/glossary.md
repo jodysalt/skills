@@ -4,8 +4,13 @@ One `## ` section per term, alphabetical: what the term means here in a sentence
 
 ## boilerplate
 
-The files `add-landing-page` copies verbatim from its templates: the landing page in the house design language with `TODO:` placeholders where the copy goes, and the mocks' stylesheet and index.
-Not: a page `refine-landing-page` has filled.
+The files an `add-{foo}` skill writes from its templates before handing off to its pair: for `add-landing-page`, the landing page in the house design language with `TODO:` placeholders where the copy goes and the mocks' stylesheet and index; for `add-skill`, a `SKILL.md` whose sections are prompts.
+Not: a file the `refine-{foo}` has filled.
+
+## branch gate
+
+The step a skill that writes to the repo runs before it writes: when the current branch is neither a planning branch nor an open ticket's, it offers `start-planning-session` with its subject as the description, carries on where it is when the user declines, and is skipped once it has run in the conversation.
+Not: a guard on what the checkout holds, such as a page that already exists.
 
 ## design language
 
@@ -31,6 +36,16 @@ Not: a survey, interviews, or a page for a product that already ships.
 
 A static HTML page that fakes one product screen, made for the screenshots a landing page's copy needs and kept as design reference for the tickets that build the real screen.
 Not: a test double.
+
+## pair
+
+The `add-{foo}` and `refine-{foo}` skills for one thing the method adds: the add writes the boilerplate and hands off in the same session, the refine improves what exists in place. `add-skill` drafts an `add-{foo}` with its `refine-{foo}`.
+Not: a partner.
+
+## partner
+
+A skill an `add-{foo}` implies beyond its pair – `remove-{foo}`, `list-{foo}` – which `add-skill` and `refine-skill` suggest and never draft.
+Not: the `refine-{foo}` of the pair.
 
 ## planning branch
 
