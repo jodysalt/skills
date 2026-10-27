@@ -24,7 +24,7 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 - **One thing, then stop.** A skill does its one job, leaves the result for review, and never pushes.
 - **Claude Code first.** Skills call each other by namespaced name and spawn sub-agents where the method needs it. Nothing else leans on Claude Code without a reason, so the bodies stay readable to other agents where that is cheap.
 - **`main` is always installable.** Users auto-update from it, so every merge is a release. The plugin version bumps on any change to a skill's behaviour.
-- **Dogfooding.** This repo runs its own workflow: its purpose lives in this file, changes to the skills arrive as tickets, and the loop implements them. No change to a skill lands without a ticket behind it.
+- **Dogfooding.** This repo runs its own workflow: its purpose lives in this file, a change to the skills arrives as a ticket the loop implements or is drafted on a planning branch through `add-skill` and `refine-skill`, and either lands through `wrap-up-worktree`.
 
 ## Goals
 
