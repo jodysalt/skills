@@ -72,6 +72,11 @@ Not: a command that only reads the checkout, such as `grep`, `git` or `ls`.
 A Docker container built from `Dockerfile.sandbox` at the repo root, with the checkout mounted in it, where `run-in-sandbox` runs commands isolated from the host.
 Not: Claude Code's own Bash sandbox, which restricts the session's shell commands.
 
+## slice
+
+The thinnest end-to-end piece of an open ticket that moves its unmet acceptance criteria most, specified as a `{slug}--{sub}` sub-ticket, implemented in a worktree forked from the ticket's branch and landed on that branch as one commit; the sub-ticket, its worktree and its commit are all called the slice.
+Not: a task, which is one entry in a slice's backlog.
+
 ## unattended
 
 A run whose caller declared in its framing that no person reads the conversation, as `deliver-brief`'s stage prompt and `complete-ticket-slice`'s slice drafter do and as the loop's `complete-task` worker is by its own description. The framing is the only signal. In an unattended run `grill-me`'s recommended answer stands for the trivial many, the vital few go back to the caller with their options and a recommendation, and `docs/glossary.md` is read, never written.
