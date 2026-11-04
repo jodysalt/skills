@@ -86,3 +86,8 @@ Not: the root, which runs `complete-ticket` and the worktree skills itself becau
 
 A run whose caller declared in its framing that no person reads the conversation, as `deliver-brief`'s stage prompt and `complete-ticket-slice`'s slice drafter do and as the loop's `complete-task` worker is by its own description. The framing is the only signal. In an unattended run `grill-me`'s recommended answer stands for the trivial many, the vital few go back to the caller with their options and a recommendation, and `docs/glossary.md` is read, never written.
 Not: a run with no person present that nobody declared; a skill treats that as a person's run.
+
+## verdict
+
+The user's decision on a design, `build` or `reject`, with its reason in a sentence, made in `refine-design`'s interview and recorded in the design's bullet under the ticket's `# Designs`; a `build` design is the spec of the screen a slice builds and a `reject` one is what it leaves out.
+Not: `complete-ticket-slice`'s judgement that an acceptance criterion is met or unmet.

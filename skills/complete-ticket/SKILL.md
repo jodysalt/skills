@@ -23,7 +23,7 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
    - `done`: every criterion is met; go to step 5.
    - A line starting with a `{slug}--{sub}` slice slug: one slice landed on the branch; invoke `complete-ticket-slice` again. There is no slice cap, as `complete-tasks` has no task cap.
    - Anything else is a failure: stop with that report and leave the worktree in place; the next run resumes it.
-5. **Report.** The slices landed this run, the last `complete-ticket-slice` verdict per criterion, whether step 3 ran a pre-existing backlog, every check left for a person, and a suggestion to run `jodysalt:wrap-up-worktree` to land the branch.
+5. **Report.** The slices landed this run, the last `complete-ticket-slice` judgement per criterion, met or unmet, whether step 3 ran a pre-existing backlog, every check left for a person, and a suggestion to run `jodysalt:wrap-up-worktree` to land the branch.
 
 ## Rules
 
