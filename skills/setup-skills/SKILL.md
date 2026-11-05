@@ -1,6 +1,6 @@
 ---
 name: setup-skills
-description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/coding-standards.md` from a template, `docs/glossary.md` from a template, `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `.claude/worktrees/` line in `.gitignore`, a `.vscode/settings.json` that makes VS Code detect the worktrees, and a placeholder `Dockerfile.sandbox` – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` and `refine-coding-standards` to fill in `docs/vision.md` and `docs/coding-standards.md`, and `refine-sandbox` to tailor `Dockerfile.sandbox`.
+description: Scaffolds the layout the other skills in this plugin assume exists – `docs/vision.md` from a template, `docs/coding-standards.md` from a template, `docs/testing-strategy.md` with its defaults, `docs/glossary.md` from a template, `docs/tickets/{open,closed}/` each holding `.gitkeep`, a `## Workflow` section in `CLAUDE.md`, a `.claude/worktrees/` line in `.gitignore`, a `.vscode/settings.json` that makes VS Code detect the worktrees, and a placeholder `Dockerfile.sandbox` – from the repo root. Use when the user says "set up the skills", "set up the workflow", "scaffold the workflow", or runs `/setup-skills`. Creates only what is missing and never overwrites an existing file; never runs `git init`, never stages, never commits. Ends by offering `refine-vision` and `refine-coding-standards` to fill in `docs/vision.md` and `docs/coding-standards.md`, `refine-testing-strategy` to tailor `docs/testing-strategy.md`, and `refine-sandbox` to tailor `Dockerfile.sandbox`.
 ---
 
 # Setup skills
@@ -50,7 +50,27 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    One `## ` section per standard the review enforces: its rule in a sentence or two, then one idiomatic example from this repo's own code. Leave what a linter or formatter already catches to that tool.
    ```
 
-4. **`docs/glossary.md`.** Skip if the file exists. Otherwise write it from this template. The paragraph is the prompt, not content; `grill-me` fills the terms in as its interviews meet them.
+4. **`docs/testing-strategy.md`.** Skip if the file exists. Otherwise write it from this template. Unlike the other templates it is content, not prompts: the defaults fit a repo whose full suite runs locally in minutes, and `add-tasks` reads them as written until `refine-testing-strategy` tailors them. Keep the three `## ` headings and the gate's one-check-per-bullet list; `add-tasks` reads the sections by heading and turns each gate bullet into one step.
+
+   ```markdown
+   # Testing strategy
+
+   How a change to this repo is verified. `add-tasks` reads the three sections below when it writes a ticket's backlog: `## Coverage` says which tasks must add a test, `## Task checks` bounds the checks a task's own steps may run, and `## Gate` lists the checks that end the backlog, one bullet per check, each becoming one step of the gate task a `complete-task` worker runs. These defaults suit a repo whose full suite runs locally in minutes; `refine-testing-strategy` tailors them, to a selective local gate and a push the loop watches in CI when the suite is too slow or too heavy for the host.
+
+   ## Coverage
+
+   A `functional` task adds or extends the test that proves the behaviour it adds. A `bug` task adds the regression test that fails before the fix and passes after. A `non-functional` or `chore` task adds a test only where one already guards what it changes.
+
+   ## Task checks
+
+   The narrowest checks that catch a task's likely regressions: one scoped test script from the manifest (`npm run test:unit` or the equivalent), a type-check, a lint of the changed files, a grep for a symbol, or a single-URL assertion. Never the full suite, never two test commands in one step.
+
+   ## Gate
+
+   - Run the full test suite (`npm run test`, or the manifest's equivalent) and confirm every suite passes.
+   ```
+
+5. **`docs/glossary.md`.** Skip if the file exists. Otherwise write it from this template. The paragraph is the prompt, not content; `grill-me` fills the terms in as its interviews meet them.
 
    ```markdown
    # Glossary
@@ -58,16 +78,16 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    One `## ` section per term, alphabetical: what the term means here in a sentence or two, then an optional `Not:` sentence naming what it is not. `grill-me` adds a term when an interview meets an ambiguous one; every skill that writes or implements from a spec reads this file first.
    ```
 
-5. **`CLAUDE.md`.** Skip if the file holds a line equal to `## Workflow`. If the file is missing, create it holding exactly the block below. If it exists without that heading, append the block after one blank line (add a newline first when the file doesn't end with one) and leave every existing line as it was. The block:
+6. **`CLAUDE.md`.** Skip if the file holds a line equal to `## Workflow`. If the file is missing, create it holding exactly the block below. If it exists without that heading, append the block after one blank line (add a newline first when the file doesn't end with one) and leave every existing line as it was. The block:
 
    ```markdown
    ## Workflow
 
-   This repo runs the `jodysalt` plugin's spec-driven workflow: `docs/vision.md` sets direction with its goals and principles, `docs/tickets/` slices a goal into tickets and any ticket into `{slug}--{sub}` sub-tickets, `docs/coding-standards.md` holds the standards each ticket's branch is reviewed against, `docs/glossary.md` holds the terms every skill reads before writing, and each ticket's `tasks.md` is the backlog an unattended loop implements. An idea can first be market-tested, before the vision is written: `/jodysalt:add-landing-page` writes the landing page with its hypothesis beside it, and `/jodysalt:refine-landing-page` improves the page and records the result for the vision to cite. Draft with `/jodysalt:add-ticket`, then implement it with `/jodysalt:complete-ticket`, which works through it one thin slice at a time, each slice a sub-ticket with its own backlog.
+   This repo runs the `jodysalt` plugin's spec-driven workflow: `docs/vision.md` sets direction with its goals and principles, `docs/tickets/` slices a goal into tickets and any ticket into `{slug}--{sub}` sub-tickets, `docs/coding-standards.md` holds the standards each ticket's branch is reviewed against, `docs/testing-strategy.md` says how a change is verified, the full suite locally by default or a selective run and a CI push when that is impractical, `docs/glossary.md` holds the terms every skill reads before writing, and each ticket's `tasks.md` is the backlog an unattended loop implements. An idea can first be market-tested, before the vision is written: `/jodysalt:add-landing-page` writes the landing page with its hypothesis beside it, and `/jodysalt:refine-landing-page` improves the page and records the result for the vision to cite. Draft with `/jodysalt:add-ticket`, then implement it with `/jodysalt:complete-ticket`, which works through it one thin slice at a time, each slice a sub-ticket with its own backlog.
    ```
 
-6. **`.gitignore`.** Skip if a whole line equals `.claude/worktrees/` or `/.claude/worktrees/`, or if `git check-ignore -q .claude/worktrees` succeeds (the repo already ignores `.claude/` wholesale). Otherwise append `.claude/worktrees/` on its own line (add a newline first when the file doesn't end with one), creating the file when missing. `add-worktree` and Claude Code's own `EnterWorktree` both put worktrees under `.claude/worktrees/` at the repo root; nothing ignores that directory by default, and it must never be committed.
-7. **`.vscode/settings.json`.** Skip if the file exists, but when it lacks either key below, say so in the report rather than editing it. Otherwise create the directory and the file holding exactly:
+7. **`.gitignore`.** Skip if a whole line equals `.claude/worktrees/` or `/.claude/worktrees/`, or if `git check-ignore -q .claude/worktrees` succeeds (the repo already ignores `.claude/` wholesale). Otherwise append `.claude/worktrees/` on its own line (add a newline first when the file doesn't end with one), creating the file when missing. `add-worktree` and Claude Code's own `EnterWorktree` both put worktrees under `.claude/worktrees/` at the repo root; nothing ignores that directory by default, and it must never be committed.
+8. **`.vscode/settings.json`.** Skip if the file exists, but when it lacks either key below, say so in the report rather than editing it. Otherwise create the directory and the file holding exactly:
 
    ```json
    {
@@ -79,7 +99,7 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    ```
 
    The first key, off by default, makes VS Code list the `.claude/worktrees/` checkouts in its Source Control Repositories view with open, open in new window and delete. The second stops the root window watching every file in every worktree; `.gitignore` already keeps them out of search and Quick Open but the file watcher ignores it.
-8. **`Dockerfile.sandbox`.** Skip if the file exists at the repo root. Otherwise write it from this template. The comments are prompts for `refine-sandbox`, not content, and the first line is the marker `run-in-sandbox` and `refine-sandbox` match exactly, so it must not change.
+9. **`Dockerfile.sandbox`.** Skip if the file exists at the repo root. Otherwise write it from this template. The comments are prompts for `refine-sandbox`, not content, and the first line is the marker `run-in-sandbox` and `refine-sandbox` match exactly, so it must not change.
 
    ```dockerfile
    # Placeholder: run /jodysalt:refine-sandbox to tailor this file to the project.
@@ -92,7 +112,7 @@ Every other skill in this plugin assumes this layout exists and none creates it.
    # Services: install any the tests need and start them in an ENTRYPOINT script that ends exec "$@".
    ```
 
-9. **Report.** List each path created and each path skipped because it existed. Note when `git check-ignore -q .vscode/settings.json` succeeds, because the VS Code settings then stay local to this machine. State whether the root is inside a git work tree (`git rev-parse --is-inside-work-tree`) and whether the checked-out branch has a commit (`git rev-parse --verify --quiet HEAD` succeeds); when either check fails, say so, because `start-planning-session` and `add-worktree` fork from whatever the main checkout has checked out and an unborn branch has nothing to fork from, and leave it to the user: never run `git init`, create a branch or commit. Offer to invoke `jodysalt:refine-vision` to fill in `docs/vision.md`, `jodysalt:refine-coding-standards` to fill in `docs/coding-standards.md` and `jodysalt:refine-sandbox` to tailor `Dockerfile.sandbox`. Leave everything unstaged and suggest `jodysalt:commit` (a `chore:` commit).
+10. **Report.** List each path created and each path skipped because it existed. Note when `git check-ignore -q .vscode/settings.json` succeeds, because the VS Code settings then stay local to this machine. State whether the root is inside a git work tree (`git rev-parse --is-inside-work-tree`) and whether the checked-out branch has a commit (`git rev-parse --verify --quiet HEAD` succeeds); when either check fails, say so, because `start-planning-session` and `add-worktree` fork from whatever the main checkout has checked out and an unborn branch has nothing to fork from, and leave it to the user: never run `git init`, create a branch or commit. Offer to invoke `jodysalt:refine-vision` to fill in `docs/vision.md`, `jodysalt:refine-coding-standards` to fill in `docs/coding-standards.md`, `jodysalt:refine-testing-strategy` to tailor `docs/testing-strategy.md` and `jodysalt:refine-sandbox` to tailor `Dockerfile.sandbox`. Leave everything unstaged and suggest `jodysalt:commit` (a `chore:` commit).
 
 ## Rules
 

@@ -37,6 +37,11 @@ Not: a per-page design, or a CSS framework.
 Whoever invoked a skill: a person at the keyboard, or an agent such as a `deliver-brief` stage, the slice drafter `complete-ticket-slice` spawns, or a `complete-tasks` worker. By the vision's *Driver-agnostic* principle a skill serves either the same way, asking the same questions in the same shape, and learns which it has only from the caller's framing.
 Not: a person a skill detects from the session; nothing detects one.
 
+## gate
+
+The task that ends a ticket's backlog, appended by `add-tasks` with one step per check listed under `## Gate` in `docs/testing-strategy.md` – the full suite, locally, by default – and run by a `complete-task` worker like any task; a check may push the branch and watch its CI run when the strategy says so, after every local check has passed.
+Not: a task's own verification steps, which stay the narrowest checks; not the branch gate.
+
 ## landing page
 
 The single static page a market test publishes to sell the product before it exists.
@@ -86,6 +91,11 @@ Not: a task, which is one entry in a slice's backlog.
 
 A fresh sub-agent `deliver-brief` spawns to invoke one skill unattended, do its work and report in a few lines, ending in `done` or the vital few questions for the root to answer.
 Not: the root, which runs `complete-ticket` and the worktree skills itself because a sub-agent is pinned to its checkout.
+
+## testing strategy
+
+The document at `docs/testing-strategy.md` that says how this repo verifies a change: `## Coverage`, the test each task category must add; `## Task checks`, the checks a task's own steps may run; `## Gate`, the checks that end a backlog, one per bullet. `setup-skills` writes its defaults, which fit a repo whose full suite runs locally in minutes, `refine-testing-strategy` tailors them, and `add-tasks` reads them when it writes a backlog.
+Not: a ticket's `# Test plan`, which says what one change must prove; not `Dockerfile.sandbox`, which says where a command runs.
 
 ## unattended
 

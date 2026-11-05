@@ -1,6 +1,6 @@
 ---
 name: complete-tasks
-description: Runs the Ralph loop – repeatedly spawns a fresh sub-agent that invokes `complete-task` until a ticket's `docs/tickets/open/{slug}/tasks.md` has no `- **status:** pending` entry left. Use on `/complete-tasks`, "run the Ralph loop", "complete all the tasks", "work through the backlog for X". Pure orchestrator: never implements or commits itself, runs one worker at a time, stops on the first failed task, never pushes.
+description: Runs the Ralph loop – repeatedly spawns a fresh sub-agent that invokes `complete-task` until a ticket's `docs/tickets/open/{slug}/tasks.md` has no `- **status:** pending` entry left. Use on `/complete-tasks`, "run the Ralph loop", "complete all the tasks", "work through the backlog for X". Pure orchestrator: never implements or commits itself, runs one worker at a time, stops on the first failed task, and pushes nothing itself; a worker pushes only when a gate step written from `docs/testing-strategy.md` sends the branch to CI.
 argument-hint: "[ticket slug or path – defaults to the current branch's ticket or the only open ticket]"
 ---
 
