@@ -1,0 +1,11 @@
+.assetsignore
+.gitignore
+.wrangler
+wrangler.toml
+worker.js
+migrations
+README.md
+mocks
+node_modules
+package.json
+package-lock.json

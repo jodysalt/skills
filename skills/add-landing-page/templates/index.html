@@ -72,7 +72,13 @@
   section { padding: 5.5rem 0; }
   .lede { text-align: center; color: var(--muted); font-size: 1.12rem; max-width: 36rem; margin: 1.25rem auto 0; }
 
-  #benefits .grid { display: grid; gap: 1.5rem; margin-top: 3.5rem; }
+  #benefits .grid { display: grid; grid-auto-flow: column; grid-auto-columns: min(85%, 22rem); gap: 1.5rem; margin-top: 3.5rem; padding: 0.25rem 0.25rem 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  #benefits .grid::-webkit-scrollbar { display: none; }
+  #benefits .benefit { scroll-snap-align: start; }
+  .carousel-nav { display: flex; justify-content: center; gap: 0.75rem; margin-top: 1.5rem; }
+  .carousel-nav button { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); font: inherit; font-size: 1.1rem; cursor: pointer; transition: background 0.2s, color 0.2s; }
+  .carousel-nav button:hover { background: var(--ink); color: var(--surface); }
+  .carousel-nav button:disabled { opacity: 0.3; cursor: default; background: transparent; color: var(--ink); }
   .benefit { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 2rem 2rem 1.5rem; box-shadow: 0 1px 0 color-mix(in srgb, var(--panel) 80%, transparent) inset, 0 24px 50px -40px color-mix(in srgb, var(--ink) 50%, transparent); }
   .benefit h3 { margin-top: 0.4rem; }
   .benefit p { color: var(--muted); margin-top: 0.75rem; margin-bottom: 1.75rem; }
@@ -92,6 +98,7 @@
   .price-card .amount small { display: block; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 0.75rem; }
   .price-card p { color: var(--muted); }
   .price-main p + p { margin-top: 1.25rem; max-width: 22rem; }
+  .price-main .button { margin-top: 1.75rem; max-width: 16rem; }
   .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; align-self: center; }
   .checks li { padding: 0.9rem 0 0.9rem 2rem; position: relative; color: var(--ink); border-bottom: 1px solid var(--line); }
   .checks li:first-child { border-top: 1px solid var(--line); }
@@ -113,17 +120,35 @@
   #terms { border-top: 1px solid var(--line); padding: 2.5rem 0 3.5rem; font-size: 0.88rem; color: var(--muted); }
   #terms p + p { margin-top: 0.4rem; }
   #terms p:last-child { margin-top: 1.5rem; font-family: var(--serif); font-style: italic; }
+  #terms a, #waitlist a { color: var(--ink-soft); }
+
+  #waitlist { max-width: 26rem; width: calc(100% - 2.5rem); padding: 2.25rem; border: 1px solid var(--line-strong); border-radius: 22px; background: var(--panel); color: var(--ink); }
+  #waitlist::backdrop { background: color-mix(in srgb, var(--surface) 70%, transparent); backdrop-filter: blur(6px); }
+  #waitlist h3 { font-size: 1.6rem; }
+  #waitlist p { color: var(--muted); margin-top: 0.6rem; }
+  #waitlist label { display: block; margin-top: 1.5rem; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); }
+  #waitlist input { display: block; width: 100%; margin-top: 0.4rem; padding: 0.85rem 1rem; border-radius: 12px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); font: inherit; }
+  #waitlist button { width: 100%; margin-top: 1.25rem; border: 0; cursor: pointer; font: inherit; font-weight: 600; }
+  #waitlist .close { position: absolute; top: 0.75rem; right: 1rem; width: auto; margin: 0; background: none; color: var(--muted); font-size: 1.5rem; }
+  #waitlist .error { color: var(--accent-deep); font-size: 0.9rem; }
+  #waitlist .done { display: none; }
+  #waitlist.sent form { display: none; }
+  #waitlist.sent .done { display: block; }
 
   @media (min-width: 54rem) {
     .intro { padding: 6rem 0; }
     .intro .wrap { grid-template-columns: 1.1fr 0.9fr; gap: 4rem; }
     #hero { padding: 3rem 2rem; }
-    #benefits .grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+    #benefits .grid { grid-auto-columns: calc((100% - 3rem) / 3.25); }
     .steps ol { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
     .price-card { grid-template-columns: 1fr 1fr; padding: 3.25rem; }
   }
 </style>
-<!-- TODO: analytics – paste the snippet here verbatim, or delete this comment. -->
+<script>
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  // TODO: analytics – the PostHog project key, and the region host: https://eu.i.posthog.com or https://us.i.posthog.com.
+  posthog.init('TODO: project key', { api_host: 'https://eu.i.posthog.com', person_profiles: 'identified_only', persistence: 'memory' });
+</script>
 </head>
 <body>
 <nav class="top" aria-label="Main">
@@ -132,7 +157,7 @@
       <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8"/><path d="M7 11h14" fill="none" stroke-width="2.2" stroke-linecap="round"/><path d="M7 17h9" fill="none" stroke-width="2.2" stroke-linecap="round"/></svg>
       TODO: product name
     </a>
-    <a class="button small" href="#cta">TODO: call to action</a>
+    <a class="button small" href="#waitlist" data-waitlist="nav">TODO: call to action</a>
   </div>
 </nav>
 <div class="intro">
@@ -173,6 +198,10 @@
         <!-- TODO: screenshot – &lt;img src="mock-{slug}.png" alt="…"&gt; goes here. -->
       </div>
     </div>
+    <div class="carousel-nav">
+      <button type="button" data-step="-1" aria-label="Previous benefit">←</button>
+      <button type="button" data-step="1" aria-label="Next benefit">→</button>
+    </div>
     <div class="steps">
       <p class="steps-title">TODO: steps title – the user's first hour</p>
       <ol>
@@ -191,6 +220,7 @@
       <div class="price-main">
         <p class="amount">TODO: amount<small>TODO: unit</small></p>
         <p>TODO: price sentence – what the figure buys and when it is charged</p>
+        <a class="button" href="#waitlist" data-waitlist="price">TODO: call to action</a>
       </div>
       <ul class="checks">
         <li>TODO: check one – what is included</li>
@@ -205,7 +235,7 @@
 <section id="cta">
   <div class="wrap">
     <h2>TODO: call to action – an invitation</h2>
-    <a class="button" href="">TODO: call to action</a>
+    <a class="button" href="#waitlist" data-waitlist="cta">TODO: call to action</a>
     <p>TODO: terms – what the call to action costs and when</p>
   </div>
 </section>
@@ -226,8 +256,69 @@
     <p>TODO: terms line one – what the call to action costs</p>
     <p>TODO: terms line two – when it ships</p>
     <p>TODO: terms line three – how to leave or get the money back</p>
-    <p>TODO: brand line – © year product name</p>
+    <p>TODO: controller line – the legal name, its registration and its registered office</p>
+    <p>TODO: brand line – © year product name · <a href="/privacy">Privacy</a></p>
   </div>
 </footer>
+<dialog id="waitlist" aria-labelledby="waitlist-title">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <form>
+    <h3 id="waitlist-title">TODO: waitlist title – that it is not out yet</h3>
+    <p>TODO: waitlist body – what the sign-up gets and when, in one or two sentences <a href="/privacy">Privacy</a></p>
+    <label for="waitlist-email">Email</label>
+    <input id="waitlist-email" name="email" type="email" autocomplete="email" required>
+    <button class="button" type="submit">Join the waitlist</button>
+    <p class="error" role="alert" hidden>That didn't go through. Check the address and try again.</p>
+  </form>
+  <div class="done">
+    <h3>You're on the list</h3>
+    <p>TODO: waitlist done – what happens next, in one sentence</p>
+  </div>
+</dialog>
+<script>
+  const cards = document.querySelector('#benefits .grid');
+  const [previous, next] = document.querySelectorAll('.carousel-nav button');
+  const updateNav = () => {
+    previous.disabled = cards.scrollLeft <= 1;
+    next.disabled = cards.scrollLeft + cards.clientWidth >= cards.scrollWidth - 1;
+  };
+  [previous, next].forEach(button => button.addEventListener('click', () => {
+    const card = cards.querySelector('.benefit');
+    cards.scrollBy({ left: Number(button.dataset.step) * (card.offsetWidth + 24), behavior: 'smooth' });
+  }));
+  cards.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  const waitlist = document.getElementById('waitlist');
+  document.querySelectorAll('[data-waitlist]').forEach(link => link.addEventListener('click', event => {
+    event.preventDefault();
+    posthog.capture('buy_click', { placement: link.dataset.waitlist });
+    waitlist.showModal();
+  }));
+  waitlist.querySelector('.close').addEventListener('click', () => waitlist.close());
+  waitlist.querySelector('form').addEventListener('submit', async event => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value.trim();
+    const error = form.querySelector('.error');
+    form.querySelector('[type=submit]').disabled = true;
+    error.hidden = true;
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (!response.ok) throw new Error(response.status);
+      posthog.identify(email, { email });
+      posthog.capture('waitlist_signup');
+      waitlist.classList.add('sent');
+    } catch {
+      error.hidden = false;
+    } finally {
+      form.querySelector('[type=submit]').disabled = false;
+    }
+  });
+</script>
 </body>
 </html>

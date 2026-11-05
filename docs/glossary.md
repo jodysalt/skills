@@ -17,6 +17,11 @@ Not: a guard on what the checkout holds, such as a page that already exists.
 The document at `docs/competitor-analysis.md` that records an idea's main keywords, the pricing, guarantees and positioning of the three or four competitors those searches rank highest, and the opening the offer should take, written before the market test so the landing page's offer is shaped against it.
 Not: the vision's competitive landscape, or a feature comparison.
 
+## deploy
+
+Publishing `docs/landing-page/` as its Cloudflare Worker, the folder its static assets minus what `.assetsignore` lists: the `Landing page` workflow `add-landing-page` writes, run by hand from the Actions tab, or `npx wrangler deploy` in that folder. `refine-landing-page` fills the values it needs and never runs it.
+Not: landing the planning branch through `wrap-up-worktree`, which publishes nothing.
+
 ## design
 
 One or more static HTML pages under `designs/{name}/` beside the ticket at `docs/tickets/open/{slug}/`, showing one candidate for what the ticket builds: a screen, a flow of screens, or something that is not a screen at all, kept as the reference for what to build and what not to.
@@ -91,3 +96,8 @@ Not: a run with no person present that nobody declared; a skill treats that as a
 
 The user's decision on a design, `build` or `reject`, with its reason in a sentence, made in `refine-design`'s interview and recorded in the design's bullet under the ticket's `# Designs`; a `build` design is the spec of the screen a slice builds and a `reject` one is what it leaves out.
 Not: `complete-ticket-slice`'s judgement that an acceptance criterion is met or unmet.
+
+## waitlist
+
+The landing page's built-in call to action: the `#waitlist` modal its buttons open, the Worker's `/api/waitlist` route the modal's form posts the email to, and the D1 `signups` table that stores it, the list of record for the market test's sign-ups.
+Not: the `waitlist_signup` PostHog event, which counts beside the table, or a third-party form.
