@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TODO: the lesson's title · TODO: the tutorial's title</title>
+<link rel="stylesheet" href="../tutorial.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="crumbs"><a href="../">Tutorials</a><span>/</span><a href="./">TODO: the tutorial's title</a><span>/</span><span>Lesson TODO: n</span></div>
+  <small>TODO: about m minutes</small>
+</div>
+<main>
+  <h1>TODO: the lesson's title</h1>
+
+  <!-- The lesson shape: outcome, concept, visual, try it, check, recap and next. Each part is one section; drop a part only when the lesson truly has nothing for it. -->
+
+  <section class="outcome">
+    <strong>By the end of this lesson</strong> TODO: what the reader can do, in one sentence.
+  </section>
+
+  <section class="concept">
+    <h2>TODO: the idea, as a heading</h2>
+    <p>TODO: explain the one idea this lesson teaches, in plain words, building on the lesson before. Short paragraphs; one idea each.</p>
+  </section>
+
+  <section class="visual">
+    <h2>TODO: what the picture shows</h2>
+    <figure class="visual">
+      <!-- Inline SVG or <canvas>, drawn by the script below when a control drives it. Use class="accent", "muted" and "line" so it follows the theme. -->
+      <svg viewBox="0 0 400 120" width="400" height="120" role="img" aria-label="TODO: what the figure shows">
+        <line class="line" x1="20" y1="100" x2="380" y2="100" stroke-width="1"/>
+        <rect id="bar" class="accent" x="20" y="40" width="90" height="60" rx="4"/>
+        <text x="20" y="25" font-size="14">TODO: a label</text>
+      </svg>
+      <figcaption>TODO: what to notice in the figure.</figcaption>
+    </figure>
+  </section>
+
+  <section class="try">
+    <h2>Try it</h2>
+    <p>TODO: what to change and what to watch.</p>
+    <div class="controls">
+      <label>TODO: the variable <input type="range" data-var="n" min="1" max="10" value="3"> <output data-show="n"></output></label>
+    </div>
+  </section>
+
+  <section class="check">
+    <h2>Check</h2>
+    <form class="quiz" data-answer="b" data-right="TODO: why that's right." data-wrong="TODO: a hint, not the answer.">
+      <p>TODO: a question that tests the idea, not the wording.</p>
+      <label><input type="radio" name="q1" value="a"> TODO: a plausible wrong answer</label>
+      <label><input type="radio" name="q1" value="b"> TODO: the right answer</label>
+      <label><input type="radio" name="q1" value="c"> TODO: another plausible wrong answer</label>
+      <button class="button secondary">Check</button>
+      <p class="feedback"></p>
+    </form>
+  </section>
+
+  <section class="recap">
+    <h2>Recap</h2>
+    <ul>
+      <li>TODO: the idea in one line.</li>
+      <li>TODO: the one thing to remember.</li>
+    </ul>
+    <p><strong>Next:</strong> TODO: what the next lesson adds, in a sentence.</p>
+    <button class="button mark-complete" data-lesson="TODO: n">Mark complete</button>
+  </section>
+
+  <nav class="lesson-nav">
+    <a class="prev" href="./">← Overview</a>
+    <a class="next" href="TODO: n+1-name.html">Next lesson →</a>
+  </nav>
+</main>
+<script src="../tutorial.js"></script>
+<script>
+  // Try it: redraw the figure whenever the control changes. Replace with the lesson's own drawing.
+  tutorial.bind("n", function (n) {
+    var bar = document.getElementById("bar");
+    if (bar) bar.setAttribute("width", String(n * 30));
+  });
+</script>
+</body>
+</html>

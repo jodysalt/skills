@@ -52,6 +52,11 @@ Not: a task's own verification steps, which stay the narrowest checks; not the b
 The single static page a market test publishes to sell the product before it exists.
 Not: the product's marketing site once it ships.
 
+## lesson
+
+One page of a tutorial, `{n}-{name}.html` under its folder, that teaches one idea, shows it visually and checks it interactively before pointing to the next lesson.
+Not: a section of a longer page.
+
 ## market test
 
 A landing page that sells a product before it exists, published to measure interest against a threshold set in advance; the vision for the product is written from its result.
@@ -101,6 +106,11 @@ Not: the root, which runs `complete-ticket` and the worktree skills itself becau
 
 The document at `docs/testing-strategy.md` that says how this repo verifies a change: `## Coverage`, the test each task category must add; `## Task checks`, the checks a task's own steps may run; `## Gate`, the checks that end a backlog, one per bullet. `setup-skills` writes its defaults, which fit a repo whose full suite runs locally in minutes, `refine-testing-strategy` tailors them, and `add-tasks` reads them when it writes a backlog.
 Not: a ticket's `# Test plan`, which says what one change must prove; not `Dockerfile.sandbox`, which says where a command runs.
+
+## tutorial
+
+A folder under `docs/tutorials/{slug}/` teaching one subject so the people building and marketing a product choose better informed: an overview page naming its outcomes and lessons, plus one page per lesson, in the shared layout `docs/tutorials/tutorial.css` and `tutorial.js` give every tutorial. `add-tutorial` scaffolds it, `refine-tutorial` researches and writes it.
+Not: a design, or the product's own documentation.
 
 ## unattended
 
