@@ -12,6 +12,11 @@ Not: a file the `refine-{foo}` has filled.
 The step a skill that writes to the repo runs before it writes: when the current branch is neither a planning branch nor an open ticket's, it offers `start-planning-session` with its subject as the description, carries on where it is when the user declines, and is skipped once it has run in the conversation.
 Not: a guard on what the checkout holds, such as a page that already exists.
 
+## brief
+
+The words a ticket is drafted from: `add-ticket`'s input verbatim, what the conversation established about the change, and the paths of the spike findings and designs it read, written under the ticket's `# Brief` and folded into the sections by `refine-ticket`, which removes it; `deliver-brief`'s argument is the brief of the ticket it drafts.
+Not: the refined spec, or a handover note on a task.
+
 ## competitor analysis
 
 The document at `docs/competitor-analysis.md` that records an idea's main keywords, the pricing, guarantees and positioning of the three or four competitors those searches rank highest, and the opening the offer should take, written before the market test so the landing page's offer is shaped against it.
