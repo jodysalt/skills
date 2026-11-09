@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TODO: the lesson's title · TODO: the tutorial's title</title>
-<link rel="stylesheet" href="../tutorial.css">
+<title>TODO: the lesson's title · TODO: the course's title</title>
+<link rel="stylesheet" href="../course.css">
 </head>
 <body>
 <div class="topbar">
-  <div class="crumbs"><a href="../">Tutorials</a><span>/</span><a href="./">TODO: the tutorial's title</a><span>/</span><span>Lesson TODO: n</span></div>
+  <div class="crumbs"><a href="../">Courses</a><span>/</span><a href="./">TODO: the course's title</a><span>/</span><span>Lesson TODO: n</span></div>
   <small>TODO: about m minutes</small>
 </div>
 <main>
@@ -73,10 +73,10 @@
     <a class="next" href="TODO: n+1-name.html">Next lesson →</a>
   </nav>
 </main>
-<script src="../tutorial.js"></script>
+<script src="../course.js"></script>
 <script>
   // Try it: redraw the figure whenever the control changes. Replace with the lesson's own drawing.
-  tutorial.bind("n", function (n) {
+  course.bind("n", function (n) {
     var bar = document.getElementById("bar");
     if (bar) bar.setAttribute("width", String(n * 30));
   });

@@ -1,11 +1,11 @@
-/* The shared widgets every tutorial under docs/tutorials/ gets. Vanilla, no dependencies. Edit only when every tutorial should change.
+/* The shared widgets every course under docs/courses/ gets. Vanilla, no dependencies. Edit only when every course should change.
  *
  * Markup each widget enhances:
  *
  * Try it – a control drives a figure:
  *   <input type="range" data-var="n" min="1" max="10" value="3"> <output data-show="n"></output>
  *   Every [data-show="n"] gets the value as text. Inline script draws the figure:
- *   tutorial.bind("n", function (n, vars) { ... }); – called now and on every change.
+ *   course.bind("n", function (n, vars) { ... }); – called now and on every change.
  *
  * Check – a quiz:
  *   <form class="quiz" data-answer="b" data-right="Yes – …" data-wrong="Not quite – …">
@@ -28,7 +28,7 @@
 (function () {
   "use strict";
 
-  var tutorial = (window.tutorial = window.tutorial || {});
+  var course = (window.course = window.course || {});
   var vars = {};
   var handlers = {};
 
@@ -49,11 +49,11 @@
     });
   }
 
-  tutorial.get = function (name) {
+  course.get = function (name) {
     return vars[name];
   };
 
-  tutorial.bind = function (name, fn) {
+  course.bind = function (name, fn) {
     (handlers[name] = handlers[name] || []).push(fn);
     if (name in vars) fn(vars[name], vars);
   };
@@ -132,21 +132,21 @@
     });
   }
 
-  /* Progress: key "tutorial:{slug}" holds a JSON array of completed lesson numbers. {slug} is the folder name. */
+  /* Progress: key "course:{slug}" holds a JSON array of completed lesson numbers. {slug} is the folder name. */
   function slug() {
     var parts = location.pathname.split("/").filter(Boolean);
-    return parts.length >= 2 ? parts[parts.length - 2] : parts[0] || "tutorial";
+    return parts.length >= 2 ? parts[parts.length - 2] : parts[0] || "course";
   }
   function readDone() {
     try {
-      return JSON.parse(localStorage.getItem("tutorial:" + slug()) || "[]");
+      return JSON.parse(localStorage.getItem("course:" + slug()) || "[]");
     } catch (e) {
       return [];
     }
   }
   function writeDone(list) {
     try {
-      localStorage.setItem("tutorial:" + slug(), JSON.stringify(list));
+      localStorage.setItem("course:" + slug(), JSON.stringify(list));
     } catch (e) {
       /* storage unavailable: the page works without it */
     }

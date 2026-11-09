@@ -22,6 +22,11 @@ Not: the refined spec, or a handover note on a task.
 The document at `docs/competitor-analysis.md` that records an idea's main keywords, the pricing, guarantees and positioning of the three or four competitors those searches rank highest, and the opening the offer should take, written before the market test so the landing page's offer is shaped against it.
 Not: the vision's competitive landscape, or a feature comparison.
 
+## course
+
+A folder under `docs/courses/{slug}/` teaching one subject so the people building and marketing a product choose better informed: an overview page naming its outcomes and lessons, plus one page per lesson, in the shared layout `docs/courses/course.css` and `course.js` give every course. `add-course` scaffolds it, `refine-course` researches and writes it.
+Not: a tutorial, a hands-on walkthrough of one task; not a design, or the product's own documentation.
+
 ## deploy
 
 Publishing `docs/landing-page/` as its Cloudflare Worker, the folder its static assets minus what `.assetsignore` lists: the `Landing page` workflow `add-landing-page` writes, run by hand from the Actions tab, or `npx wrangler deploy` in that folder. `refine-landing-page` fills the values it needs and never runs it.
@@ -54,7 +59,7 @@ Not: the product's marketing site once it ships.
 
 ## lesson
 
-One page of a tutorial, `{n}-{name}.html` under its folder, that teaches one idea, shows it visually and checks it interactively before pointing to the next lesson.
+One page of a course, `{n}-{name}.html` under its folder, that teaches one idea, shows it visually and checks it interactively before pointing to the next lesson.
 Not: a section of a longer page.
 
 ## market test
@@ -106,11 +111,6 @@ Not: the root, which runs `complete-ticket` and the worktree skills itself becau
 
 The document at `docs/testing-strategy.md` that says how this repo verifies a change: `## Coverage`, the test each task category must add; `## Task checks`, the checks a task's own steps may run; `## Gate`, the checks that end a backlog, one per bullet. `setup-skills` writes its defaults, which fit a repo whose full suite runs locally in minutes, `refine-testing-strategy` tailors them, and `add-tasks` reads them when it writes a backlog.
 Not: a ticket's `# Test plan`, which says what one change must prove; not `Dockerfile.sandbox`, which says where a command runs.
-
-## tutorial
-
-A folder under `docs/tutorials/{slug}/` teaching one subject so the people building and marketing a product choose better informed: an overview page naming its outcomes and lessons, plus one page per lesson, in the shared layout `docs/tutorials/tutorial.css` and `tutorial.js` give every tutorial. `add-tutorial` scaffolds it, `refine-tutorial` researches and writes it.
-Not: a design, or the product's own documentation.
 
 ## unattended
 

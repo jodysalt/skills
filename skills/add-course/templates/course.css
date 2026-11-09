@@ -1,4 +1,4 @@
-/* The shared look every tutorial under docs/tutorials/ inherits. Edit only when every tutorial should change. */
+/* The shared look every course under docs/courses/ inherits. Edit only when every course should change. */
 :root {
   --surface: #f7f4ed;
   --surface-deep: #efe9dd;
@@ -131,10 +131,10 @@ details[open] summary { margin-bottom: 8px; }
 .lessons li::before { content: counter(lesson); display: inline-grid; place-items: center; width: 1.8em; height: 1.8em; border-radius: 999px; background: var(--surface-deep); font-size: 0.85em; font-weight: 700; flex: none; }
 .lessons li.done::before { content: "✓"; background: var(--accent-mist); color: var(--accent-deep); }
 .lessons li a { font-weight: 600; text-decoration: none; }
-.tutorials { list-style: none; padding: 0; }
-.tutorials li { padding: 12px 0; border-bottom: 1px solid var(--line); }
-.tutorials li a { font-weight: 700; text-decoration: none; }
-.tutorials li .muted { display: block; }
+.courses { list-style: none; padding: 0; }
+.courses li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.courses li a { font-weight: 700; text-decoration: none; }
+.courses li .muted { display: block; }
 .mark-complete.done { background: var(--accent-mist); color: var(--accent-deep); }
 
 @media (max-width: 480px) {
