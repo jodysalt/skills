@@ -4,7 +4,7 @@ One `## ` section per term, alphabetical: what the term means here in a sentence
 
 ## boilerplate
 
-The files an `add-{foo}` skill writes from its templates before handing off to its pair: for `add-landing-page`, the landing page in the house design language with `TODO:` placeholders where the copy goes and the mocks' stylesheet and index; for `add-skill`, a `SKILL.md` whose sections are prompts.
+The files an `add-{foo}` skill writes from its templates before handing off to its pair: for `add-landing-page`, the landing page in the house design language with `TODO:` placeholders where the copy goes and the mocks' stylesheet and index; for `add-skill`, in a playbook repo a play whose sections are prompts and its helper, elsewhere a `SKILL.md` whose sections are prompts.
 Not: a file the `refine-{foo}` has filled.
 
 ## branch gate
@@ -90,7 +90,7 @@ Not: a ticket's own branch, or source such as `Dockerfile.sandbox`, which a tick
 ## play
 
 One unit of the method inside the `playbook` skill, at `plays/{name}/index.md`: the steps to run and the arguments it takes. `/jodysalt:playbook {name} {args}` runs it; a play whose name starts with `_` has no helper skill and is only called from other plays.
-Not: a task, which is one entry in a ticket's `tasks.md`; not a skill, which after the refactor is `playbook` or a helper that delegates to it.
+Not: a task, which is one entry in a ticket's `tasks.md`; not a skill, which is `playbook` or a helper that delegates to it.
 
 ## project command
 
@@ -109,7 +109,7 @@ Not: a task, which is one entry in a slice's backlog.
 
 ## stage
 
-A fresh sub-agent `deliver-brief` spawns to invoke one skill unattended, do its work and report in a few lines, ending in `done` or the vital few questions for the root to answer.
+A fresh sub-agent `deliver-brief` spawns to run one play unattended, do its work and report in a few lines, ending in `done` or the vital few questions for the root to answer.
 Not: the root, which runs `complete-ticket` and the worktree skills itself because a sub-agent is pinned to its checkout.
 
 ## testing strategy

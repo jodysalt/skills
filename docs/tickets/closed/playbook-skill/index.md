@@ -42,7 +42,7 @@ Out:
 - A play directory named `_{name}` with no helper is runnable as `jodysalt:playbook _{name}` from another play and absent from the play index and the unknown-name listing.
 - `README.md` keeps one row per public play, linking `skills/playbook/plays/{name}/index.md` with its text unchanged, and its installation section says `/jodysalt:{name}` and `/jodysalt:playbook {name}` are equivalent.
 - `.claude-plugin/plugin.json` is at version `0.40.0`.
-- `claude plugin validate . --strict` passes.
+- `claude plugin validate .` exits 0; its warning about the root `CLAUDE.md` is known and accepted.
 
 # Implementation notes
 - Move each body with `git mv skills/{name}/SKILL.md skills/playbook/plays/{name}/index.md` so history follows, then write the helper in its place.
@@ -53,7 +53,7 @@ Out:
 
 # Test plan
 There is no `docs/testing-strategy.md` in this repo, so:
-- `claude plugin validate . --strict` passes.
+- `claude plugin validate .` exits 0; its warning about the root `CLAUDE.md` is known and accepted.
 - `grep -rnE 'jodysalt:[a-z-]+' skills/playbook/plays` shows no name but `jodysalt:playbook`.
 - Manual, from the ticket's worktree with the plugin loaded from it: `/jodysalt:commit` makes a commit; plain-speech "commit this" starts the `commit` play; `/jodysalt:add-ticket` runs through its hand-off into the `refine-ticket` play; `/jodysalt:playbook nope` lists the plays.
 
