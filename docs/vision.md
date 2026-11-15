@@ -22,7 +22,8 @@ Any Claude Code user who wants their agent to work from a spec rather than from 
 - **Add, then refine.** Whatever the method adds comes as a pair: `add-{foo}` writes the boilerplate and hands off to `refine-{foo}`, which improves what exists in place, so anything added can always be refined and the two share no steps. A skill that can plausibly take the `add-{foo}` form does, and names the partners it implies, `remove-{foo}` first.
 - **Branches before `main`.** A planning doc is drafted on a planning branch and a change to source is made on a ticket's branch; a skill that writes to the repo runs the branch gate first, so nothing is edited on the base by accident.
 - **One thing, then stop.** A skill does its one job, leaves the result for review, and never pushes.
-- **Claude Code first.** Skills call each other by namespaced name and spawn sub-agents where the method needs it. Nothing else leans on Claude Code without a reason, so the bodies stay readable to other agents where that is cheap.
+- **Claude Code first.** Plays call each other through the `playbook` skill by namespaced name and spawn sub-agents where the method needs it. Nothing else leans on Claude Code without a reason, so the bodies stay readable to other agents where that is cheap.
+- **Light in context.** Installing the plugin costs a user one description, the `playbook` skill's index of plays. A play's body loads only when it runs, and a helper skill costs nothing until it is typed.
 - **`main` is always installable.** Users auto-update from it, so every merge is a release. The plugin version bumps on any change to a skill's behaviour.
 - **Dogfooding.** This repo runs its own workflow: its purpose lives in this file, a change to the skills arrives as a ticket the loop implements or is drafted on a planning branch through `add-skill` and `refine-skill`, and either lands through `wrap-up-worktree`.
 
@@ -34,7 +35,7 @@ Strict validation gates every skill. The skills that run unattended (`complete-t
 
 ### Market test before building
 
-A product idea can enter the method through a market test: a single static landing page that sells the product before it exists, hosted from the repo on GitHub Pages or the like, and the product mocks whose screenshots give the page its copy and which outlive the test as the design the first tickets are drafted against. Its hypothesis, metric and threshold are written down beside the page before it goes live, and its result lands there too, so `refine-vision` can cite what the market said instead of what the maintainer remembers. The test is optional; a repo that already knows what it is building starts at `docs/vision.md` as before. Success: one real idea goes through it end to end in a repo with no vision yet – page and mocks scaffolded by the skills, published, the result written beside the page, and `docs/vision.md` then written citing it – whether the idea passed or failed.
+A product idea can enter the method through a market test: a single static landing page that sells the product before it exists, hosted from the repo as a Cloudflare Worker, and the product mocks whose screenshots give the page its copy and which outlive the test as the design the first tickets are drafted against. Its hypothesis, metric and threshold are written down beside the page before it goes live, and its result lands there too, so `refine-vision` can cite what the market said instead of what the maintainer remembers. The test is optional; a repo that already knows what it is building starts at `docs/vision.md` as before. Success: one real idea goes through it end to end in a repo with no vision yet – page and mocks scaffolded by the skills, published, the result written beside the page, and `docs/vision.md` then written citing it – whether the idea passed or failed.
 
 ### Adoption beyond the first user
 
@@ -46,5 +47,5 @@ The first user's repo installs the plugin, deletes its local skill copies, and k
 - **A home for standalone skills.** A useful skill the method does not call does not belong here, however good it is.
 - **A website builder.** A landing page is one static file with no framework or build step; ads, traffic and analytics are the user's own.
 - **Portability as a goal.** Skill bodies avoid needless Claude Code specifics, but the method depends on Claude Code and is not contorted to run elsewhere.
-- **Several plugins.** The skills form one call chain and ship as one plugin. Installing all of them costs a user only their descriptions in context.
+- **Several plugins.** The skills form one call chain and ship as one plugin. Installing all of them costs a user one description in context.
 - **A feature of the first user's product.** The skills were extracted from it, but it consumes the plugin and does not own it.

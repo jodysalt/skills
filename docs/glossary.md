@@ -87,6 +87,11 @@ Not: the `refine-{foo}` of the pair.
 The `planning-<YYYY-MM-DD>-<description>` worktree `start-planning-session` creates, where anything that lands on `main` through `wrap-up-worktree` without a ticket is drafted: the vision, tickets, designs, the coding standards, the market test and this plugin's skills. A skill that writes one of those runs the branch gate first.
 Not: a ticket's own branch, or source such as `Dockerfile.sandbox`, which a ticket lands.
 
+## play
+
+One unit of the method inside the `playbook` skill, at `plays/{name}/index.md`: the steps to run and the arguments it takes. `/jodysalt:playbook {name} {args}` runs it; a play whose name starts with `_` has no helper skill and is only called from other plays.
+Not: a task, which is one entry in a ticket's `tasks.md`; not a skill, which after the refactor is `playbook` or a helper that delegates to it.
+
 ## project command
 
 A command that runs the project's own code or toolchain – a manifest script (`npm run …`, `make …`, `just …`) or the runtime or a tool directly (`npx tsc`, `pytest`) – as tests, type-checks, lints and builds do. In a repo whose `Dockerfile.sandbox` is tailored, `complete-task` runs each one through `run-in-sandbox`.
