@@ -92,6 +92,11 @@ Not: a ticket's own branch, or source such as `Dockerfile.sandbox`, which a tick
 One unit of the method inside the `playbook` skill, at `plays/{name}/index.md`: the steps to run and the arguments it takes. `/jodysalt:playbook {name} {args}` runs it; a play whose name starts with `_` has no helper skill and is only called from other plays.
 Not: a task, which is one entry in a ticket's `tasks.md`; not a skill, which is `playbook` or a helper that delegates to it.
 
+## playbook repo
+
+A repo whose root holds `.claude-plugin/plugin.json` and `skills/playbook/`, where a skill is written as a play behind a helper, with its entry in the play index.
+Not: a plugin repo without `skills/playbook/`, where a skill is its own `SKILL.md` under `skills/`.
+
 ## project command
 
 A command that runs the project's own code or toolchain – a manifest script (`npm run …`, `make …`, `just …`) or the runtime or a tool directly (`npx tsc`, `pytest`) – as tests, type-checks, lints and builds do. In a repo whose `Dockerfile.sandbox` is tailored, `complete-task` runs each one through `run-in-sandbox`.
@@ -101,6 +106,11 @@ Not: a command that only reads the checkout, such as `grep`, `git` or `ls`.
 
 A Docker container built from `Dockerfile.sandbox` at the repo root, with the checkout mounted in it, where `run-in-sandbox` runs commands isolated from the host.
 Not: Claude Code's own Bash sandbox, which restricts the session's shell commands.
+
+## skills plugin
+
+A Claude Code plugin whose content is skills, published from its own repo through a one-plugin marketplace of the same name and laid out as a playbook repo. `add-skills-plugin` writes its boilerplate.
+Not: a plugin of agents, hooks or MCP servers; not a marketplace listing several plugins.
 
 ## slice
 
