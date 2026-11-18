@@ -13,13 +13,13 @@ A slug, a `docs/tickets/open/{slug}` directory, or any file inside it, reduced t
 1. **Guard.** The main checkout is the first path in `git worktree list`. `<main checkout>/docs/tickets/open/{slug}/index.md` must exist; otherwise stop, change nothing, and say to land the planning branch that holds the ticket with `jodysalt:playbook wrap-up-worktree` first.
 2. **Worktree.** If `git rev-parse --show-toplevel` already equals `<main checkout>/.claude/worktrees/{slug}`, skip this step. Else if that path is registered in `git worktree list`, invoke `jodysalt:playbook enter-worktree {slug}`. Else invoke `jodysalt:playbook exit-worktree` when the session is inside another worktree, then `jodysalt:playbook add-worktree {slug}` (declining its offer to enter), then `jodysalt:playbook enter-worktree {slug}`.
 3. **Existing backlog.** A compatibility step for a ticket whose `tasks.md` predates slicing; a parent `tasks.md` is never written here. When `docs/tickets/open/{slug}/tasks.md` exists with a `- **status:** pending` entry, invoke `jodysalt:playbook complete-tasks {slug}`; on its first failed task, stop with its report and leave the worktree in place. Otherwise skip this step.
-4. **Slices.** Invoke `jodysalt:playbook complete-ticket-slice {slug}` and read the last line of its report:
+4. **Slices.** Invoke `jodysalt:playbook complete-ticket-slice {slug}`, stating in the same turn the framing "the slice's draft is unattended: no person answers the slice drafter's questions, and one the ticket leaves open takes the drafter's recommendation", on every invocation, the repeats included. Read the last line of its report:
    - `done`: every criterion is met; go to step 5.
    - A line starting with a `{slug}--{sub}` slice slug: one slice landed on the branch; invoke `complete-ticket-slice` again. There is no slice cap, as `complete-tasks` has no task cap.
    - Anything else is a failure: stop with that report and leave the worktree in place; the next run resumes it.
-5. **Report.** The slices landed this run, the last `complete-ticket-slice` judgement per criterion, met or unmet, whether step 3 ran a pre-existing backlog, every check left for a person, and a suggestion to run `jodysalt:playbook wrap-up-worktree` to land the branch.
+5. **Report.** The slices landed this run, the last `complete-ticket-slice` judgement per criterion, met or unmet, every recommendation a slice's draft took because the ticket was silent, with its slice, for a person to overrule, whether step 3 ran a pre-existing backlog, every check left for a person, and a suggestion to run `jodysalt:playbook wrap-up-worktree` to land the branch.
 
 ## Rules
 
 - Only orchestrates: never judges a criterion, drafts a slice, implements a task, edits a `tasks.md` itself, or spawns workers itself; `complete-ticket-slice` and `complete-tasks` do.
-- Never asks a question between steps, wraps up, merges, lands a planning branch, or pushes.
+- Never asks a question between steps or inside one, a slice drafter's questions included, which step 4's framing has `complete-ticket-slice` answer itself; never wraps up, merges, lands a planning branch, or pushes.
